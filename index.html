@@ -1,0 +1,3043 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BVX London — Captain Croak</title>
+<meta name="description" content="BVX London. Streetwear for the kids who never grew up. Limited drops. Made in London.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;700;800;900&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --obsidian:#0A0A0A;
+  --bone:#FAF7F2;
+  --sulphur:#BCFF00;
+  --warm-gray:#666666;
+  --border:rgba(0,0,0,0.1);
+  --bg-secondary:#F7F7F7;
+  --bg-card:#FAFAFA;
+  --text-muted:#888888;
+}
+html{scroll-behavior:smooth;-webkit-tap-highlight-color:transparent}
+body{background:var(--bone);color:var(--obsidian);font-family:'Inter',sans-serif;font-weight:300;overflow-x:hidden;cursor:none}
+@media(max-width:768px){body{cursor:auto}}
+
+/* CURSOR */
+.cursor,.cursor-ring{display:none}
+@media(min-width:769px){
+  .cursor{display:block;width:10px;height:10px;background:var(--sulphur);border-radius:50%;position:fixed;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);mix-blend-mode:difference;transition:width .2s,height .2s}
+  .cursor-ring{display:block;width:32px;height:32px;border:1px solid rgba(188,255,0,0.3);border-radius:50%;position:fixed;pointer-events:none;z-index:9998;transform:translate(-50%,-50%)}
+}
+
+/* PAGE TRANSITIONS */
+.page{display:none;min-height:100vh;animation:none}
+.page.active{display:block}
+.page.fade-in{animation:bvxPageEnter .82s cubic-bezier(.22,1,.36,1) forwards}
+.page.page-exit{display:block;animation:bvxPageExit .32s cubic-bezier(.4,0,1,1) forwards;pointer-events:none}
+.page.page-enter{display:block;animation:bvxPageEnter .82s cubic-bezier(.22,1,.36,1) forwards}
+@keyframes bvxPageEnter{0%{opacity:0;transform:translateY(28px);filter:blur(4px)}45%{opacity:.65}100%{opacity:1;transform:translateY(0);filter:blur(0)}}
+@keyframes bvxPageExit{from{opacity:1;transform:translateY(0);filter:blur(0)}to{opacity:0;transform:translateY(-14px);filter:blur(2px)}}
+
+@media (prefers-reduced-motion: reduce){
+  .page.page-enter,.page.page-exit,.page.fade-in,.reveal{animation:none !important;transition-duration:.01ms !important;filter:none !important;transform:none !important}
+}
+
+
+/* LOADING */
+.loading-screen{position:fixed;inset:0;background:var(--bone);z-index:1000;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:20px;transition:opacity .5s ease}
+.loading-screen.hidden{opacity:0;pointer-events:none}
+.loading-logo{display:flex;align-items:center;justify-content:center;animation:pulse 1.5s ease infinite}
+.loading-logo-mark{width:130px;height:auto;display:block}
+@media(max-width:768px){.loading-logo-mark{width:105px}}
+.loading-bar{width:120px;height:1px;background:rgba(0,0,0,.1);position:relative;overflow:hidden}
+.loading-bar::after{content:'';position:absolute;left:-100%;top:0;width:100%;height:100%;background:var(--sulphur);animation:loadingBar 1.5s ease infinite}
+@keyframes loadingBar{0%{left:-100%}100%{left:100%}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 32px;height:64px;transition:background .4s,border-color .4s;border-bottom:1px solid transparent}
+@media(max-width:768px){nav{padding:0 20px;height:56px}}
+nav.scrolled{background:rgba(255,255,255,0.95);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-color:var(--border)}
+.nav-logo{font-family:'Inter Tight',sans-serif;font-weight:900;font-size:1rem;letter-spacing:-.02em;color:var(--obsidian);cursor:pointer;display:flex;align-items:center;gap:8px}
+.nav-logo-mark{width:64px;height:auto;display:block;flex-shrink:0}
+@media(max-width:768px){.nav-logo-mark{width:56px}}
+.nav-links{display:flex;gap:2px;list-style:none}
+@media(max-width:768px){.nav-links{display:none}}
+.nav-links a{font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--obsidian);text-decoration:none;padding:8px 12px;opacity:.5;transition:opacity .2s;cursor:pointer}
+.nav-links a:hover,.nav-links a.active{opacity:1}
+.nav-links a.active{border-bottom:1px solid var(--sulphur)}
+.nav-right{display:flex;align-items:center;gap:10px}
+.drop-badge{display:flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:.55rem;letter-spacing:.2em;text-transform:uppercase;border:1px solid rgba(188,255,0,.4);color:var(--obsidian);padding:7px 12px;cursor:pointer;transition:all .2s;white-space:nowrap}
+@media(max-width:480px){.drop-badge{display:none}}
+.drop-badge:hover{background:rgba(188,255,0,.1)}
+.live-dot{width:5px;height:5px;background:var(--sulphur);border-radius:50%;animation:pulse 2s infinite;flex-shrink:0}
+.cart-btn{width:38px;height:38px;display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative;transition:opacity .2s;flex-shrink:0}
+.cart-btn:hover{opacity:.7}
+.cart-btn svg{color:var(--obsidian)}
+.cart-badge-num{position:absolute;top:-5px;right:-5px;width:16px;height:16px;background:var(--sulphur);color:var(--obsidian);border-radius:50%;font-size:.5rem;font-weight:700;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace}
+.menu-btn{width:38px;height:38px;display:none;flex-direction:column;align-items:center;justify-content:center;gap:6px;cursor:pointer;flex-shrink:0}
+@media(max-width:768px){.menu-btn{display:flex}}
+.menu-btn span{width:22px;height:1px;background:var(--obsidian);transition:.35s cubic-bezier(.77,0,.18,1);display:block}
+
+/* MOBILE MENU */
+.mobile-menu{position:fixed;inset:0;background:var(--bone);z-index:200;transform:translateX(100%);transition:transform .45s cubic-bezier(.77,0,.18,1);display:flex;flex-direction:column;overflow:hidden}
+.mobile-menu.open{transform:translateX(0)}
+.mobile-menu-top{position:absolute;top:0;left:0;right:0;height:64px;display:flex;align-items:center;justify-content:flex-end;padding:0 20px;border-bottom:1px solid var(--border)}
+.mobile-menu-close{width:40px;height:40px;background:none;border:none;color:var(--obsidian);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .3s ease,color .2s}
+.mobile-menu-close:hover{color:var(--obsidian);opacity:.6}
+.mobile-menu-close.spinning{transform:rotate(90deg)}
+
+/* Menu header */
+.mobile-menu-header{padding:84px 28px 20px;border-bottom:1px solid var(--border);opacity:0;transition:opacity .4s .1s}
+.mobile-menu.open .mobile-menu-header{opacity:1}
+.mobile-menu-brand{font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.3em;text-transform:uppercase;color:var(--obsidian);opacity:.9;margin-bottom:4px}
+.mobile-menu-sub{font-family:'JetBrains Mono',monospace;font-size:.52rem;letter-spacing:.2em;text-transform:uppercase;color:var(--obsidian);opacity:.3}
+
+/* Nav links */
+.mobile-menu-links{flex:1;display:flex;flex-direction:column;padding:0}
+.mobile-link{font-family:'Inter Tight',sans-serif;font-weight:300;font-size:clamp(1.8rem,7vw,2.6rem);letter-spacing:-.02em;color:var(--obsidian);padding:16px 28px;border-bottom:1px solid var(--border);cursor:pointer;transition:color .2s,opacity .4s,transform .4s;opacity:0;transform:translateY(16px)}
+.mobile-menu.open .mobile-link:nth-child(1){opacity:1;transform:translateY(0);transition-delay:.12s}
+.mobile-menu.open .mobile-link:nth-child(2){opacity:1;transform:translateY(0);transition-delay:.17s}
+.mobile-menu.open .mobile-link:nth-child(3){opacity:1;transform:translateY(0);transition-delay:.22s}
+.mobile-menu.open .mobile-link:nth-child(4){opacity:1;transform:translateY(0);transition-delay:.27s}
+.mobile-menu.open .mobile-link:nth-child(5){opacity:1;transform:translateY(0);transition-delay:.32s}
+.mobile-link:hover{color:var(--obsidian);opacity:.55}
+
+/* Current chapter card */
+.mobile-menu-bottom{padding:24px 28px;display:flex;flex-direction:column;gap:20px;opacity:0;transition:opacity .4s .35s}
+.mobile-menu.open .mobile-menu-bottom{opacity:1}
+.mobile-chapter-card{border:1px solid var(--border);padding:16px 20px}
+.mobile-chapter-label{font-family:'JetBrains Mono',monospace;font-size:.5rem;letter-spacing:.25em;text-transform:uppercase;opacity:.4;margin-bottom:8px}
+.mobile-chapter-name{font-family:'JetBrains Mono',monospace;font-size:.9rem;letter-spacing:.15em;text-transform:uppercase;margin-bottom:10px}
+.mobile-chapter-line{width:28px;height:1px;background:var(--sulphur);margin-bottom:10px}
+.mobile-chapter-status{font-family:'JetBrains Mono',monospace;font-size:.5rem;letter-spacing:.2em;text-transform:uppercase;opacity:.5}
+.mobile-chapter-status span{color:var(--obsidian);opacity:1;font-weight:700}
+
+/* Archive links */
+.mobile-archive-label{font-family:'JetBrains Mono',monospace;font-size:.5rem;letter-spacing:.25em;text-transform:uppercase;opacity:.3;margin-bottom:10px}
+.mobile-socials{display:flex;gap:10px}
+.mobile-social{font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;border:1px solid rgba(0,0,0,.15);padding:10px 16px;color:var(--obsidian);text-decoration:none;transition:all .2s}
+.mobile-social:hover{border-color:var(--obsidian);background:var(--obsidian);color:var(--bone)}
+
+/* CART DRAWER */
+.cart-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:299;opacity:0;pointer-events:none;transition:opacity .4s}
+.cart-overlay.open{opacity:1;pointer-events:all}
+.cart-drawer{position:fixed;top:0;right:0;width:400px;max-width:100vw;height:100vh;background:var(--bone);color:var(--obsidian);z-index:300;transform:translateX(100%);transition:transform .45s cubic-bezier(.77,0,.18,1);display:flex;flex-direction:column}
+.cart-drawer.open{transform:translateX(0)}
+.cart-head{padding:24px 28px;border-bottom:1px solid rgba(0,0,0,.08);display:flex;justify-content:space-between;align-items:center}
+.cart-head-title{font-family:'Inter Tight',sans-serif;font-weight:900;font-size:1.1rem}
+.cart-head-close{background:none;border:none;cursor:pointer;width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-size:1rem;color:var(--obsidian)}
+.cart-body{flex:1;overflow-y:auto;padding:20px 28px}
+.cart-empty-msg{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;opacity:.4}
+.cart-empty-msg span{font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.2em;text-transform:uppercase}
+.cart-item{display:flex;gap:14px;padding:16px 0;border-bottom:1px solid rgba(0,0,0,.06)}
+.cart-item-img{width:64px;height:80px;flex-shrink:0;overflow:hidden;background:rgba(0,0,0,.05);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:.5rem;opacity:.3;letter-spacing:.1em}
+.cart-item-info{flex:1}
+.cart-item-name{font-family:'Inter Tight',sans-serif;font-weight:700;font-size:.95rem;margin-bottom:2px}
+.cart-item-meta{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;opacity:.4;margin-bottom:10px}
+.cart-qty-row{display:flex;align-items:center;gap:8px}
+.qty-btn{width:28px;height:28px;border:1px solid rgba(0,0,0,.15);background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.9rem;transition:all .2s}
+.qty-btn:hover{background:var(--obsidian);color:var(--bone);border-color:var(--obsidian)}
+.qty-val{font-family:'JetBrains Mono',monospace;font-size:.8rem;width:22px;text-align:center}
+.cart-item-price{font-family:'JetBrains Mono',monospace;font-size:.9rem;align-self:flex-start;padding-top:2px}
+.cart-foot{padding:20px 28px 28px;border-top:1px solid rgba(0,0,0,.08)}
+.cart-total-row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px}
+.cart-total-lbl{font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;opacity:.5}
+.cart-total-val{font-family:'Inter Tight',sans-serif;font-weight:900;font-size:1.4rem}
+.cart-ship-note{font-size:.7rem;opacity:.4;margin-bottom:18px}
+.checkout-btn{width:100%;padding:18px;background:var(--obsidian);color:var(--bone);border:none;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:.25em;text-transform:uppercase;transition:background .3s}
+.checkout-btn:hover{background:var(--sulphur);color:var(--obsidian)}
+
+/* TOAST */
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--obsidian);color:var(--bone);border:1px solid rgba(255,255,255,.1);padding:12px 24px;font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.1em;z-index:500;transition:transform .4s cubic-bezier(.77,0,.18,1);white-space:nowrap;pointer-events:none}
+.toast.show{transform:translateX(-50%) translateY(0)}
+
+/* HERO */
+.hero{height:100svh;min-height:620px;position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:64px 24px 64px}
+.hero-bg{position:absolute;inset:0;background:url('https://shop.bvxlondon.uk/wp-content/uploads/2026/07/desktopfresh-2-scaled.jpeg') center/cover no-repeat;z-index:0}
+.hero-watermark{display:none}
+.hero-content{position:relative;z-index:2;max-width:700px}
+@media(min-width:769px){.hero-content{margin-top:-60px}}
+.hero-eyebrow{font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.35em;text-transform:uppercase;color:var(--obsidian);margin-bottom:20px;display:flex;align-items:center;justify-content:center;gap:8px;opacity:0;animation:fadeUp .8s ease .2s forwards}
+.hero-eyebrow-full{display:none}
+.hero-title{display:none}
+.hero-title-outline{color:transparent;-webkit-text-stroke:1.5px rgba(0,0,0,.18)}
+.hero-sub{font-size:clamp(.85rem,2.5vw,1rem);opacity:.55;max-width:380px;margin:0 auto 44px;line-height:1.75;opacity:0;animation:fadeUp .8s ease .6s forwards}
+.hero-cta{display:flex;flex-direction:column;align-items:center;gap:14px;opacity:0;animation:fadeUp .8s ease .8s forwards}
+@media(min-width:480px){.hero-cta{flex-direction:row;justify-content:center}}
+/* Shortened CTA copy ("Shop" / "Story") no longer needs the wide
+   fixed padding the old long labels required — auto-size to text with
+   balanced padding, centred, on every breakpoint. Scoped to the hero CTAs
+   only so it doesn't affect .btn-primary/.btn-secondary used elsewhere
+   (Club/Essentials "View All", checkout, etc.). */
+.hero-cta .btn-primary,.hero-cta .btn-secondary{
+  width:fit-content;
+  padding:16px 26px;
+}
+.btn-primary{display:inline-flex;align-items:center;gap:10px;background:var(--sulphur);color:var(--obsidian);font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;padding:17px 36px;border:none;cursor:pointer;transition:all .3s;font-weight:700;text-decoration:none;white-space:nowrap}
+.btn-primary:hover{box-shadow:0 0 50px rgba(188,255,0,.35);transform:translateY(-1px)}
+.btn-secondary{display:inline-flex;align-items:center;gap:8px;background:transparent;color:var(--obsidian);font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;padding:17px 28px;border:1px solid rgba(0,0,0,.25);cursor:pointer;transition:all .3s;text-decoration:none;white-space:nowrap}
+.btn-secondary:hover{border-color:var(--obsidian);background:var(--obsidian);color:var(--bone)}
+.hero-scroll{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:.52rem;letter-spacing:.25em;text-transform:uppercase;opacity:0;z-index:2;animation:fadeIn 2s ease 1.5s forwards}
+.scroll-line{width:1px;height:44px;background:linear-gradient(to bottom,rgba(0,0,0,.4),transparent);animation:scrollAnim 2s ease infinite}
+@keyframes scrollAnim{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}100%{transform:scaleY(0);transform-origin:bottom}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+/* Landing-page hero photos, per breakpoint. iPad range matches the same
+   touch-only scoping used for the Club hero (769–1368px + hover:none/
+   pointer:coarse) so real laptops at similar widths aren't caught. */
+@media(min-width:769px) and (max-width:1368px) and (hover:none) and (pointer:coarse){
+  .hero-bg{
+    background:url('https://shop.bvxlondon.uk/wp-content/uploads/2026/07/ipadfresh-2-scaled.jpeg') center/cover no-repeat;
+  }
+}
+@media(max-width:768px){
+  .hero-bg{
+    background:url('https://shop.bvxlondon.uk/wp-content/uploads/2026/07/iphonefresh-2-scaled.jpeg') center/cover no-repeat;
+  }
+}
+@keyframes fadeIn{from{opacity:0}to{opacity:.3}}
+
+/* BVX DIVIDER */
+.bvx-divider{width:100%;padding:0;position:relative;overflow:hidden}
+.bvx-divider-inner{position:relative;margin:0 32px;height:1px;background:rgba(0,0,0,.08)}
+@media(max-width:768px){.bvx-divider-inner{margin:0 20px}}
+.bvx-divider-dot{position:absolute;top:50%;transform:translateY(-50%);width:4px;height:4px;background:var(--sulphur);border-radius:50%;animation:bvxScan 9s linear infinite}
+@keyframes bvxScan{0%{left:0;opacity:0}5%{opacity:1}95%{opacity:1}100%{left:100%;opacity:0}}
+
+/* SECTION */
+.section-eyebrow{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.3em;text-transform:uppercase;opacity:.65;margin-bottom:12px}
+.reveal{opacity:0;transform:translateY(36px);transition:opacity .9s ease,transform .9s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* LOADING STATE */
+.products-loading{display:flex;align-items:center;justify-content:center;padding:80px;font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:.2em;opacity:.4;text-transform:uppercase}
+
+/* DROP SECTION */
+.drop-preview{padding:80px 0;background:var(--bone);border-top:1px solid var(--border)}
+.drop-preview-inner{max-width:1320px;margin:0 auto;padding:0 32px;display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
+@media(max-width:900px){.drop-preview-inner{grid-template-columns:1fr;gap:36px;padding:0 20px}}
+.drop-img-wrap{aspect-ratio:4/5;background:var(--bg-card);overflow:hidden;position:relative}
+.drop-img-wrap::after{content:'';position:absolute;inset:0;box-shadow:inset 0 0 0 1px rgba(120,110,95,.16);pointer-events:none;z-index:2}
+.drop-img-wrap img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease}
+.drop-img-wrap:hover img{transform:scale(1.03)}
+.drop-img-placeholder{width:100%;height:100%;background:linear-gradient(135deg,#F0F0EC 0%,#E5E3DC 50%,#EDEDEA 100%);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:.65rem;opacity:.3;letter-spacing:.2em}
+.drop-info{display:flex;flex-direction:column;gap:20px}
+.drop-title-home{font-family:'Inter Tight',sans-serif;font-weight:900;font-size:clamp(1.4rem,3.2vw,2.2rem);line-height:.9;letter-spacing:-.03em;white-space:nowrap}
+.drop-price-home{font-family:'JetBrains Mono',monospace;font-size:1.2rem}
+.drop-price-home small{font-size:.65rem;opacity:.4;margin-left:8px;letter-spacing:.1em}
+.stock-wrap{display:flex;flex-direction:column;gap:7px}
+.stock-labels{display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:.58rem;opacity:.45;letter-spacing:.1em;text-transform:uppercase}
+.stock-track{height:2px;background:rgba(0,0,0,.1)}
+.stock-fill{height:100%;background:var(--sulphur);width:0%;transition:width 1.2s ease}
+.drop-story-home{font-size:.88rem;line-height:1.8;opacity:.65;border-top:1px solid var(--border);padding-top:18px}
+.drop-btns{display:flex;gap:10px;flex-wrap:wrap}
+.drop-meta-row{display:flex;gap:20px;flex-wrap:wrap}
+.drop-meta-item{font-family:'JetBrains Mono',monospace;font-size:.6rem;opacity:.4;letter-spacing:.1em;display:flex;align-items:center;gap:6px}
+
+/* ESSENTIALS */
+.essentials-section{background:var(--bone);border-top:1px solid var(--border)}
+.essentials-head{max-width:1320px;margin:0 auto;padding:64px 32px 40px;display:flex;align-items:flex-end;justify-content:space-between}
+@media(max-width:768px){.essentials-head{padding:48px 20px 32px;flex-direction:column;align-items:flex-start;gap:12px}}
+.essentials-eyebrow{font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:var(--obsidian);opacity:.8;margin-bottom:12px}
+.essentials-title{font-family:'Inter Tight',sans-serif;font-weight:900;font-size:clamp(2.5rem,6vw,5rem);line-height:.9;letter-spacing:-.03em;color:var(--obsidian);margin-top:0}
+.essentials-sub{font-family:'Inter',sans-serif;font-weight:400;font-size:clamp(.85rem,2vw,1rem);line-height:1.4;color:rgba(0,0,0,.45);margin-top:14px}
+.essentials-sub p{margin:0;padding:0}
+.view-all-link{font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--obsidian);opacity:.6;cursor:pointer;transition:opacity .2s;white-space:nowrap}
+.view-all-link:hover{opacity:1}
+.ess-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;padding:0 32px 64px;max-width:1320px;margin:0 auto}
+@media(max-width:600px){.ess-grid{padding:0 16px 48px;gap:10px}}
+.ess-card{position:relative;aspect-ratio:3/4;overflow:hidden;border-radius:12px;cursor:pointer}
+.ess-card-bg{position:absolute;inset:0;transition:transform .6s cubic-bezier(.25,.46,.45,.94)}
+.ess-card:hover .ess-card-bg{transform:scale(1.04)}
+.ess-card-bg img{width:100%;height:100%;object-fit:cover;object-position:top}
+.ess-bg-white{background:linear-gradient(145deg,#E8E4DC 0%,#D4CEC4 100%)}
+.ess-bg-beige{background:linear-gradient(145deg,#C8BBA8 0%,#A89880 100%)}
+.ess-bg-obsidian{background:linear-gradient(145deg,#1E1E1E 0%,#2A2A2A 100%)}
+.ess-bg-navy{background:linear-gradient(145deg,#1A2438 0%,#0D1828 100%)}
+.ess-card-watermark{display:none}
+.ess-card-watermark-text{display:none}
+.ess-card-overlay{position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.7) 0%,transparent 55%)}
+.ess-card-num{position:absolute;top:14px;left:16px;font-family:'JetBrains Mono',monospace;font-size:.52rem;opacity:.4;letter-spacing:.1em;color:#fff}
+.ess-card-col{position:absolute;top:14px;right:16px;font-family:'JetBrains Mono',monospace;font-size:.52rem;opacity:.4;letter-spacing:.1em;text-transform:uppercase;color:#fff}
+.ess-card-info{position:absolute;bottom:0;left:0;right:0;padding:18px 16px;display:flex;align-items:flex-end;justify-content:space-between}
+.ess-card-label{display:none}
+.ess-card-name{font-family:'Inter Tight',sans-serif;font-weight:700;font-size:1rem;color:#fff}
+.ess-card-price{font-family:'JetBrains Mono',monospace;font-size:.82rem;color:rgba(255,255,255,.5)}
+
+/* BVX CLUB */
+.club-section{background:var(--bg-secondary);border-top:1px solid var(--border)}
+.club-head{max-width:1320px;margin:0 auto;padding:64px 32px 40px;display:flex;align-items:flex-end;justify-content:space-between}
+@media(max-width:768px){.club-head{padding:48px 20px 32px;flex-direction:column;align-items:flex-start;gap:12px}}
+.club-eyebrow{font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:var(--obsidian);opacity:.8;margin-bottom:12px}
+.club-title{font-family:'Inter Tight',sans-serif;font-weight:900;font-size:clamp(2.5rem,6vw,5rem);line-height:.9;letter-spacing:-.03em;color:var(--obsidian);margin-top:0}
+.club-sub{font-family:'Inter',sans-serif;font-weight:400;font-size:clamp(.85rem,2vw,1rem);line-height:1.4;color:rgba(0,0,0,.45);margin-top:14px}
+.club-sub p{margin:0;padding:0}
+.club-view-all{font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--obsidian);opacity:.6;cursor:pointer;transition:opacity .2s;white-space:nowrap}
+.club-view-all:hover{opacity:1}
+.club-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;padding:0 32px 64px;max-width:1320px;margin:0 auto}
+@media(max-width:600px){.club-grid{padding:0 16px 48px;gap:10px}}
+.club-card{position:relative;aspect-ratio:3/4;overflow:hidden;border-radius:12px;cursor:pointer}
+.club-card-bg{position:absolute;inset:0;transition:transform .6s cubic-bezier(.25,.46,.45,.94)}
+.club-card:hover .club-card-bg{transform:scale(1.04)}
+.club-card-bg img{width:100%;height:100%;object-fit:cover;object-position:top}
+.club-bg-1{background:linear-gradient(145deg,#1E1E1E 0%,#2A2A2A 100%)}
+.club-bg-2{background:linear-gradient(145deg,#1A2438 0%,#0D1828 100%)}
+.club-bg-3{background:linear-gradient(145deg,#2A2018 0%,#181008 100%)}
+.club-bg-4{background:linear-gradient(145deg,#202020 0%,#0F0F0F 100%)}
+.club-card-overlay{position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.7) 0%,transparent 55%)}
+.club-card-num{position:absolute;top:14px;left:16px;font-family:'JetBrains Mono',monospace;font-size:.52rem;opacity:.5;letter-spacing:.1em;color:#fff}
+.club-card-col{position:absolute;top:14px;right:16px;font-family:'JetBrains Mono',monospace;font-size:.52rem;opacity:.5;letter-spacing:.1em;text-transform:uppercase;color:#fff}
+.club-card-info{position:absolute;bottom:0;left:0;right:0;padding:18px 16px;display:flex;align-items:flex-end;justify-content:space-between}
+.club-card-name{font-family:'Inter Tight',sans-serif;font-weight:700;font-size:1rem;color:#fff}
+.club-card-price{font-family:'JetBrains Mono',monospace;font-size:.82rem;color:rgba(255,255,255,.5)}
+
+/* BVX CLUB PAGE GRID */
+.club-page-header{max-width:1320px;margin:0 auto;padding:48px 32px 40px;display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:end;border-bottom:1px solid var(--border)}
+@media(max-width:768px){.club-page-header{grid-template-columns:1fr;padding:32px 20px;gap:16px}}
+.club-page-title{font-family:'Inter Tight',sans-serif;font-weight:900;font-size:clamp(2.5rem,6vw,5rem);line-height:.9;letter-spacing:-.03em;color:var(--obsidian)}
+.club-page-desc{font-size:.9rem;opacity:.55;line-height:1.75}
+.club-page-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;padding:32px 32px 64px;max-width:1320px;margin:0 auto}
+@media(max-width:900px){.club-page-grid{grid-template-columns:repeat(2,1fr);padding:24px 16px 48px}}
+.club-page-card{position:relative;aspect-ratio:3/4;overflow:hidden;cursor:pointer;border-radius:12px}
+.club-page-card-bg{position:absolute;inset:0;transition:transform .6s ease}
+.club-page-card:hover .club-page-card-bg{transform:scale(1.04)}
+.club-page-card-bg img{width:100%;height:100%;object-fit:cover}
+.club-page-card-overlay{position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.7) 0%,transparent 50%)}
+.club-page-card-num{position:absolute;top:14px;left:16px;font-family:'JetBrains Mono',monospace;font-size:.52rem;opacity:.6;color:#fff}
+.club-page-card-col{position:absolute;top:14px;right:16px;font-family:'JetBrains Mono',monospace;font-size:.52rem;opacity:.6;text-transform:uppercase;color:#fff}
+.club-page-card-bottom{position:absolute;bottom:0;left:0;right:0;padding:18px 16px;display:flex;justify-content:space-between;align-items:flex-end}
+.club-page-card-name{font-family:'Inter Tight',sans-serif;font-weight:700;font-size:1.05rem;color:#fff}
+.club-page-card-price{font-family:'JetBrains Mono',monospace;font-size:.85rem;color:rgba(255,255,255,.5)}
+
+/* EDITORIAL COLLECTION HERO — shared pattern, independent namespaces per collection */
+.club-hero,.ess-hero{position:relative;height:78vh;min-height:560px;max-height:760px;overflow:hidden;isolation:isolate}
+@media(min-width:901px){.club-hero,.ess-hero{height:92vh;min-height:720px;max-height:960px}}
+.club-hero-slides,.ess-hero-slides{position:absolute;inset:0}
+.club-hero-slide,.ess-hero-slide{position:absolute;inset:0;opacity:0;transition:opacity 1.1s ease}
+.club-hero-slide.active,.ess-hero-slide.active{opacity:1}
+.club-hero-slide-ph,.ess-hero-slide-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.2em;color:rgba(255,255,255,.35)}
+/* Independent desktop/tablet/mobile image layers per slide — each breakpoint
+   gets its own dedicated crop. Club hero has all three; Essentials falls
+   back to the same image on both layers when no separate crop is supplied. */
+.club-hero-slide-bg,.ess-hero-slide-bg{position:absolute;inset:0;background-size:cover;background-position:center}
+.club-hero-slide-bg-tablet{display:none}
+.club-hero-slide-bg-mobile,.ess-hero-slide-bg-mobile{display:none}
+@media(min-width:769px) and (max-width:1368px) and (hover:none) and (pointer:coarse){
+  .club-hero-slide-bg-desktop{display:none}
+  .club-hero-slide-bg-tablet{display:block}
+  /* Slide 1 only: the group shot crops the right-most character slightly on
+     iPad at default centring. Nudge the visible window right (image shifts
+     left) just enough to bring them fully into frame. Slides 2–5, desktop
+     and mobile are untouched. */
+  .club-hero-slide[data-slide="0"] .club-hero-slide-bg-tablet{background-position:63% center}
+}
+@media(max-width:768px){
+  .club-hero-slide-bg-desktop,.club-hero-slide-bg-tablet,.ess-hero-slide-bg-desktop{display:none}
+  .club-hero-slide-bg-mobile,.ess-hero-slide-bg-mobile{display:block}
+}
+.club-hero-overlay,.ess-hero-overlay{position:absolute;inset:0;background:linear-gradient(90deg,rgba(10,10,10,.62) 0%,rgba(10,10,10,.28) 38%,rgba(10,10,10,.04) 62%,transparent 80%);pointer-events:none;z-index:1}
+@media(max-width:768px){
+  .club-hero-overlay,.ess-hero-overlay{background:linear-gradient(180deg,rgba(10,10,10,.6) 0%,rgba(10,10,10,.12) 26%,rgba(10,10,10,.12) 56%,rgba(10,10,10,.65) 100%)}
+}
+
+/* Two-tier content: eyebrow+title anchored top-left, copy+CTA+indicator anchored lower-left */
+.club-hero-content,.ess-hero-content{position:relative;z-index:2;height:100%;display:flex;flex-direction:column;justify-content:space-between;padding:64px 64px 48px;max-width:520px;color:#fff}
+@media(min-width:901px){.club-hero-content,.ess-hero-content{padding:88px 80px 64px;max-width:500px}}
+@media(max-width:900px){.club-hero-content,.ess-hero-content{padding:48px 32px 36px;max-width:64%}}
+@media(max-width:768px){.club-hero-content,.ess-hero-content{padding:40px 20px 32px;max-width:100%}}
+
+.club-hero-top,.ess-hero-top{display:flex;flex-direction:column}
+.club-hero-bottom,.ess-hero-bottom{display:flex;flex-direction:column;align-items:flex-start;gap:22px}
+
+.club-hero-eyebrow,.ess-hero-eyebrow{font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.3em;text-transform:uppercase;color:#fff;opacity:.85;margin-bottom:22px;display:flex;align-items:center;gap:8px}
+.club-hero-title,.ess-hero-title{font-family:'Inter Tight',sans-serif;font-weight:900;font-size:clamp(2.8rem,6.5vw,6rem);line-height:.9;letter-spacing:-.03em;color:#fff}
+@media(min-width:901px){.club-hero-title,.ess-hero-title{font-size:clamp(3.2rem,7vw,6.5rem)}}
+.club-hero-sub,.ess-hero-sub{font-family:'Inter',sans-serif;font-weight:400;font-size:clamp(.85rem,2vw,1rem);line-height:1.45;color:rgba(255,255,255,.75)}
+.club-hero-sub p,.ess-hero-sub p{margin:0;padding:0}
+
+/* Nav arrows (desktop) */
+.club-hero-arrow,.ess-hero-arrow{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,.35);background:rgba(10,10,10,.25);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:3;transition:all .2s;font-size:1.1rem}
+.club-hero-arrow:hover,.ess-hero-arrow:hover{background:rgba(255,255,255,.9);color:var(--obsidian);border-color:#fff}
+.club-hero-arrow-left,.ess-hero-arrow-left{left:24px}
+.club-hero-arrow-right,.ess-hero-arrow-right{right:24px}
+@media(max-width:768px){.club-hero-arrow,.ess-hero-arrow{display:none}}
+
+/* Slide indicator — grouped in-flow with the lower content block */
+.club-hero-indicator,.ess-hero-indicator{display:flex;flex-direction:column;gap:10px}
+.club-hero-count,.ess-hero-count{font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.2em;color:rgba(255,255,255,.8)}
+.club-hero-bars,.ess-hero-bars{display:flex;gap:6px}
+.club-hero-bar,.ess-hero-bar{width:28px;height:2px;background:rgba(255,255,255,.25);position:relative;overflow:hidden}
+.club-hero-bar-fill,.ess-hero-bar-fill{position:absolute;left:0;top:0;height:100%;width:0;background:var(--sulphur)}
+.club-hero-bar.active .club-hero-bar-fill,.ess-hero-bar.active .ess-hero-bar-fill{animation:heroBarFill 5s linear forwards}
+.club-hero-bar.paused .club-hero-bar-fill,.ess-hero-bar.paused .ess-hero-bar-fill{animation-play-state:paused}
+.club-hero-bar.done .club-hero-bar-fill,.ess-hero-bar.done .ess-hero-bar-fill{width:100%;animation:none}
+@keyframes heroBarFill{from{width:0}to{width:100%}}
+@media (prefers-reduced-motion: reduce){
+  .club-hero-slide,.ess-hero-slide{transition:none}
+  .club-hero-bar-fill,.ess-hero-bar-fill{animation:none !important}
+}
+
+/* Spacing between hero and product grid */
+.club-grid,.ess-grid{padding-top:88px}
+@media(max-width:768px){.club-grid,.ess-grid{padding-top:56px}}
+.club-page-grid,.essentials-page-grid{padding-top:0}
+.club-page-info,.ess-page-info{max-width:720px;margin:0 auto;padding:64px 32px 24px;text-align:left}
+@media(max-width:768px){.club-page-info,.ess-page-info{padding:40px 20px 16px}}
+.club-page-info-desc,.ess-page-info-desc{font-size:.95rem;line-height:1.75;opacity:.6;max-width:560px}
+
+/* PAST DROPS */
+.past-drops{padding:72px 0;background:var(--bone);border-top:1px solid var(--border)}
+.past-drops-inner{max-width:1320px;margin:0 auto;padding:0 32px}
+@media(max-width:768px){.past-drops-inner{padding:0 20px}}
+.past-drops-title{font-family:'Inter Tight',sans-serif;font-weight:900;font-size:clamp(2rem,4vw,3.5rem);letter-spacing:-.03em;margin-bottom:36px;margin-top:8px}
+.past-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+@media(max-width:768px){.past-grid{grid-template-columns:repeat(2,1fr);gap:10px}}
+.past-card{position:relative;aspect-ratio:1;overflow:hidden;cursor:pointer}
+.past-card-bg{width:100%;height:100%;transition:transform .5s ease}
+.past-card:hover .past-card-bg{transform:scale(1.05)}
+.past-bg-1{background:linear-gradient(145deg,#1A2030 0%,#0A1020 100%)}
+.past-bg-2{background:linear-gradient(145deg,#201830 0%,#100820 100%)}
+.past-bg-3{background:linear-gradient(145deg,#1A2818 0%,#0A1808 100%)}
+.past-bg-4{background:linear-gradient(145deg,#281818 0%,#180808 100%)}
+.sold-out-tag{position:absolute;top:10px;left:10px;background:rgba(220,38,38,.9);color:white;font-family:'JetBrains Mono',monospace;font-size:.5rem;letter-spacing:.15em;text-transform:uppercase;padding:4px 9px}
+.past-card-info{position:absolute;bottom:0;left:0;right:0;padding:14px;background:linear-gradient(0deg,rgba(0,0,0,.85) 0%,transparent 100%);color:#fff}
+.past-card-name{font-family:'Inter Tight',sans-serif;font-weight:700;font-size:.9rem;margin-bottom:2px}
+.past-card-sub{font-family:'JetBrains Mono',monospace;font-size:.52rem;opacity:.45;letter-spacing:.08em}
+
+/* ORIGIN */
+.origin{padding:80px 0;background:var(--bone);border-top:1px solid var(--border)}
+.origin-inner{max-width:1320px;margin:0 auto;padding:0 32px;display:grid;grid-template-columns:5fr 7fr;gap:64px;align-items:start}
+@media(max-width:900px){.origin-inner{grid-template-columns:1fr;gap:28px;padding:0 20px}}
+.origin-title{font-family:'Inter Tight',sans-serif;font-weight:900;font-size:clamp(2rem,4.5vw,3.8rem);line-height:.95;letter-spacing:-.03em}
+.origin-body{display:flex;flex-direction:column;gap:18px}
+.origin-text{font-size:.92rem;line-height:1.82;opacity:.68}
+.origin-link{font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--obsidian);text-decoration:none;opacity:.5;transition:opacity .2s;display:inline-flex;align-items:center;gap:7px;margin-top:4px;cursor:pointer}
+.origin-link:hover{opacity:1}
+
+/* NEWSLETTER */
+.newsletter{padding:88px 24px;border-top:1px solid var(--border);text-align:center}
+.nl-eyebrow{font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.3em;text-transform:uppercase;color:var(--obsidian);margin-bottom:18px}
+.nl-title{font-family:'Inter Tight',sans-serif;font-weight:900;font-size:clamp(2.2rem,5vw,3.8rem);letter-spacing:-.03em;margin-bottom:10px}
+.nl-sub{opacity:.45;font-size:.9rem;margin-bottom:44px;max-width:400px;margin-left:auto;margin-right:auto}
+.nl-form{display:flex;border-bottom:1px solid rgba(0,0,0,.2);max-width:460px;margin:0 auto}
+.nl-input{flex:1;background:transparent;border:none;outline:none;color:var(--obsidian);font-family:'JetBrains Mono',monospace;font-size:.88rem;padding:12px 0;letter-spacing:.04em}
+.nl-input::placeholder{color:rgba(0,0,0,.35)}
+.nl-submit{background:transparent;border:none;color:var(--obsidian);font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;padding:12px 0 12px 20px;cursor:pointer;transition:opacity .2s;white-space:nowrap}
+.nl-submit:hover{opacity:.6}
+
+/* FOOTER */
+footer{background:var(--bg-secondary);border-top:1px solid var(--border);padding:52px 32px 28px}
+@media(max-width:768px){footer{padding:44px 20px 24px}}
+.footer-grid{max-width:1320px;margin:0 auto;display:grid;grid-template-columns:2.5fr 1fr 1fr;gap:48px;margin-bottom:44px}
+@media(max-width:768px){.footer-grid{grid-template-columns:1fr;gap:32px}}
+.footer-brand{font-family:'Inter Tight',sans-serif;font-weight:900;font-size:1.4rem;letter-spacing:-.02em;margin-bottom:8px}
+.footer-tagline{font-size:.78rem;opacity:.35;line-height:1.65;margin-bottom:20px;max-width:240px}
+.whatsapp-link{display:inline-flex;align-items:center;gap:8px;background:rgba(37,211,102,.08);border:1px solid rgba(37,211,102,.25);padding:10px 14px;font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.1em;color:#25D366;text-decoration:none;margin-bottom:14px;transition:all .2s}
+.whatsapp-link:hover{background:rgba(37,211,102,.15)}
+.footer-socials{display:flex;gap:8px}
+.footer-social{width:34px;height:34px;border:1px solid rgba(0,0,0,.15);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:.58rem;color:var(--obsidian);text-decoration:none;opacity:.6;transition:all .2s}
+.footer-social:hover{border-color:var(--obsidian);background:var(--obsidian);opacity:1;color:var(--bone)}
+.footer-col h4{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.25em;text-transform:uppercase;opacity:.35;margin-bottom:14px}
+.footer-col ul{list-style:none}
+.footer-col li{margin-bottom:10px}
+.footer-col a{font-size:.8rem;opacity:.6;text-decoration:none;color:var(--obsidian);transition:opacity .2s;cursor:pointer}
+.footer-col a:hover{opacity:1}
+.footer-bottom{max-width:1320px;margin:0 auto;border-top:1px solid var(--border);padding-top:22px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+.footer-copy{font-family:'JetBrains Mono',monospace;font-size:.56rem;letter-spacing:.1em;opacity:.25;text-transform:uppercase}
+
+/* DROP PAGE */
+.drop-page-wrap{padding-top:64px}
+.drop-hero-bar{background:var(--bg-secondary);border-bottom:1px solid var(--border);padding:12px 32px;display:flex;align-items:center;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.15em;opacity:.6;text-transform:uppercase}
+@media(max-width:768px){.drop-hero-bar{padding:10px 20px;font-size:.52rem}}
+.drop-status{color:var(--obsidian);opacity:1;display:flex;align-items:center;gap:6px;font-weight:700}
+.drop-series{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.25em;text-transform:uppercase;opacity:.4}
+.drop-title-big{font-family:'Inter Tight',sans-serif;font-weight:900;font-size:clamp(1.2rem,2.8vw,1.9rem);line-height:.9;letter-spacing:-.03em;white-space:nowrap}
+.drop-price-row{display:flex;align-items:baseline;gap:10px}
+.drop-price-big{font-family:'JetBrains Mono',monospace;font-size:1.5rem}
+.drop-price-note{font-family:'JetBrains Mono',monospace;font-size:.6rem;opacity:.35;letter-spacing:.1em}
+.stock-section{display:flex;flex-direction:column;gap:6px}
+.stock-row{display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:.58rem;opacity:.4;letter-spacing:.1em;text-transform:uppercase}
+.size-section{display:flex;flex-direction:column;gap:10px}
+.size-label-row{display:flex;justify-content:space-between;align-items:center}
+.size-label{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;opacity:.45}
+.sizes-row{display:flex;gap:7px;flex-wrap:wrap}
+.size-btn{padding:12px 16px;min-width:48px;font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;border:1px solid rgba(0,0,0,.2);background:transparent;color:var(--obsidian);cursor:pointer;transition:all .2s}
+.size-btn:hover{border-color:var(--sulphur);color:var(--obsidian)}
+.size-btn.active{background:var(--sulphur);color:var(--obsidian);border-color:var(--sulphur)}
+.drop-shipping-row{display:flex;gap:20px;flex-wrap:wrap;border-top:1px solid var(--border);padding-top:14px}
+.ship-item{font-family:'JetBrains Mono',monospace;font-size:.58rem;opacity:.4;letter-spacing:.08em;display:flex;align-items:center;gap:6px}
+.next-drop-box{border:1px solid rgba(188,255,0,.25);background:rgba(188,255,0,.03);padding:16px}
+/* Shop Drop reuses the shared Essentials/Club detail-page gallery grid
+   (.ess-detail-layout / .ess-detail-thumbs / .ess-detail-main-img) so the
+   layout, spacing and proportions match exactly on iPad/desktop. These
+   overrides are scoped to #dropPageContent only, so Essentials/Club keep
+   their own look untouched. */
+#dropPageContent .ess-detail-thumb{position:relative}
+#dropPageContent .ess-detail-thumb::after,
+#dropPageContent .ess-detail-main-img::after{content:'';position:absolute;inset:0;box-shadow:inset 0 0 0 1px rgba(120,110,95,.16);pointer-events:none;z-index:2}
+/* Keep Drop's existing mobile aspect ratio (4/5) instead of Essentials' 3/4 —
+   mobile gallery behaviour stays exactly as it already was. */
+@media(max-width:900px){#dropPageContent .ess-detail-main-img{aspect-ratio:4/5}}
+/* Desktop/iPad left-right nav arrows — mouse users can't swipe, so these
+   provide the same next/prev navigation touch users get via swipe. */
+.drop-gallery-arrow{position:absolute;top:50%;transform:translateY(-50%);width:36px;height:36px;border-radius:50%;border:1px solid rgba(0,0,0,.15);background:rgba(255,255,255,.85);color:var(--obsidian);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:3;transition:all .2s;font-size:1rem;padding:0}
+.drop-gallery-arrow:hover{background:var(--obsidian);color:#fff;border-color:var(--obsidian)}
+.drop-gallery-arrow-left{left:12px}
+.drop-gallery-arrow-right{right:12px}
+@media(max-width:900px){.drop-gallery-arrow{display:none}}
+.drop-post-newsletter{border-top:1px solid var(--border);padding:48px 32px}
+.drop-post-newsletter-inner{max-width:480px;margin:0 auto}
+@media(max-width:768px){.drop-post-newsletter{padding:40px 20px}}
+.next-drop-label{font-family:'JetBrains Mono',monospace;font-size:.56rem;letter-spacing:.25em;color:var(--obsidian);margin-bottom:6px;text-transform:uppercase}
+.next-drop-name{font-family:'Inter Tight',sans-serif;font-weight:700;font-size:1rem}
+
+/* ESSENTIALS PAGE */
+.essentials-page-wrap{padding-top:64px}
+.essentials-page-header{max-width:1320px;margin:0 auto;padding:48px 32px 40px;display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:end;border-bottom:1px solid var(--border)}
+@media(max-width:768px){.essentials-page-header{grid-template-columns:1fr;padding:32px 20px;gap:16px}}
+.essentials-page-title{font-family:'Inter Tight',sans-serif;font-weight:900;font-size:clamp(2.5rem,6vw,5rem);line-height:.9;letter-spacing:-.03em;color:var(--obsidian)}
+.essentials-page-desc{font-size:.9rem;opacity:.55;line-height:1.75}
+.essentials-page-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;padding:32px 32px 64px;max-width:1320px;margin:0 auto}
+@media(max-width:900px){.essentials-page-grid{grid-template-columns:repeat(2,1fr);padding:24px 16px 48px}}
+.ess-page-card{position:relative;aspect-ratio:3/4;overflow:hidden;cursor:pointer;border-radius:12px}
+.ess-page-card-bg{position:absolute;inset:0;transition:transform .6s ease}
+.ess-page-card:hover .ess-page-card-bg{transform:scale(1.04)}
+.ess-page-card-bg img{width:100%;height:100%;object-fit:cover}
+.ess-dark-bg{background:linear-gradient(145deg,#E8E4DC,#D0C8BC)}
+.ess-dark-bg2{background:linear-gradient(145deg,#C8BBA8,#A89880)}
+.ess-dark-bg3{background:linear-gradient(145deg,#1E1E1E,#2A2A2A)}
+.ess-dark-bg4{background:linear-gradient(145deg,#1A2438,#0D1828)}
+.ess-page-card-watermark{display:none}
+.ess-page-card-watermark-text{display:none}
+.ess-page-card-overlay{position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.7) 0%,transparent 50%)}
+.ess-page-card-num{position:absolute;top:14px;left:16px;font-family:'JetBrains Mono',monospace;font-size:.52rem;opacity:.5}
+.ess-page-card-col{position:absolute;top:14px;right:16px;font-family:'JetBrains Mono',monospace;font-size:.52rem;opacity:.5;text-transform:uppercase}
+.ess-page-card-bottom{position:absolute;bottom:0;left:0;right:0;padding:18px 16px;display:flex;justify-content:space-between;align-items:flex-end}
+.ess-page-card-label{display:none}
+.ess-page-card-name{font-family:'Inter Tight',sans-serif;font-weight:700;font-size:1.05rem;color:#fff}
+.ess-page-card-price{font-family:'JetBrains Mono',monospace;font-size:.85rem;color:rgba(255,255,255,.5)}
+
+/* ESS DETAIL PAGE */
+.ess-detail-page{padding-top:64px;min-height:100vh;background:var(--bone)}
+.ess-detail-back{padding:14px 24px;font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;opacity:.5;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:opacity .2s;border-bottom:1px solid var(--border);width:100%}
+.ess-detail-back:hover{opacity:1}
+
+/* DESKTOP: left thumbnails + centre image + right info */
+.ess-detail-layout{max-width:1320px;margin:0 auto;padding:40px 32px;display:grid;grid-template-columns:80px 1fr 1fr;gap:24px;align-items:start}
+@media(max-width:900px){.ess-detail-layout{grid-template-columns:1fr;gap:0;padding:0}}
+
+/* Thumbnails column - desktop only */
+.ess-detail-thumbs{display:flex;flex-direction:column;gap:8px}
+@media(max-width:900px){.ess-detail-thumbs{display:none}}
+.ess-detail-thumb{aspect-ratio:1;overflow:hidden;cursor:pointer;border:2px solid transparent;transition:border-color .2s}
+.ess-detail-thumb.active{border-color:var(--sulphur)}
+.ess-detail-thumb img{width:100%;height:100%;object-fit:cover}
+.ess-detail-thumb-ph{width:100%;height:100%;background:var(--bg-card);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:.4rem;opacity:.4;letter-spacing:.1em}
+
+/* Main image */
+.ess-detail-main-img{aspect-ratio:4/5;overflow:hidden;position:relative;background:var(--bg-card);width:100%}
+@media(max-width:900px){.ess-detail-main-img{aspect-ratio:3/4}}
+.ess-detail-main-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:opacity .35s ease}
+.ess-detail-img-ph{position:absolute;inset:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:.65rem;opacity:.35;letter-spacing:.2em;text-align:center;padding:20px;background:var(--bg-card)}
+
+/* Mobile dots */
+.ess-detail-dots{display:none;justify-content:center;gap:6px;padding:12px 0;background:var(--bone)}
+@media(max-width:900px){.ess-detail-dots{display:flex}}
+.ess-dot{width:6px;height:6px;border-radius:50%;background:rgba(0,0,0,.2);cursor:pointer;transition:all .2s}
+.ess-dot.active{background:var(--sulphur);width:18px;border-radius:3px}
+
+/* Purchase info column */
+.ess-detail-info{display:flex;flex-direction:column;gap:18px;position:sticky;top:80px}
+@media(max-width:900px){.ess-detail-info{padding:24px 20px;position:static}}
+.ess-detail-eyebrow{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.25em;text-transform:uppercase;opacity:.4}
+.ess-detail-title{font-family:'Inter Tight',sans-serif;font-weight:900;font-size:clamp(2rem,4vw,3rem);line-height:.9;letter-spacing:-.03em}
+.ess-detail-price{font-family:'JetBrains Mono',monospace;font-size:1.4rem}
+.ess-colour-swatches{display:flex;gap:14px;flex-wrap:wrap;margin-top:4px}
+.colour-swatch-wrap{display:flex;flex-direction:column;align-items:center;gap:5px}
+.colour-swatch{width:34px;height:34px;border-radius:50%;border:2px solid transparent;cursor:pointer;transition:all .2s}
+.colour-swatch.active{border-color:var(--sulphur) !important;box-shadow:0 0 0 2px rgba(188,255,0,.3)}
+.colour-swatch:hover{transform:scale(1.1)}
+.colour-swatch-label{font-family:'JetBrains Mono',monospace;font-size:.45rem;opacity:.5;letter-spacing:.1em;text-transform:uppercase}
+
+/* Quantity */
+.qty-section{display:flex;flex-direction:column;gap:8px}
+.qty-label{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;opacity:.45}
+.qty-controls{display:flex;align-items:center;gap:0;border:1px solid rgba(0,0,0,.2);width:fit-content}
+.qty-ctrl-btn{width:40px;height:40px;background:transparent;border:none;color:var(--obsidian);cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center;transition:background .2s}
+.qty-ctrl-btn:hover{background:rgba(0,0,0,.06)}
+.qty-ctrl-val{width:44px;height:40px;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:.85rem;border-left:1px solid rgba(0,0,0,.15);border-right:1px solid rgba(0,0,0,.15)}
+
+/* Buttons row */
+.ess-btns-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+@media(max-width:400px){.ess-btns-row{grid-template-columns:1fr}}
+.btn-add-cart{padding:16px;background:transparent;border:1px solid rgba(0,0,0,.3);color:var(--obsidian);font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn-add-cart:hover{border-color:var(--obsidian)}
+.btn-buy-now{padding:16px;background:var(--sulphur);border:1px solid var(--sulphur);color:var(--obsidian);font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px;font-weight:700}
+.btn-buy-now:hover{background:#D4FF20}
+
+.ess-ship-row{display:flex;gap:18px;flex-wrap:wrap;border-top:1px solid var(--border);padding-top:14px}
+.ess-ship-item{font-family:'JetBrains Mono',monospace;font-size:.55rem;opacity:.4;letter-spacing:.08em;display:flex;align-items:center;gap:5px}
+.ess-detail-accordion{border-top:1px solid var(--border)}
+.ess-accordion-item{border-bottom:1px solid var(--border)}
+.ess-accordion-head{padding:16px 0;display:flex;justify-content:space-between;align-items:center;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;opacity:.7;transition:opacity .2s}
+.ess-accordion-head:hover{opacity:1}
+.ess-accordion-icon{transition:transform .3s;font-size:.8rem}
+.ess-accordion-item.open .ess-accordion-icon{transform:rotate(45deg)}
+.ess-accordion-body{max-height:0;overflow:hidden;transition:max-height .3s ease}
+.ess-accordion-item.open .ess-accordion-body{max-height:300px}
+.ess-accordion-content{font-size:.85rem;line-height:1.8;opacity:.6;padding-bottom:16px}
+
+/* STORY SECTION */
+.ess-story-section{margin-top:64px}
+@media(max-width:900px){.ess-story-section{margin-top:48px}}
+
+/* Desktop: side by side */
+.ess-story-layout{display:grid;grid-template-columns:.85fr 1fr}
+@media(max-width:900px){.ess-story-layout{display:block}}
+
+/* Campaign photo — desktop portrait flush left */
+.ess-campaign-photo{position:relative;overflow:hidden;background:#0A0A0A}
+.ess-campaign-photo img.desktop-photo{display:block;width:100%;height:100%;object-fit:cover;object-position:top}
+.ess-campaign-photo img.mobile-photo{display:none}
+/* Desktop fades: subtle top, bottom and right */
+.ess-campaign-photo::before{content:'';position:absolute;top:0;left:0;right:0;height:80px;background:linear-gradient(to bottom,var(--obsidian),transparent);z-index:2;pointer-events:none}
+.ess-campaign-photo::after{content:'';position:absolute;bottom:0;left:0;right:0;height:160px;background:linear-gradient(to top,var(--obsidian),transparent);z-index:2;pointer-events:none}
+.ess-campaign-photo-right-fade{position:absolute;top:0;right:0;width:120px;height:100%;background:linear-gradient(to left,var(--obsidian),transparent);z-index:2;pointer-events:none}
+
+/* Mobile: full width landscape photo */
+@media(max-width:900px){
+  .ess-campaign-photo img.desktop-photo{display:none}
+  .ess-campaign-photo img.mobile-photo{display:block;width:100%;height:auto;object-fit:cover;object-position:top}
+  .ess-campaign-photo{min-height:unset}
+  .ess-campaign-photo-right-fade{display:none}
+  .ess-campaign-photo::before{height:50px}
+  .ess-campaign-photo::after{height:50px}
+}
+.ess-campaign-ph{width:100%;min-height:500px;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:.65rem;opacity:.3;letter-spacing:.2em;background:linear-gradient(135deg,#111 0%,#1A1A1A 100%);color:#fff}
+@media(max-width:900px){.ess-campaign-ph{min-height:280px}}
+
+/* Story text */
+.ess-story-inner{padding:72px 56px;display:flex;flex-direction:column;justify-content:center}
+@media(max-width:1100px){.ess-story-inner{padding:56px 40px}}
+@media(max-width:900px){.ess-story-inner{padding:48px 20px}}
+.ess-story-label{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.3em;color:var(--obsidian);margin-bottom:16px;text-transform:uppercase}
+.ess-story-title{font-family:'Inter Tight',sans-serif;font-weight:900;font-size:clamp(2rem,4vw,3.2rem);line-height:.92;letter-spacing:-.03em;margin-bottom:8px}
+.ess-story-underline{width:48px;height:2px;background:var(--sulphur);margin-bottom:28px}
+.ess-story-body p{font-size:.95rem;line-height:1.9;opacity:.65;margin-bottom:18px;font-family:'Inter',sans-serif}
+
+/* EDITORIAL DETAILS SECTION */
+.ess-details-section{border-top:1px solid var(--border)}
+.ess-details-label{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.3em;color:var(--obsidian);text-transform:uppercase;padding:48px 32px 32px}
+@media(max-width:768px){.ess-details-label{padding:40px 20px 24px}}
+
+/* Full width panel */
+.ess-detail-panel-full{position:relative;overflow:hidden;background:#0F0F0F}
+.ess-detail-panel-full .ess-detail-photo{aspect-ratio:21/9;overflow:hidden;position:relative}
+@media(max-width:768px){.ess-detail-panel-full .ess-detail-photo{aspect-ratio:4/3}}
+.ess-detail-panel-full .ess-detail-photo img{width:100%;height:100%;object-fit:cover;display:block}
+.ess-detail-panel-full .ess-detail-photo-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:.65rem;opacity:.3;letter-spacing:.2em;background:linear-gradient(135deg,#111,#1A1A1A);color:#fff}
+.ess-detail-panel-full .ess-detail-caption{padding:28px 32px 40px;display:flex;align-items:flex-start;justify-content:space-between;gap:32px;border-bottom:1px solid var(--border)}
+@media(max-width:768px){.ess-detail-panel-full .ess-detail-caption{padding:20px 20px 28px;flex-direction:column;gap:12px}}
+.ess-detail-num{font-family:'JetBrains Mono',monospace;font-size:.55rem;color:var(--obsidian);letter-spacing:.25em;margin-bottom:8px;text-transform:uppercase}
+.ess-detail-title{font-family:'Inter Tight',sans-serif;font-weight:700;font-size:clamp(1.2rem,3vw,1.8rem);letter-spacing:-.02em;margin-bottom:6px}
+.ess-detail-desc{font-family:'Inter',sans-serif;font-size:.88rem;line-height:1.75;opacity:.5;max-width:560px}
+
+/* Two column panel row */
+.ess-detail-panel-row{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--border)}
+@media(max-width:768px){.ess-detail-panel-row{grid-template-columns:1fr}}
+.ess-detail-panel-half{position:relative;overflow:hidden;background:#0F0F0F}
+.ess-detail-panel-half:first-child{border-right:1px solid var(--border)}
+@media(max-width:768px){.ess-detail-panel-half:first-child{border-right:none;border-bottom:1px solid var(--border)}}
+.ess-detail-panel-half .ess-detail-photo{aspect-ratio:4/3;overflow:hidden;position:relative}
+.ess-detail-panel-half .ess-detail-photo img{width:100%;height:100%;object-fit:cover;display:block}
+.ess-detail-panel-half .ess-detail-photo-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:.65rem;opacity:.3;letter-spacing:.2em;background:linear-gradient(135deg,#111,#1A1A1A);color:#fff}
+.ess-detail-panel-half .ess-detail-caption{padding:22px 24px 28px}
+
+/* RELATED ESSENTIALS */
+.ess-related-section{border-top:1px solid var(--border);padding:56px 32px}
+@media(max-width:768px){.ess-related-section{padding:40px 20px}}
+.ess-related-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:28px}
+.ess-related-label{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.3em;color:var(--obsidian);text-transform:uppercase}
+.ess-related-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+@media(max-width:768px){.ess-related-grid{grid-template-columns:repeat(2,1fr)}}
+.ess-related-card{cursor:pointer;position:relative}
+.ess-related-card-img{aspect-ratio:3/4;overflow:hidden;border-radius:8px;margin-bottom:10px;position:relative}
+.ess-related-card-img-bg{width:100%;height:100%;transition:transform .5s ease}
+.ess-related-card:hover .ess-related-card-img-bg{transform:scale(1.04)}
+.ess-related-card-name{font-family:'Inter Tight',sans-serif;font-weight:700;font-size:.9rem;margin-bottom:3px}
+.ess-related-card-price{font-family:'JetBrains Mono',monospace;font-size:.75rem;color:var(--obsidian)}
+
+/* ABOUT PAGE */
+.about-page-wrap{padding-top:64px}
+.about-manifesto{padding:72px 32px;border-bottom:1px solid var(--border);max-width:1320px;margin:0 auto}
+@media(max-width:768px){.about-manifesto{padding:48px 20px}}
+.about-manifesto-label{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.3em;opacity:.65;margin-bottom:20px;text-transform:uppercase}
+.about-manifesto-text{font-family:'Inter Tight',sans-serif;font-weight:900;font-size:clamp(2.5rem,6vw,5.5rem);line-height:.92;letter-spacing:-.03em;max-width:900px}
+.about-photo-section{border-bottom:1px solid var(--border)}
+.about-photo-placeholder{height:min(60vh,500px);background:linear-gradient(135deg,#C0BAB0 0%,#A09890 100%);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:.65rem;opacity:.4;letter-spacing:.2em;position:relative;overflow:hidden}
+.about-photo-label{position:absolute;bottom:20px;left:32px;font-family:'JetBrains Mono',monospace;font-size:.55rem;opacity:.6;letter-spacing:.15em;text-transform:uppercase;color:var(--obsidian)}
+.about-story{padding:72px 32px;max-width:1320px;margin:0 auto;display:grid;grid-template-columns:1fr 2fr;gap:64px}
+@media(max-width:768px){.about-story{grid-template-columns:1fr;gap:24px;padding:48px 20px}}
+.about-story-body p{font-size:.95rem;line-height:1.85;opacity:.68;margin-bottom:18px}
+.about-principles{border-top:1px solid var(--border)}
+.principles-inner{max-width:1320px;margin:0 auto;padding:64px 32px}
+@media(max-width:768px){.principles-inner{padding:48px 20px}}
+.principles-label{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.3em;opacity:.65;margin-bottom:32px;text-transform:uppercase}
+.principles-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:32px}
+@media(max-width:768px){.principles-grid{grid-template-columns:1fr;gap:0}}
+.principle-item{padding:28px 0;border-bottom:1px solid var(--border)}
+@media(min-width:769px){.principle-item{border-bottom:none;border-right:1px solid var(--border);padding:0 28px 0 0}.principle-item:last-child{border-right:none}}
+.principle-num{font-family:'JetBrains Mono',monospace;font-size:.58rem;color:var(--obsidian);letter-spacing:.2em;margin-bottom:12px}
+.principle-title{font-family:'Inter Tight',sans-serif;font-weight:700;font-size:1.4rem;margin-bottom:8px;letter-spacing:-.02em}
+.principle-desc{font-size:.82rem;opacity:.5;line-height:1.7}
+.about-cta-section{padding:72px 32px;text-align:center;border-top:1px solid var(--border)}
+.about-cta-text{font-size:.9rem;opacity:.5;margin-bottom:24px}
+</style>
+</head>
+<body>
+
+<!-- LOADING SCREEN -->
+<div class="loading-screen" id="loadingScreen">
+  <div class="loading-logo"><svg class="loading-logo-mark" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 127.5 56.999997" preserveAspectRatio="xMidYMid meet" version="1.0"><defs><clipPath id="841787ffb8-load"><path d="M 0.453125 0.867188 L 93.207031 0.867188 L 93.207031 38.878906 L 0.453125 38.878906 Z M 0.453125 0.867188 " clip-rule="nonzero"/></clipPath><clipPath id="b0dd8015d2-load"><path d="M 0.5 0.933594 L 26 0.933594 L 26 38.808594 L 0.5 38.808594 Z M 0.5 0.933594 " clip-rule="nonzero"/></clipPath><clipPath id="d6d02b7723-load"><path d="M 23.269531 0.933594 L 61 0.933594 L 61 38.808594 L 23.269531 38.808594 Z M 23.269531 0.933594 " clip-rule="nonzero"/></clipPath><clipPath id="98babed33e-load"><path d="M 64.648438 0.933594 L 92.496094 0.933594 L 92.496094 28.785156 L 64.648438 28.785156 Z M 64.648438 0.933594 " clip-rule="nonzero"/></clipPath><clipPath id="23d85d81c8-load"><path d="M 64.59375 10.683594 L 92.445312 10.683594 L 92.445312 38.53125 L 64.59375 38.53125 Z M 64.59375 10.683594 " clip-rule="nonzero"/></clipPath><clipPath id="9c9708847a-load"><rect x="0" width="94" y="0" height="39"/></clipPath><clipPath id="dd65750e8a-load"><rect x="0" width="94" y="0" height="39"/></clipPath></defs><g transform="matrix(1, 0, 0, 1, 17, 10)"><g clip-path="url(#dd65750e8a-load)"><g clip-path="url(#841787ffb8-load)"><g transform="matrix(1, 0, 0, 1, 0, -0.000000000000014211)"><g clip-path="url(#9c9708847a-load)"><g clip-path="url(#b0dd8015d2-load)"><path fill="#000000" d="M 0.5 38.578125 L 0.5 0.964844 L 11.109375 0.964844 C 11.527344 0.964844 17.511719 0.964844 20.886719 4.667969 C 23.941406 8.027344 24.714844 14.117188 16.886719 18.285156 C 14.664062 19.46875 22.554688 17.792969 24.695312 25.148438 C 27.792969 35.769531 16.652344 38.273438 12.328125 38.570312 C 9.378906 38.777344 0.5 38.578125 0.5 38.578125 Z M 0.5 38.578125 " fill-opacity="1" fill-rule="nonzero"/></g><g clip-path="url(#d6d02b7723-load)"><path fill="#000000" d="M 23.453125 1.722656 C 23.457031 1.503906 23.53125 1.320312 23.6875 1.167969 C 23.839844 1.011719 24.023438 0.933594 24.242188 0.933594 L 39.636719 0.933594 C 39.804688 0.933594 39.957031 0.984375 40.089844 1.078125 C 40.226562 1.175781 40.324219 1.300781 40.378906 1.460938 L 42.207031 6.671875 L 44.039062 1.460938 C 44.097656 1.300781 44.191406 1.175781 44.328125 1.078125 C 44.464844 0.984375 44.617188 0.933594 44.785156 0.933594 L 60.171875 0.933594 C 60.308594 0.933594 60.4375 0.96875 60.554688 1.035156 C 60.675781 1.101562 60.769531 1.191406 60.839844 1.308594 C 60.914062 1.421875 60.953125 1.546875 60.957031 1.683594 C 60.964844 1.820312 60.9375 1.949219 60.878906 2.070312 L 42.914062 38.371094 C 42.769531 38.664062 42.535156 38.808594 42.210938 38.808594 C 41.882812 38.808594 41.648438 38.664062 41.503906 38.371094 L 23.535156 2.070312 C 23.480469 1.960938 23.453125 1.84375 23.453125 1.722656 Z M 23.453125 1.722656 " fill-opacity="1" fill-rule="nonzero"/></g><g clip-path="url(#98babed33e-load)"><path fill="#000000" d="M 64.785156 1.511719 C 64.785156 1.355469 64.839844 1.21875 64.953125 1.105469 C 65.066406 0.992188 65.203125 0.933594 65.363281 0.933594 L 76.683594 0.933594 C 76.957031 0.933594 77.136719 1.0625 77.230469 1.320312 L 78.574219 5.152344 L 79.921875 1.320312 C 80.011719 1.0625 80.195312 0.933594 80.46875 0.933594 L 91.78125 0.933594 C 91.882812 0.933594 91.976562 0.960938 92.0625 1.007812 C 92.152344 1.054688 92.222656 1.125 92.273438 1.207031 C 92.328125 1.292969 92.355469 1.386719 92.359375 1.484375 C 92.363281 1.585938 92.34375 1.679688 92.300781 1.769531 L 79.09375 28.460938 C 78.988281 28.675781 78.8125 28.785156 78.574219 28.785156 C 78.332031 28.785156 78.160156 28.675781 78.054688 28.460938 L 64.84375 1.769531 C 64.804688 1.6875 64.785156 1.605469 64.785156 1.511719 Z M 64.785156 1.511719 " fill-opacity="1" fill-rule="nonzero"/></g><g clip-path="url(#23d85d81c8-load)"><path fill="#000000" d="M 92.308594 37.953125 C 92.308594 38.113281 92.25 38.25 92.136719 38.363281 C 92.023438 38.476562 91.886719 38.53125 91.730469 38.53125 L 80.410156 38.53125 C 80.136719 38.53125 79.953125 38.402344 79.863281 38.144531 L 78.519531 34.3125 L 77.171875 38.144531 C 77.078125 38.402344 76.898438 38.53125 76.625 38.53125 L 65.308594 38.53125 C 65.207031 38.53125 65.113281 38.507812 65.027344 38.457031 C 64.941406 38.410156 64.871094 38.34375 64.816406 38.257812 C 64.765625 38.171875 64.734375 38.082031 64.730469 37.980469 C 64.726562 37.882812 64.746094 37.785156 64.789062 37.695312 L 78 11.007812 C 78.105469 10.789062 78.277344 10.683594 78.519531 10.683594 C 78.757812 10.683594 78.929688 10.789062 79.039062 11.007812 L 92.246094 37.695312 C 92.289062 37.777344 92.308594 37.863281 92.308594 37.953125 Z M 92.308594 37.953125 " fill-opacity="1" fill-rule="nonzero"/></g></g></g></g></g></g></svg></div>
+  <div class="loading-bar"></div>
+</div>
+
+<!-- CURSOR -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- OVERLAYS -->
+<div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
+<div class="toast" id="toast"></div>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <div class="mobile-menu-top">
+    <button class="mobile-menu-close" onclick="closeMenu()">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+  <div class="mobile-menu-header">
+    <div class="mobile-menu-brand">BVX Archive</div>
+    <div class="mobile-menu-sub">Est. United Kingdom</div>
+  </div>
+  <div class="mobile-menu-links">
+    <div class="mobile-link" onclick="showPage('home');closeMenu()">Home</div>
+    <div class="mobile-link" onclick="showPage('drop');closeMenu()">Current Drop</div>
+    <div class="mobile-link" onclick="showPage('club');closeMenu()">BVX Club</div>
+    <div class="mobile-link" onclick="showPage('essentials');closeMenu()">Essentials</div>
+    <div class="mobile-link" onclick="showPage('about');closeMenu()">About</div>
+  </div>
+  <div class="mobile-menu-bottom">
+    <div class="mobile-chapter-card" onclick="showPage('drop');closeMenu()">
+      <div class="mobile-chapter-label">Current Chapter</div>
+      <div class="mobile-chapter-name">Captain Croak</div>
+      <div class="mobile-chapter-line"></div>
+      <div class="mobile-chapter-status">Status: <span>Active</span></div>
+    </div>
+    <div>
+      <div class="mobile-archive-label">Archive Links</div>
+      <div class="mobile-socials">
+        <a class="mobile-social" href="https://instagram.com/bvxlondon" target="_blank">IG</a>
+        <a class="mobile-social" href="https://tiktok.com/@bvxlondon" target="_blank">TT</a>
+        <a class="mobile-social" href="https://wa.me/447479245334" target="_blank">WA</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CART DRAWER -->
+<div class="cart-drawer" id="cartDrawer">
+  <div class="cart-head">
+    <div class="cart-head-title">Your Bag (<span id="cartCount">0</span>)</div>
+    <button class="cart-head-close" onclick="closeCart()">✕</button>
+  </div>
+  <div class="cart-body" id="cartBody">
+    <div class="cart-empty-msg"><span>🛍</span><span>Your bag is empty</span></div>
+  </div>
+  <div class="cart-foot">
+    <div class="cart-total-row">
+      <span class="cart-total-lbl">Total</span>
+      <span class="cart-total-val" id="cartTotalVal">£0</span>
+    </div>
+    <p class="cart-ship-note">Shipping calculated at checkout</p>
+    <button class="checkout-btn" onclick="goCheckout()">Checkout →</button>
+  </div>
+</div>
+
+<!-- NAVBAR -->
+<nav id="navbar">
+  <div class="nav-logo" onclick="showPage('home')">
+    <svg class="nav-logo-mark" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 127.5 56.999997" preserveAspectRatio="xMidYMid meet" version="1.0"><defs><clipPath id="841787ffb8-nav"><path d="M 0.453125 0.867188 L 93.207031 0.867188 L 93.207031 38.878906 L 0.453125 38.878906 Z M 0.453125 0.867188 " clip-rule="nonzero"/></clipPath><clipPath id="b0dd8015d2-nav"><path d="M 0.5 0.933594 L 26 0.933594 L 26 38.808594 L 0.5 38.808594 Z M 0.5 0.933594 " clip-rule="nonzero"/></clipPath><clipPath id="d6d02b7723-nav"><path d="M 23.269531 0.933594 L 61 0.933594 L 61 38.808594 L 23.269531 38.808594 Z M 23.269531 0.933594 " clip-rule="nonzero"/></clipPath><clipPath id="98babed33e-nav"><path d="M 64.648438 0.933594 L 92.496094 0.933594 L 92.496094 28.785156 L 64.648438 28.785156 Z M 64.648438 0.933594 " clip-rule="nonzero"/></clipPath><clipPath id="23d85d81c8-nav"><path d="M 64.59375 10.683594 L 92.445312 10.683594 L 92.445312 38.53125 L 64.59375 38.53125 Z M 64.59375 10.683594 " clip-rule="nonzero"/></clipPath><clipPath id="9c9708847a-nav"><rect x="0" width="94" y="0" height="39"/></clipPath><clipPath id="dd65750e8a-nav"><rect x="0" width="94" y="0" height="39"/></clipPath></defs><g transform="matrix(1, 0, 0, 1, 17, 10)"><g clip-path="url(#dd65750e8a-nav)"><g clip-path="url(#841787ffb8-nav)"><g transform="matrix(1, 0, 0, 1, 0, -0.000000000000014211)"><g clip-path="url(#9c9708847a-nav)"><g clip-path="url(#b0dd8015d2-nav)"><path fill="#000000" d="M 0.5 38.578125 L 0.5 0.964844 L 11.109375 0.964844 C 11.527344 0.964844 17.511719 0.964844 20.886719 4.667969 C 23.941406 8.027344 24.714844 14.117188 16.886719 18.285156 C 14.664062 19.46875 22.554688 17.792969 24.695312 25.148438 C 27.792969 35.769531 16.652344 38.273438 12.328125 38.570312 C 9.378906 38.777344 0.5 38.578125 0.5 38.578125 Z M 0.5 38.578125 " fill-opacity="1" fill-rule="nonzero"/></g><g clip-path="url(#d6d02b7723-nav)"><path fill="#000000" d="M 23.453125 1.722656 C 23.457031 1.503906 23.53125 1.320312 23.6875 1.167969 C 23.839844 1.011719 24.023438 0.933594 24.242188 0.933594 L 39.636719 0.933594 C 39.804688 0.933594 39.957031 0.984375 40.089844 1.078125 C 40.226562 1.175781 40.324219 1.300781 40.378906 1.460938 L 42.207031 6.671875 L 44.039062 1.460938 C 44.097656 1.300781 44.191406 1.175781 44.328125 1.078125 C 44.464844 0.984375 44.617188 0.933594 44.785156 0.933594 L 60.171875 0.933594 C 60.308594 0.933594 60.4375 0.96875 60.554688 1.035156 C 60.675781 1.101562 60.769531 1.191406 60.839844 1.308594 C 60.914062 1.421875 60.953125 1.546875 60.957031 1.683594 C 60.964844 1.820312 60.9375 1.949219 60.878906 2.070312 L 42.914062 38.371094 C 42.769531 38.664062 42.535156 38.808594 42.210938 38.808594 C 41.882812 38.808594 41.648438 38.664062 41.503906 38.371094 L 23.535156 2.070312 C 23.480469 1.960938 23.453125 1.84375 23.453125 1.722656 Z M 23.453125 1.722656 " fill-opacity="1" fill-rule="nonzero"/></g><g clip-path="url(#98babed33e-nav)"><path fill="#000000" d="M 64.785156 1.511719 C 64.785156 1.355469 64.839844 1.21875 64.953125 1.105469 C 65.066406 0.992188 65.203125 0.933594 65.363281 0.933594 L 76.683594 0.933594 C 76.957031 0.933594 77.136719 1.0625 77.230469 1.320312 L 78.574219 5.152344 L 79.921875 1.320312 C 80.011719 1.0625 80.195312 0.933594 80.46875 0.933594 L 91.78125 0.933594 C 91.882812 0.933594 91.976562 0.960938 92.0625 1.007812 C 92.152344 1.054688 92.222656 1.125 92.273438 1.207031 C 92.328125 1.292969 92.355469 1.386719 92.359375 1.484375 C 92.363281 1.585938 92.34375 1.679688 92.300781 1.769531 L 79.09375 28.460938 C 78.988281 28.675781 78.8125 28.785156 78.574219 28.785156 C 78.332031 28.785156 78.160156 28.675781 78.054688 28.460938 L 64.84375 1.769531 C 64.804688 1.6875 64.785156 1.605469 64.785156 1.511719 Z M 64.785156 1.511719 " fill-opacity="1" fill-rule="nonzero"/></g><g clip-path="url(#23d85d81c8-nav)"><path fill="#000000" d="M 92.308594 37.953125 C 92.308594 38.113281 92.25 38.25 92.136719 38.363281 C 92.023438 38.476562 91.886719 38.53125 91.730469 38.53125 L 80.410156 38.53125 C 80.136719 38.53125 79.953125 38.402344 79.863281 38.144531 L 78.519531 34.3125 L 77.171875 38.144531 C 77.078125 38.402344 76.898438 38.53125 76.625 38.53125 L 65.308594 38.53125 C 65.207031 38.53125 65.113281 38.507812 65.027344 38.457031 C 64.941406 38.410156 64.871094 38.34375 64.816406 38.257812 C 64.765625 38.171875 64.734375 38.082031 64.730469 37.980469 C 64.726562 37.882812 64.746094 37.785156 64.789062 37.695312 L 78 11.007812 C 78.105469 10.789062 78.277344 10.683594 78.519531 10.683594 C 78.757812 10.683594 78.929688 10.789062 79.039062 11.007812 L 92.246094 37.695312 C 92.289062 37.777344 92.308594 37.863281 92.308594 37.953125 Z M 92.308594 37.953125 " fill-opacity="1" fill-rule="nonzero"/></g></g></g></g></g></g></svg>
+  </div>
+  <ul class="nav-links">
+    <li><a onclick="showPage('home')" id="nav-home" class="active">Home</a></li>
+    <li><a onclick="showPage('drop')" id="nav-drop">Current Drop</a></li>
+    <li><a onclick="showPage('club')" id="nav-club">BVX Club</a></li>
+    <li><a onclick="showPage('essentials')" id="nav-essentials">Essentials</a></li>
+    <li><a onclick="showPage('about')" id="nav-about">About</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="drop-badge" onclick="showPage('drop')">
+      <div class="live-dot"></div> Drop Live
+    </div>
+    <div class="cart-btn" onclick="openCart()">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+      <div class="cart-badge-num" id="navBadge">0</div>
+    </div>
+    <div class="menu-btn" id="menuBtn" onclick="toggleMenu()">
+      <span id="mb1"></span><span id="mb2"></span>
+    </div>
+  </div>
+</nav>
+
+<!-- ═══ HOME PAGE ═══ -->
+<div class="page active" id="page-home">
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-watermark">
+      <svg viewBox="0 0 300 300" fill="none" stroke="black" stroke-width="0.8">
+        <circle cx="150" cy="150" r="140"/><circle cx="150" cy="150" r="100"/>
+        <circle cx="150" cy="150" r="60"/><circle cx="150" cy="150" r="20"/>
+        <line x1="150" y1="10" x2="150" y2="290"/><line x1="10" y1="150" x2="290" y2="150"/>
+        <line x1="51" y1="51" x2="249" y2="249"/><line x1="249" y1="51" x2="51" y2="249"/>
+      </svg>
+    </div>
+    <div class="hero-content">
+      <div class="hero-eyebrow"><div class="live-dot"></div> Drop 001<span class="hero-eyebrow-full"> / Captain Croak</span></div>
+      <h1 class="hero-title">MONKEY<br><span class="hero-title-outline">MAN.</span></h1>
+      <div class="hero-cta">
+        <div class="btn-primary" onclick="showPage('drop')">Shop</div>
+        <div class="btn-secondary" onclick="showPage('about')">Story</div>
+      </div>
+    </div>
+    <div class="hero-scroll"><div class="scroll-line"></div><span>Scroll</span></div>
+  </section>
+
+  <div class="bvx-divider">
+    <div class="bvx-divider-inner">
+      <div class="bvx-divider-dot"></div>
+    </div>
+  </div>
+
+  <!-- DROP PREVIEW - loaded from WooCommerce -->
+  <div class="drop-preview">
+    <div class="drop-preview-inner" id="homeDropSection">
+      <div class="products-loading">Loading drop data...</div>
+    </div>
+  </div>
+
+  <!-- BVX CLUB - loaded from WooCommerce -->
+  <div class="club-section">
+    <div class="club-hero reveal" id="clubHero"></div>
+    <div class="club-grid" id="homeClubGrid">
+      <div class="products-loading" style="grid-column:1/-1">Loading BVX Club...</div>
+    </div>
+  </div>
+
+  <!-- ESSENTIALS - loaded from WooCommerce -->
+  <div class="essentials-section">
+    <div class="ess-hero reveal" id="essHero"></div>
+    <div class="ess-grid" id="homeEssentialsGrid">
+      <div class="products-loading" style="grid-column:1/-1">Loading essentials...</div>
+    </div>
+  </div>
+
+  <!-- PAST DROPS -->
+  <div class="past-drops">
+    <div class="past-drops-inner">
+      <div class="reveal">
+        <div class="section-eyebrow">Archive</div>
+        <h2 class="past-drops-title">Past Drops.</h2>
+      </div>
+      <div class="past-grid reveal">
+        <div class="past-card"><div class="past-card-bg past-bg-1"></div><div class="sold-out-tag">Sold Out</div><div class="past-card-info"><div class="past-card-name">Captain Croak</div><div class="past-card-sub">Drop 001 · £58</div></div></div>
+        <div class="past-card"><div class="past-card-bg past-bg-2"></div><div class="past-card-info"><div class="past-card-name">Hide & Seek Hoodie</div><div class="past-card-sub">Drop 002 · Coming Soon</div></div></div>
+        <div class="past-card"><div class="past-card-bg past-bg-3"></div><div class="past-card-info"><div class="past-card-name">Drop 003</div><div class="past-card-sub">TBA · Stay Tuned</div></div></div>
+        <div class="past-card"><div class="past-card-bg past-bg-4"></div><div class="past-card-info"><div class="past-card-name">Drop 004</div><div class="past-card-sub">TBA · Stay Tuned</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ORIGIN -->
+  <div class="origin">
+    <div class="origin-inner reveal">
+      <div>
+        <div class="section-eyebrow">[ 04 ] Origin</div>
+        <h2 class="origin-title">Born in a London playground.</h2>
+      </div>
+      <div class="origin-body">
+        <p class="origin-text">BVX London is a love letter to the kids who grew up on estate corners, scraping trainers on concrete and making swings out of traffic cones. Captain Croak is the mascot of every mischievous memory — stitched into heavyweight cotton, dropped in tiny runs, worn by people who never stopped playing.</p>
+        <p class="origin-text">We don't do seasons. We don't do catalogues. One drop at a time. When they're gone, they're gone.</p>
+        <div class="origin-link" onclick="showPage('about')">Read The Full Story ↗</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NEWSLETTER -->
+  <div class="newsletter reveal">
+    <div class="nl-eyebrow">[ 01 ] Initiation Protocol</div>
+    <h2 class="nl-title">Join The Drop.</h2>
+    <p class="nl-sub">Early access. No noise. You'll know before the world does. One drop. One email. Zero spam.</p>
+    <div class="nl-form">
+      <input class="nl-input" type="email" placeholder="your@email.com" id="emailInput">
+      <button class="nl-submit" onclick="subscribeEmail('emailInput')">Subscribe →</button>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">BVX LONDON</div>
+        <p class="footer-tagline">Captain Croak — streetwear for the kids who never grew up. Made in London. Worn worldwide.</p>
+        <a href="https://wa.me/447479245334" class="whatsapp-link" target="_blank">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+          WhatsApp Us
+        </a>
+        <div class="footer-socials">
+          <a class="footer-social" href="https://instagram.com/bvxlondon" target="_blank">IG</a>
+          <a class="footer-social" href="https://tiktok.com/@bvxlondon" target="_blank">TT</a>
+          <a class="footer-social" href="https://wa.me/447479245334" target="_blank">WA</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Shop</h4>
+        <ul>
+          <li><a onclick="showPage('drop')">Current Drop</a></li>
+          <li><a onclick="showPage('essentials')">Essentials</a></li>
+          <li><a>Past Drops</a></li>
+          <li><a>Size Guide</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Info</h4>
+        <ul>
+          <li><a onclick="showPage('about')">About</a></li>
+          <li><a>Shipping</a></li>
+          <li><a>Returns</a></li>
+          <li><a href="https://wa.me/447479245334" target="_blank">Contact</a></li>
+          <li><a>FAQ</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copy">© 2026 BVX London. All Rights Reserved.</span>
+      <span class="footer-copy">Made In London / Worn Worldwide</span>
+    </div>
+  </footer>
+</div>
+
+<!-- ═══ DROP PAGE ═══ -->
+<div class="page" id="page-drop">
+  <div class="drop-page-wrap">
+    <div class="drop-hero-bar">
+      <span id="dropPageMeta">Drop 001 / Captain Croak</span>
+      <span class="drop-status"><div class="live-dot"></div> Live Now</span>
+    </div>
+    <div class="ess-detail-layout" id="dropPageContent">
+      <div class="products-loading" style="grid-column:1/-1">Loading drop...</div>
+    </div>
+    <div id="dropStoryDetails"></div>
+    <div class="newsletter" style="border-top:1px solid var(--border)">
+      <div class="nl-eyebrow">[ 01 ] Initiation Protocol</div>
+      <h2 class="nl-title">Join The Drop.</h2>
+      <p class="nl-sub">Early access. No noise. One drop. One email. Zero spam.</p>
+      <div class="nl-form">
+        <input class="nl-input" type="email" placeholder="your@email.com" id="emailInputDrop">
+        <button class="nl-submit" onclick="subscribeEmail('emailInputDrop')">Subscribe →</button>
+      </div>
+    </div>
+    <div id="dropPostNewsletter"></div>
+    <footer>
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand">BVX LONDON</div>
+          <p class="footer-tagline">Captain Croak — streetwear for the kids who never grew up.</p>
+          <a href="https://wa.me/447479245334" class="whatsapp-link" target="_blank">💬 WhatsApp Us</a>
+          <div class="footer-socials">
+            <a class="footer-social" href="https://instagram.com/bvxlondon" target="_blank">IG</a>
+            <a class="footer-social" href="https://tiktok.com/@bvxlondon" target="_blank">TT</a>
+          </div>
+        </div>
+        <div class="footer-col"><h4>Shop</h4><ul><li><a onclick="showPage('drop')">Current Drop</a></li><li><a onclick="showPage('club')">BVX Club</a></li><li><a onclick="showPage('essentials')">Essentials</a></li></ul></div>
+        <div class="footer-col"><h4>Info</h4><ul><li><a onclick="showPage('about')">About</a></li><li><a href="https://wa.me/447479245334" target="_blank">Contact</a></li></ul></div>
+      </div>
+      <div class="footer-bottom">
+        <span class="footer-copy">© 2026 BVX London.</span>
+        <span class="footer-copy">Made In London / Worn Worldwide</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<!-- ═══ BVX CLUB PAGE ═══ -->
+<div class="page" id="page-club">
+  <div class="essentials-page-wrap">
+    <div class="club-hero" id="clubHeroPage"></div>
+    <div class="club-page-info">
+      <div class="club-page-info-desc">Jersey-inspired uniforms made for permanent membership. Four silhouettes. One club.</div>
+    </div>
+    <div class="club-page-grid" id="clubPageGrid">
+      <div class="products-loading" style="grid-column:1/-1">Loading BVX Club...</div>
+    </div>
+    <div class="newsletter" style="border-top:1px solid var(--border)">
+      <div class="nl-eyebrow">[ 01 ] Initiation Protocol</div>
+      <h2 class="nl-title">Join The Drop.</h2>
+      <p class="nl-sub">Early access. No noise. One drop. One email. Zero spam.</p>
+      <div class="nl-form">
+        <input class="nl-input" type="email" placeholder="your@email.com" id="emailInputClub">
+        <button class="nl-submit" onclick="subscribeEmail('emailInputClub')">Subscribe →</button>
+      </div>
+    </div>
+    <footer>
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand">BVX LONDON</div>
+          <p class="footer-tagline">Captain Croak — streetwear for the kids who never grew up.</p>
+          <a href="https://wa.me/447479245334" class="whatsapp-link" target="_blank">💬 WhatsApp Us</a>
+          <div class="footer-socials">
+            <a class="footer-social" href="https://instagram.com/bvxlondon" target="_blank">IG</a>
+            <a class="footer-social" href="https://tiktok.com/@bvxlondon" target="_blank">TT</a>
+          </div>
+        </div>
+        <div class="footer-col"><h4>Shop</h4><ul><li><a onclick="showPage('drop')">Current Drop</a></li><li><a onclick="showPage('club')">BVX Club</a></li><li><a onclick="showPage('essentials')">Essentials</a></li></ul></div>
+        <div class="footer-col"><h4>Info</h4><ul><li><a onclick="showPage('about')">About</a></li><li><a href="https://wa.me/447479245334" target="_blank">Contact</a></li></ul></div>
+      </div>
+      <div class="footer-bottom">
+        <span class="footer-copy">© 2026 BVX London.</span>
+        <span class="footer-copy">Made In London / Worn Worldwide</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<!-- ═══ ESSENTIALS PAGE ═══ -->
+<div class="page" id="page-essentials">
+  <div class="essentials-page-wrap">
+    <div class="ess-hero" id="essHeroPage"></div>
+    <div class="ess-page-info">
+      <div class="ess-page-info-desc">Heavyweight, always-on staples in four permanent colourways. Not limited. Not seasonal. Not going anywhere.</div>
+    </div>
+    <div class="essentials-page-grid" id="essentialsPageGrid">
+      <div class="products-loading" style="grid-column:1/-1">Loading essentials...</div>
+    </div>
+    <div class="newsletter" style="border-top:1px solid var(--border)">
+      <div class="nl-eyebrow">[ 01 ] Initiation Protocol</div>
+      <h2 class="nl-title">Join The Drop.</h2>
+      <p class="nl-sub">Early access. No noise. One drop. One email. Zero spam.</p>
+      <div class="nl-form">
+        <input class="nl-input" type="email" placeholder="your@email.com" id="emailInputEss">
+        <button class="nl-submit" onclick="subscribeEmail('emailInputEss')">Subscribe →</button>
+      </div>
+    </div>
+    <footer>
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand">BVX LONDON</div>
+          <p class="footer-tagline">Captain Croak — streetwear for the kids who never grew up.</p>
+          <a href="https://wa.me/447479245334" class="whatsapp-link" target="_blank">💬 WhatsApp Us</a>
+          <div class="footer-socials">
+            <a class="footer-social" href="https://instagram.com/bvxlondon" target="_blank">IG</a>
+            <a class="footer-social" href="https://tiktok.com/@bvxlondon" target="_blank">TT</a>
+          </div>
+        </div>
+        <div class="footer-col"><h4>Shop</h4><ul><li><a onclick="showPage('drop')">Current Drop</a></li><li><a onclick="showPage('club')">BVX Club</a></li><li><a onclick="showPage('essentials')">Essentials</a></li></ul></div>
+        <div class="footer-col"><h4>Info</h4><ul><li><a onclick="showPage('about')">About</a></li><li><a href="https://wa.me/447479245334" target="_blank">Contact</a></li></ul></div>
+      </div>
+      <div class="footer-bottom">
+        <span class="footer-copy">© 2026 BVX London.</span>
+        <span class="footer-copy">Made In London / Worn Worldwide</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<!-- ═══ ABOUT PAGE ═══ -->
+<div class="page" id="page-about">
+  <div class="about-page-wrap">
+    <div class="about-manifesto reveal">
+      <div class="about-manifesto-label">[ 03 ] Manifesto</div>
+      <h1 class="about-manifesto-text">We make clothes for the kids who never grew up.</h1>
+    </div>
+    <div class="about-photo-section">
+      <div class="about-photo-placeholder">
+        [ E2 ESTATE — EAST LONDON — FILM PHOTOGRAPH ]
+        <div class="about-photo-label">E2 Estate, 1998 · Film — Kodak Tri-X</div>
+      </div>
+    </div>
+    <div class="about-story reveal">
+      <div><div class="section-eyebrow">The Story</div></div>
+      <div class="about-story-body">
+        <p>BVX London was born on a concrete playground in East London — the kind with a wonky slide, a climbing frame that felt like Everest, and a goalpost painted on a brick wall. We spent summers there. We spent winters there. We grew up there, even when nobody was watching.</p>
+        <p>Captain Croak — our mascot — is a reminder that the best version of you is probably the eight-year-old one. The one who hadn't learned to flinch yet. The one who ran home with dirty knees and didn't care about the stain.</p>
+        <p>Every BVX drop is a tiny time machine. Limited runs. Heavyweight fabrics. Stories stitched into every graphic. We don't do seasons. We do memories.</p>
+      </div>
+    </div>
+    <div class="about-principles">
+      <div class="principles-inner reveal">
+        <div class="principles-label">[ 04 ] Principles</div>
+        <div class="principles-grid">
+          <div class="principle-item"><div class="principle-num">01</div><div class="principle-title">One Drop At A Time</div><p class="principle-desc">No catalogue. No noise. A single garment, told properly. When it's gone, it's gone.</p></div>
+          <div class="principle-item"><div class="principle-num">02</div><div class="principle-title">Nostalgia, Not Cosplay</div><p class="principle-desc">We reference the past. We don't live in it. Every piece feels now.</p></div>
+          <div class="principle-item"><div class="principle-num">03</div><div class="principle-title">Made In London</div><p class="principle-desc">Cut, printed and packed within the M25. Always. No exceptions.</p></div>
+        </div>
+      </div>
+    </div>
+    <div class="about-cta-section reveal">
+      <p class="about-cta-text">Curious about the current drop?</p>
+      <div class="btn-primary" onclick="showPage('drop')" style="display:inline-flex">See It Now ↗</div>
+    </div>
+    <div class="newsletter" style="border-top:1px solid var(--border)">
+      <div class="nl-eyebrow">[ 01 ] Initiation Protocol</div>
+      <h2 class="nl-title">Join The Drop.</h2>
+      <p class="nl-sub">Early access. No noise. One drop. One email. Zero spam.</p>
+      <div class="nl-form">
+        <input class="nl-input" type="email" placeholder="your@email.com" id="emailInputAbout">
+        <button class="nl-submit" onclick="subscribeEmail('emailInputAbout')">Subscribe →</button>
+      </div>
+    </div>
+    <footer>
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand">BVX LONDON</div>
+          <p class="footer-tagline">Captain Croak — streetwear for the kids who never grew up.</p>
+          <a href="https://wa.me/447479245334" class="whatsapp-link" target="_blank">💬 WhatsApp Us</a>
+          <div class="footer-socials">
+            <a class="footer-social" href="https://instagram.com/bvxlondon" target="_blank">IG</a>
+            <a class="footer-social" href="https://tiktok.com/@bvxlondon" target="_blank">TT</a>
+          </div>
+        </div>
+        <div class="footer-col"><h4>Shop</h4><ul><li><a onclick="showPage('drop')">Current Drop</a></li><li><a onclick="showPage('club')">BVX Club</a></li><li><a onclick="showPage('essentials')">Essentials</a></li></ul></div>
+        <div class="footer-col"><h4>Info</h4><ul><li><a onclick="showPage('about')">About</a></li><li><a href="https://wa.me/447479245334" target="_blank">Contact</a></li></ul></div>
+      </div>
+      <div class="footer-bottom">
+        <span class="footer-copy">© 2026 BVX London.</span>
+        <span class="footer-copy">Made In London / Worn Worldwide</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script>
+// ─── CONFIG ──────────────────────────────────────────────────────────────────
+const WOO = {
+  url: 'https://shop.bvxlondon.uk',
+  ck: 'ck_429f22b9218d470d69c2ce66dfd935c1a74b720c',
+  cs: 'cs_851ae04d24506a170ea5304fb7ae3c83bc86892b',
+};
+const CHECKOUT_URL = 'https://shop.bvxlondon.uk/checkout';
+
+// ─── WOO API ─────────────────────────────────────────────────────────────────
+async function wooFetch(endpoint) {
+  const creds = btoa(`${WOO.ck}:${WOO.cs}`);
+  const res = await fetch(`${WOO.url}/wp-json/wc/v3/${endpoint}`, {
+    headers: { 'Authorization': `Basic ${creds}`, 'Content-Type': 'application/json' }
+  });
+  if (!res.ok) throw new Error('API Error');
+  return res.json();
+}
+
+// ─── PRODUCT DATA ─────────────────────────────────────────────────────────────
+let allProducts = [];
+let dropProduct = null;
+let essentialProducts = [];
+let clubProducts = [];
+let selectedSize = 'M';
+let selectedVariations = {};
+
+// BVX Club WooCommerce configuration — update these once real Club products
+// exist in WooCommerce (category slug, product IDs, or name-matching keywords).
+const CLUB_CONFIG = {
+  categorySlug: 'bvx-club',
+  nameMatches: ['bvx club', 'club jersey', 'club 0'],
+};
+
+async function loadProducts() {
+  try {
+    allProducts = await wooFetch('products?per_page=20&status=publish');
+    // Separate drop vs essentials vs club
+    dropProduct = allProducts.find(p => p.name.toLowerCase().includes('captain croak') || p.name.toLowerCase().includes('monkey man') || p.name.toLowerCase().includes('playground'));
+    essentialProducts = allProducts.filter(p => p.name.toLowerCase().includes('essential') || p.name.toLowerCase().includes('bvx essential'));
+    clubProducts = allProducts.filter(p => {
+      const n = p.name.toLowerCase();
+      const inCategory = Array.isArray(p.categories) && p.categories.some(c => (c.slug || '').toLowerCase() === CLUB_CONFIG.categorySlug);
+      return inCategory || CLUB_CONFIG.nameMatches.some(m => n.includes(m));
+    });
+
+    renderHomeDropSection();
+    renderHomeClub();
+    renderHomeEssentials();
+    renderDropPage();
+    renderClubPage();
+    renderEssentialsPage();
+  } catch(err) {
+    console.error('WooCommerce load error:', err);
+    renderFallback();
+  }
+}
+
+// ─── RENDER HOME DROP ─────────────────────────────────────────────────────────
+function renderHomeDropSection() {
+  const el = document.getElementById('homeDropSection');
+  if (!dropProduct) {
+    el.innerHTML = renderFallbackDrop();
+    return;
+  }
+  const p = dropProduct;
+  const price = p.price || p.regular_price || '58';
+  const stock = p.stock_quantity;
+  const stockMax = 120;
+  const stockPct = stock ? Math.round((stock/stockMax)*100) : 28;
+  const img = (p.images && p.images[0]) ? p.images[0].src : 'https://shop.bvxlondon.uk/wp-content/uploads/2026/07/tilefresh-2-scaled.jpeg';
+
+  el.innerHTML = `
+    <div class="drop-img-wrap reveal">
+      <img src="${img}" alt="Captain Croak">
+    </div>
+    <div class="drop-info reveal">
+      <div class="section-eyebrow">[ 01 ] The Current Drop</div>
+      <h2 class="drop-title-home">CAPTAIN CROAK - DROP 001</h2>
+      <div class="drop-price-home">£${parseFloat(price).toFixed(2)} <small>GBP · INCL. VAT</small></div>
+      <div class="stock-wrap">
+        <div class="stock-labels"><span>Stock Remaining</span><span>${stock || 34} / ${stockMax}</span></div>
+        <div class="stock-track"><div class="stock-fill" id="homeStockFill"></div></div>
+      </div>
+      <div class="drop-story-home">${stripHtml(p.short_description || p.description || 'Cut from 280gsm heavyweight cotton, garment-dyed in a Leytonstone wash-house. Hand-embroidered Cheeky Monkey on the chest. Limited to 120 pieces.').substring(0,200)}...</div>
+      <div class="drop-meta-row">
+        <div class="drop-meta-item">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+          Free UK Shipping
+        </div>
+        <div class="drop-meta-item">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
+          Ships in 48h
+        </div>
+        <div class="drop-meta-item">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          Hand-packed in London
+        </div>
+      </div>
+      <div class="drop-btns">
+        <div class="btn-secondary" onclick="showPage('drop')" style="flex:1;justify-content:center">View The Drop →</div>
+        <div class="btn-primary" onclick="showPage('drop')" style="flex:1;justify-content:center">Shop Now ↗</div>
+      </div>
+    </div>
+  `;
+  setTimeout(() => {
+    const f = document.getElementById('homeStockFill');
+    if(f) f.style.width = stockPct + '%';
+  }, 500);
+  observeReveal();
+}
+
+// ─── RENDER HOME ESSENTIALS ───────────────────────────────────────────────────
+const ESS_STYLES = [
+  { cls: 'ess-bg-white',   num: '01', col: 'WHITE',   textColor: '#111', watermarkColor: '#000', shortName: 'First Light',     tileImg: null },
+  { cls: 'ess-bg-beige',   num: '02', col: 'BEIGE',   textColor: '#111', watermarkColor: '#000', shortName: 'Playground Dust', tileImg: null },
+  { cls: 'ess-bg-obsidian',num: '03', col: 'OBSIDIAN',textColor: '#F5F5F3', watermarkColor: '#fff', shortName: 'The Final Boss', tileImg: 'https://shop.bvxlondon.uk/wp-content/uploads/2026/05/finalbosslandindg.png' },
+  { cls: 'ess-bg-navy',    num: '04', col: 'NAVY',    textColor: '#F5F5F3', watermarkColor: '#fff', shortName: 'After Hours',    tileImg: 'https://shop.bvxlondon.uk/wp-content/uploads/2026/06/afterhourslanding.png' },
+];
+
+function renderHomeEssentials() {
+  const el = document.getElementById('homeEssentialsGrid');
+  const items = essentialProducts.length > 0 ? essentialProducts.slice(0,4) : getFallbackEssentials();
+  
+  el.innerHTML = items.map((p, i) => {
+    const style = ESS_STYLES[i] || ESS_STYLES[0];
+    const price = p.price || p.regular_price || '28';
+    const img = style.tileImg || (p.images && p.images[0] ? p.images[0].src : null);
+    const imgPos = ESS_DATA[i] && ESS_DATA[i].tileImgPosition ? ESS_DATA[i].tileImgPosition : 'top';
+    const displayName = style.shortName;
+    return `
+      <div class="ess-card reveal" onclick="showEssentialDetail(${p.id || i}, '${p.name}')">
+        <div class="ess-card-bg ${style.cls}">
+          ${img ? `<img src="${img}" alt="${displayName}" style="width:100%;height:100%;object-fit:cover;object-position:${imgPos}">` : ''}
+        </div>
+        <div class="ess-card-watermark">
+          <span class="ess-card-watermark-text" style="color:${style.watermarkColor}">BVX</span>
+        </div>
+        <div class="ess-card-overlay"></div>
+        <div class="ess-card-num" style="color:${style.textColor};opacity:.5">${style.num}</div>
+        <div class="ess-card-col" style="color:${style.textColor};opacity:.5">${style.col}</div>
+        <div class="ess-card-info">
+          <div>
+            <div class="ess-card-name">${displayName}</div>
+          </div>
+          <div class="ess-card-price">£${parseFloat(price).toFixed(0)}</div>
+        </div>
+      </div>
+    `;
+  }).join('');
+  observeReveal();
+}
+
+// ─── BVX CLUB — TEMPORARY PRODUCT DATA ────────────────────────────────────────
+// Replace names, prices, WooCommerce IDs and image URLs below once the real
+// BVX Club catalogue is live. Everything is grouped in this one object so it
+// can be swapped out without touching the render/detail-page logic.
+const CLUB_DATA = [
+  { id: 9001, name: 'BVX Club 01', shortName: 'BVX Club 01', col: 'HOME KIT', price: '45', cls: 'club-bg-1', swatchBg: '#1E1E1E', label: 'HOME',
+    img0: '', img1: '', img2: '', img3: '',
+    campaignPhotoDesktop: '', campaignPhotoMobile: '',
+    story: { label: 'BVX Club / Chapter 01', title: 'BVX CLUB 01', paragraphs: [
+      'A permanent jersey for a permanent membership. No drop date. No countdown. Just always there when you need it.',
+      'Built on the same terrace culture as every kit that mattered — numbers on the back, a crest that means something, a fit made for standing in the cold and not caring.',
+    ]},
+    details: [
+      { number: '01', title: 'Branding', description: 'Chest crest embroidered, not printed. Built to outlast every wash.', image: '' },
+      { number: '02', title: 'Construction', description: 'Ribbed v-neck collar and set-in sleeves for a true jersey silhouette.', image: '' },
+      { number: '03', title: 'Fabric', description: 'Lightweight breathable mesh-weave cotton blend.', image: '' },
+      { number: '04', title: 'Fit', description: 'True to size, athletic cut through the body.', image: '' },
+    ] },
+  { id: 9002, name: 'BVX Club 02', shortName: 'BVX Club 02', col: 'AWAY KIT', price: '45', cls: 'club-bg-2', swatchBg: '#1A2438', label: 'AWAY',
+    img0: '', img1: '', img2: '', img3: '',
+    campaignPhotoDesktop: '', campaignPhotoMobile: '',
+    story: { label: 'BVX Club / Chapter 02', title: 'BVX CLUB 02', paragraphs: [
+      'The away kit exists for the days you\'re not on home turf. Away games, away cities, away from everything familiar.',
+      'Same build, same badge, different colourway — for the members who take BVX further afield.',
+    ]},
+    details: [
+      { number: '01', title: 'Branding', description: 'Tonal BVX Club badge, stitched on the left chest.', image: '' },
+      { number: '02', title: 'Construction', description: 'Reinforced shoulder seams for durability on and off the pitch.', image: '' },
+      { number: '03', title: 'Fabric', description: 'Lightweight breathable mesh-weave cotton blend.', image: '' },
+      { number: '04', title: 'Fit', description: 'True to size, athletic cut through the body.', image: '' },
+    ] },
+  { id: 9003, name: 'BVX Club 03', shortName: 'BVX Club 03', col: 'THIRD KIT', price: '45', cls: 'club-bg-3', swatchBg: '#2A2018', label: 'THIRD',
+    img0: '', img1: '', img2: '', img3: '',
+    campaignPhotoDesktop: '', campaignPhotoMobile: '',
+    story: { label: 'BVX Club / Chapter 03', title: 'BVX CLUB 03', paragraphs: [
+      'The third kit is for the ones who don\'t pick sides — home or away, they wear both and this one besides.',
+      'A quieter colourway. Same permanent membership, same uniform discipline underneath.',
+    ]},
+    details: [
+      { number: '01', title: 'Branding', description: 'Subtle woven club tag at the hem.', image: '' },
+      { number: '02', title: 'Construction', description: 'Ribbed v-neck collar built to hold its shape.', image: '' },
+      { number: '03', title: 'Fabric', description: 'Lightweight breathable mesh-weave cotton blend.', image: '' },
+      { number: '04', title: 'Fit', description: 'True to size, athletic cut through the body.', image: '' },
+    ] },
+  { id: 9004, name: 'BVX Club 04', shortName: 'BVX Club 04', col: 'GK KIT', price: '48', cls: 'club-bg-4', swatchBg: '#202020', label: 'GK',
+    img0: '', img1: '', img2: '', img3: '',
+    campaignPhotoDesktop: '', campaignPhotoMobile: '',
+    story: { label: 'BVX Club / Chapter 04', title: 'BVX CLUB 04', paragraphs: [
+      'The last line of defence gets its own kit. Built the same, worn differently — the one members reach for when everything is on the line.',
+      'Four kits. One club. Always part of the roster.',
+    ]},
+    details: [
+      { number: '01', title: 'Branding', description: 'Full embroidered crest, centre chest.', image: '' },
+      { number: '02', title: 'Construction', description: 'Set-in sleeves for a true jersey silhouette.', image: '' },
+      { number: '03', title: 'Fabric', description: 'Lightweight breathable mesh-weave cotton blend.', image: '' },
+      { number: '04', title: 'Fit', description: 'True to size, athletic cut through the body.', image: '' },
+    ] },
+];
+
+function getFallbackClub() {
+  return CLUB_DATA.map(d => ({ id: d.id, name: d.name, price: d.price, images: [] }));
+}
+
+function getClubIndex(id) {
+  return CLUB_DATA.findIndex(d => d.id === id);
+}
+
+// ─── RENDER HOME CLUB ──────────────────────────────────────────────────────────
+function renderHomeClub() {
+  const el = document.getElementById('homeClubGrid');
+  if (!el) return;
+  const items = clubProducts.length > 0 ? clubProducts.slice(0,4) : getFallbackClub();
+
+  el.innerHTML = items.map((p, i) => {
+    const data = CLUB_DATA[i] || CLUB_DATA[0];
+    const price = p.price || p.regular_price || data.price;
+    const img = data.img0 || (p.images && p.images[0] ? p.images[0].src : null);
+    const displayName = data.shortName;
+    return `
+      <div class="club-card reveal" onclick="showClubDetail(${p.id || data.id}, '${p.name || data.name}')">
+        <div class="club-card-bg ${data.cls}">
+          ${img ? `<img src="${img}" alt="${displayName}" style="width:100%;height:100%;object-fit:cover">` : ''}
+        </div>
+        <div class="club-card-overlay"></div>
+        <div class="club-card-num">0${i+1}</div>
+        <div class="club-card-col">${data.col}</div>
+        <div class="club-card-info">
+          <div>
+            <div class="club-card-name">${displayName}</div>
+          </div>
+          <div class="club-card-price">£${parseFloat(price).toFixed(0)}</div>
+        </div>
+      </div>
+    `;
+  }).join('');
+  observeReveal();
+}
+
+// ─── RENDER CLUB PAGE ──────────────────────────────────────────────────────────
+function renderClubPage() {
+  const el = document.getElementById('clubPageGrid');
+  if (!el) return;
+  const items = clubProducts.length > 0 ? clubProducts : getFallbackClub();
+
+  el.innerHTML = items.map((p, i) => {
+    const data = CLUB_DATA[i] || CLUB_DATA[0];
+    const price = p.price || p.regular_price || data.price;
+    const img = data.img0 || (p.images && p.images[0] ? p.images[0].src : null);
+    const displayName = data.shortName;
+    return `
+      <div class="club-page-card" onclick="showClubDetail(${p.id || data.id}, '${p.name || data.name}')">
+        <div class="club-page-card-bg ${data.cls}">
+          ${img ? `<img src="${img}" alt="${displayName}" style="width:100%;height:100%;object-fit:cover">` : ''}
+        </div>
+        <div class="club-page-card-overlay"></div>
+        <div class="club-page-card-num">0${i+1}</div>
+        <div class="club-page-card-col">${data.col}</div>
+        <div class="club-page-card-bottom">
+          <div>
+            <div class="club-page-card-name">${displayName}</div>
+          </div>
+          <div class="club-page-card-price">£${parseFloat(price).toFixed(0)}</div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+// ─── RENDER DROP PAGE ─────────────────────────────────────────────────────────
+// ─── SHOP DROP — COLOUR OPTIONS ────────────────────────────────────────────────
+// Each entry: label shown to the customer, swatch colour, and its 3 images in
+// the fixed order [main, model, folded]. "Bad Idea" (charcoal) is default.
+const DROP_COLOURS = [
+  { label: 'Bad Idea', swatchBg: '#3A3A3A',
+    main: 'https://shop.bvxlondon.uk/wp-content/uploads/2026/07/IMG_1228.png',
+    model: 'https://shop.bvxlondon.uk/wp-content/uploads/2026/07/IMG_1214-1-scaled.png',
+    folded: 'https://shop.bvxlondon.uk/wp-content/uploads/2026/07/IMG_1209-scaled.png' },
+  { label: 'Fake Calm', swatchBg: '#5B7A9D',
+    main: 'https://shop.bvxlondon.uk/wp-content/uploads/2026/07/IMG_1225-scaled.png',
+    model: 'https://shop.bvxlondon.uk/wp-content/uploads/2026/07/IMG_1222-scaled.png',
+    folded: 'https://shop.bvxlondon.uk/wp-content/uploads/2026/07/IMG_1219-scaled.png' },
+];
+let selectedDropColourIdx = 0;
+
+// ─── SHOP DROP — GLOBAL GALLERY SEQUENCE ────────────────────────────────────
+// One fixed 6-image loop shared across both colours. The colour swatches
+// just jump the current position to that colour's Main shot (index 0 or 1);
+// swiping/arrows/thumbnails always continue through this same sequence.
+const DROP_GALLERY = [
+  { type: 'Main',   colourIdx: 0 }, // 0: Bad Idea — Main
+  { type: 'Main',   colourIdx: 1 }, // 1: Fake Calm — Main
+  { type: 'Model',  colourIdx: 0 }, // 2: Bad Idea — Model
+  { type: 'Model',  colourIdx: 1 }, // 3: Fake Calm — Model
+  { type: 'Folded', colourIdx: 0 }, // 4: Bad Idea — Folded
+  { type: 'Folded', colourIdx: 1 }, // 5: Fake Calm — Folded
+];
+let dropGalleryIdx = 0;
+
+function dropGallerySrc(i){
+  const entry = DROP_GALLERY[i];
+  const c = DROP_COLOURS[entry.colourIdx];
+  return entry.type === 'Main' ? c.main : entry.type === 'Model' ? c.model : c.folded;
+}
+
+function dropThumbsHTML(){
+  return DROP_GALLERY.map((entry,i) => {
+    const src = dropGallerySrc(i);
+    const label = DROP_COLOURS[entry.colourIdx].label;
+    return `<div class="ess-detail-thumb${i===dropGalleryIdx?' active':''}" onclick="switchImg(${i})"><img src="${src}" alt="${label} — ${entry.type}"></div>`;
+  }).join('');
+}
+
+// Moves to any position in the loop (wraps both directions), updates the
+// main image (fade only), the active thumbnail, and the matching colour
+// swatch — used by thumbnail clicks, arrows, swipe, and colour selection.
+function goToDropGalleryIndex(idx, updateColourSwatch = true){
+  const total = DROP_GALLERY.length;
+  dropGalleryIdx = ((idx % total) + total) % total;
+  const entry = DROP_GALLERY[dropGalleryIdx];
+
+  animateDropMainImage(dropGallerySrc(dropGalleryIdx));
+
+  document.querySelectorAll('#dropPageContent .ess-detail-thumb').forEach((t,i) => {
+    t.classList.toggle('active', i === dropGalleryIdx);
+  });
+
+  if (updateColourSwatch) {
+    selectedDropColourIdx = entry.colourIdx;
+    document.querySelectorAll('[id^="dropSwatch"]').forEach((sw,i) => {
+      sw.classList.toggle('active', i === entry.colourIdx);
+      sw.style.borderColor = i === entry.colourIdx ? 'var(--sulphur)' : 'rgba(0,0,0,.2)';
+    });
+  }
+}
+
+function dropGalleryNext(){ goToDropGalleryIndex(dropGalleryIdx + 1); }
+function dropGalleryPrev(){ goToDropGalleryIndex(dropGalleryIdx - 1); }
+
+// ─── SHOP DROP — EDITORIAL DETAILS ─────────────────────────────────────────────
+// Same visual pattern as Essentials/Club: full-width, then two-column, then
+// full-width. Images are placeholders until real photos are supplied.
+const DROP_DETAILS = [
+  { number: '01', title: 'Branding', description: '', image: '' },
+  { number: '02', title: 'Construction', description: '', image: '' },
+  { number: '03', title: 'Fabric', description: '', image: '' },
+  { number: '04', title: 'Fit', description: '', image: '' },
+];
+
+function dropDetailPanel(d, isHalf){
+  const ph = `<div class="ess-detail-photo-ph">[ ${d.number} / ${d.title.toUpperCase()} — PHOTO COMING SOON ]</div>`;
+  return `
+    <div class="ess-detail-photo">
+      ${d.image ? `<img src="${d.image}" alt="Captain Croak — ${d.title}">` : ph}
+    </div>
+    <div class="ess-detail-caption">
+      <div>
+        <div class="ess-detail-num">${d.number} / ${d.title}</div>
+        <div class="ess-detail-title">${d.title}</div>
+        <div class="ess-detail-desc">${d.description || ''}</div>
+      </div>
+    </div>
+  `;
+}
+
+function dropDetailsSectionHTML(){
+  const d = DROP_DETAILS;
+  return `
+    <div class="ess-details-section">
+      <div class="ess-details-label">[ 02 ] Details</div>
+      <div class="ess-detail-panel-full">${dropDetailPanel(d[0])}</div>
+      <div class="ess-detail-panel-row">
+        <div class="ess-detail-panel-half">${dropDetailPanel(d[1])}</div>
+        <div class="ess-detail-panel-half">${dropDetailPanel(d[2])}</div>
+      </div>
+      <div class="ess-detail-panel-full">${dropDetailPanel(d[3])}</div>
+    </div>
+  `;
+}
+
+const DROP_STORY_TEXT = "Captain Croak never asked to be in charge. Nobody remembers giving him the title either. One morning he wandered onto a court carrying a basketball in one hand and a volleyball in the other, nodded like he had somewhere important to be, and somehow everyone stepped aside. Since then, he\u2019s confidently participated in sports he doesn\u2019t understand, celebrated points that never counted, and explained rules that exist only in his head. The strange part is that people keep listening. Maybe confidence really is louder than competence. Captain Croak doesn\u2019t train. He improvises. He doesn\u2019t follow game plans because reading them sounds exhausting. Winning is nice, but confusing everyone else is usually enough. He\u2019s the kind of character who arrives late, leaves early, and still acts like he carried the whole team. Nobody knows where he came from, where he\u2019s going, or why he\u2019s always holding two completely different balls. Asking questions rarely helps. The answers somehow create even more questions. Drop 001 introduces the legend exactly as he exists: completely unqualified, permanently relaxed, and impossible to ignore. He isn\u2019t here to inspire you, teach you life lessons, or unlock your potential. He\u2019s just doing whatever makes sense to him, which unfortunately seems to work far more often than it should. Wear it if you agree. Ignore it if you think you know better. Captain Croak won\u2019t notice either way.";
+
+// Full-width story block + editorial details, rendered into #dropStoryDetails
+// (a sibling of the purchase grid, not nested in the sticky sidebar) so the
+// details panels can be genuinely full-bleed, same as Essentials/Club. The
+// story now leads with a campaign photo (placeholder until supplied),
+// reusing the exact same editorial layout Essentials/Club use.
+const DROP_STORY_IMAGES = { desktop: '', mobile: '' };
+
+function renderDropStoryDetails(){
+  const el = document.getElementById('dropStoryDetails');
+  if (!el) return;
+  el.innerHTML = `
+    <div class="ess-story-section" style="margin-top:0">
+      <div class="ess-story-layout">
+        <div class="ess-campaign-photo">
+          ${DROP_STORY_IMAGES.desktop ? `<img src="${DROP_STORY_IMAGES.desktop}" alt="Captain Croak Campaign" class="desktop-photo">` : ''}
+          ${DROP_STORY_IMAGES.mobile ? `<img src="${DROP_STORY_IMAGES.mobile}" alt="Captain Croak Campaign" class="mobile-photo">` : ''}
+          ${!DROP_STORY_IMAGES.desktop && !DROP_STORY_IMAGES.mobile ? `<div class="ess-campaign-ph">[ CAPTAIN CROAK — CAMPAIGN PHOTO COMING SOON ]</div>` : ''}
+          <div class="ess-campaign-photo-right-fade"></div>
+        </div>
+        <div class="ess-story-inner">
+          <div class="ess-story-label">The Story</div>
+          <h2 class="ess-story-title">CAPTAIN CROAK</h2>
+          <div class="ess-story-underline"></div>
+          <div class="ess-story-body">
+            <p>${DROP_STORY_TEXT}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    ${dropDetailsSectionHTML()}
+  `;
+}
+
+// Next Drop + Missed It — same markup/design as before, just relocated to sit
+// after the newsletter instead of inside the purchase sidebar. Wrapped at a
+// similar width to how they looked in the sidebar, rather than stretching
+// full-bleed across the whole page.
+function renderDropPostNewsletter(){
+  const el = document.getElementById('dropPostNewsletter');
+  if (!el) return;
+  el.innerHTML = `
+    <div class="drop-post-newsletter">
+      <div class="drop-post-newsletter-inner">
+        <div class="next-drop-box">
+          <div class="next-drop-label">Next Drop</div>
+          <div class="next-drop-name">DROP 002 — Hide & Seek Hoodie</div>
+        </div>
+        <div style="border-top:1px solid var(--border);padding-top:14px;margin-top:20px">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.58rem;opacity:.35;margin-bottom:10px;letter-spacing:.15em;text-transform:uppercase">Missed it? Shop Essentials</div>
+          <div class="btn-secondary" style="justify-content:center" onclick="showPage('essentials')">View Essentials →</div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function dropColourSwatchesHTML(activeIdx){
+  return DROP_COLOURS.map((c,i) => `
+    <div class="colour-swatch-wrap" onclick="selectDropColour(${i})">
+      <div class="colour-swatch ${i===activeIdx?'active':''}" id="dropSwatch${i}" style="background:${c.swatchBg};border-color:${i===activeIdx?'var(--sulphur)':'rgba(0,0,0,.2)'}"></div>
+      <span class="colour-swatch-label">${c.label}</span>
+    </div>
+  `).join('');
+}
+
+function selectDropColour(idx){
+  // DROP_GALLERY[0] = Bad Idea Main, DROP_GALLERY[1] = Fake Calm Main —
+  // selecting a colour just jumps to that colour's Main shot in the loop.
+  goToDropGalleryIndex(idx);
+}
+
+function renderDropPage() {
+  const el = document.getElementById('dropPageContent');
+  const p = dropProduct;
+  if (!p) { el.innerHTML = renderFallbackDropPage(); initDropMainSwipe(); renderDropStoryDetails(); renderDropPostNewsletter(); return; }
+  
+  const price = p.price || p.regular_price || '58';
+  const stock = p.stock_quantity || 34;
+  const stockMax = 120;
+  const stockPct = Math.round((stock/stockMax)*100);
+  const sizes = ['S','M','L','XL'];
+
+  el.innerHTML = `
+    <div class="ess-detail-thumbs">${dropThumbsHTML()}</div>
+    <div class="ess-detail-main-img">
+      <img src="${dropGallerySrc(dropGalleryIdx)}" alt="Captain Croak" id="dropMainImg">
+      <button class="drop-gallery-arrow drop-gallery-arrow-left" onclick="dropGalleryPrev()" aria-label="Previous image">‹</button>
+      <button class="drop-gallery-arrow drop-gallery-arrow-right" onclick="dropGalleryNext()" aria-label="Next image">›</button>
+    </div>
+    <div class="ess-detail-info">
+      <div class="drop-series">Captain Croak Series</div>
+      <h1 class="drop-title-big">CAPTAIN CROAK - DROP 001</h1>
+      <div class="drop-price-row">
+        <span class="drop-price-big">£${parseFloat(price).toFixed(2)}</span>
+        <span class="drop-price-note">GBP · INCL. VAT</span>
+      </div>
+      <div class="stock-section">
+        <div class="stock-row"><span>Stock Remaining</span><span>${stock} / ${stockMax}</span></div>
+        <div class="stock-track"><div class="stock-fill" id="dropStockFill"></div></div>
+      </div>
+      <div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;opacity:.45;margin-bottom:10px">Colour</div>
+        <div class="ess-colour-swatches">${dropColourSwatchesHTML(selectedDropColourIdx)}</div>
+      </div>
+      <div class="size-section">
+        <div class="size-label-row">
+          <span class="size-label">Size</span>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:.55rem;opacity:.35;cursor:pointer;text-decoration:underline">Size Guide</span>
+        </div>
+        <div class="sizes-row">
+          ${sizes.map((s,i) => `<button class="size-btn ${i===0?'active':''}" onclick="selectSize(this,'${s}')">${s}</button>`).join('')}
+        </div>
+      </div>
+      <button class="btn-secondary" style="justify-content:center;width:100%;cursor:pointer" id="dropAddCart" data-id="${p.id}" data-price="${parseFloat(price)}" onclick="addDropToCart(this)">Add to Cart →</button>
+      <button class="btn-primary" style="justify-content:center;width:100%;cursor:pointer;margin-top:8px" onclick="buyNow(${p.id})">Buy Now ↗</button>
+      <div class="drop-shipping-row">
+        <div class="ship-item">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+          Free UK Shipping
+        </div>
+        <div class="ship-item">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
+          Ships in 48h
+        </div>
+        <div class="ship-item">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          Hand-packed in London E2
+        </div>
+      </div>
+    </div>
+  `;
+  setTimeout(() => {
+    const f = document.getElementById('dropStockFill');
+    if(f) f.style.width = stockPct + '%';
+    selectedSize = 'S';
+  }, 400);
+  initDropMainSwipe();
+  renderDropStoryDetails();
+  renderDropPostNewsletter();
+}
+
+// ─── RENDER ESSENTIALS PAGE ───────────────────────────────────────────────────
+function renderEssentialsPage() {
+  const el = document.getElementById('essentialsPageGrid');
+  const items = essentialProducts.length > 0 ? essentialProducts : getFallbackEssentials();
+  const bgClasses = ['ess-dark-bg','ess-dark-bg2','ess-dark-bg3','ess-dark-bg4'];
+  const cols = ['WHITE','BEIGE','OBSIDIAN','NAVY'];
+  const textColors = ['#111','#111','#F5F5F3','#F5F5F3'];
+  const watermarkColors = ['#000','#000','#fff','#fff'];
+  const shortNames = ['First Light','Playground Dust','The Final Boss','After Hours'];
+
+  const tileImgs = [null, null, 'https://shop.bvxlondon.uk/wp-content/uploads/2026/05/finalbosslandindg.png', 'https://shop.bvxlondon.uk/wp-content/uploads/2026/06/afterhourslanding.png'];
+
+  el.innerHTML = items.map((p,i) => {
+    const price = p.price || p.regular_price || '28';
+    const img = tileImgs[i] || (p.images && p.images[0] ? p.images[0].src : null);
+    const displayName = shortNames[i] || p.name.replace('BVX Essential Tee — ','').replace('BVX Essential Tee — ','');
+    const imgPos = ESS_DATA[i] && ESS_DATA[i].tileImgPosition ? ESS_DATA[i].tileImgPosition : 'top';
+    return `
+      <div class="ess-page-card" onclick="showEssentialDetail(${p.id || i},'${p.name}')">
+        <div class="ess-page-card-bg ${bgClasses[i] || bgClasses[0]}">
+          ${img ? `<img src="${img}" alt="${displayName}" style="width:100%;height:100%;object-fit:cover;object-position:${imgPos}">` : ''}
+        </div>
+        <div class="ess-page-card-watermark">
+          <span class="ess-page-card-watermark-text" style="color:${watermarkColors[i]}">BVX</span>
+        </div>
+        <div class="ess-page-card-overlay"></div>
+        <div class="ess-page-card-num" style="color:${textColors[i]};opacity:.5">0${i+1}</div>
+        <div class="ess-page-card-col" style="color:${textColors[i]};opacity:.5">${cols[i] || 'ESSENTIAL'}</div>
+        <div class="ess-page-card-bottom">
+          <div>
+            <div class="ess-page-card-name">${displayName}</div>
+          </div>
+          <div class="ess-page-card-price">£${parseFloat(price).toFixed(0)}</div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+// ─── ESSENTIAL DETAIL PAGE ────────────────────────────────────────────────────
+const ESS_DATA = [
+  { shortName: 'First Light', col: 'WHITE', swatchBg: '#E0DAD0', label: 'LIGHT', bgClass: 'ess-dark-bg', campaignPhotoMobile: null, campaignPhotoDesktop: null, story: null,
+    details: {
+      embroidery: { title: 'The Mark', desc: 'Hand-finished BVX embroidery on a clean white ground. Precise. Considered. The only thing that needs to be said.' },
+      construction: { title: 'Built to Last', desc: 'High neck ribbing holds its structure wash after wash. No stretch, no slump. Fresh out of the bag every time.' },
+      fabric: { title: '280gsm Cotton', desc: 'Heavyweight enough to feel substantial. Light enough to wear all day. Garment-dyed for a softness that only improves.' },
+      fit: { title: 'Oversized Silhouette', desc: 'Drops clean. Sits wide. Worn loose by design — not by accident.' }
+    }
+  },
+  { shortName: 'Playground Dust', col: 'BEIGE', swatchBg: '#C8BBA8', label: 'DUST', bgClass: 'ess-dark-bg2', campaignPhotoMobile: null, campaignPhotoDesktop: null, story: null,
+    details: {
+      embroidery: { title: 'The Mark', desc: 'BVX stitched into beige. Subtle against the tone. The kind of detail you notice up close and remember later.' },
+      construction: { title: 'Collar That Holds', desc: 'Ribbed neck construction that keeps its shape through everything. Worn-in, never worn-out.' },
+      fabric: { title: 'Garment-Dyed Cotton', desc: '280gsm heavyweight cotton dyed to a warm, familiar tone. Gets better with every wash. Feels lived-in from day one.' },
+      fit: { title: 'Relaxed Fit', desc: 'Easy. Comfortable. The kind of fit you reach for without thinking. Built for days that ask nothing of you.' }
+    }
+  },
+  { shortName: 'The Final Boss', col: 'OBSIDIAN', swatchBg: '#1E1E1E', label: 'BOSS', bgClass: 'ess-dark-bg3',
+    campaignPhotoMobile: 'https://shop.bvxlondon.uk/wp-content/uploads/2026/05/finalbossstory.png',
+    campaignPhotoDesktop: 'https://shop.bvxlondon.uk/wp-content/uploads/2026/05/finalbossstorydesktop.png',
+    img0: 'https://shop.bvxlondon.uk/wp-content/uploads/2026/05/finalbosslandindg.png',
+    img1: 'https://shop.bvxlondon.uk/wp-content/uploads/2026/05/finalbossmale.png',
+    img2: 'https://shop.bvxlondon.uk/wp-content/uploads/2026/05/finalbossfemale.png',
+    img3: 'https://shop.bvxlondon.uk/wp-content/uploads/2026/05/finalbossembroidery.png',
+    details: {
+      embroidery: { title: 'The Mark', desc: 'BVX stitched into obsidian. You have to be close to see it. That\'s the point. Confidence doesn\'t need to announce itself.' },
+      construction: { title: 'High Neck Construction', desc: 'Structured ribbing at the collar. Holds its form. Holds its authority. No sagging, no compromise.' },
+      fabric: { title: '280gsm Heavyweight Cotton', desc: 'Dense. Substantial. The kind of fabric that makes a sound when it moves. This is what quality feels like.' },
+      fit: { title: 'Oversized Authority', desc: 'Drops wide. Sits heavy. Wears like it owns the room — because it does.' }
+    },
+    story: [
+      'Some people buy black tees because they go with everything. Some people buy black tees because they spilled coffee on the white one. Either way, welcome.',
+      'The Final Boss is the strongest member of the Essentials lineup. Not because it shouts the loudest. Because it doesn\'t need to.',
+      'Heavyweight cotton. Oversized fit. A collar that actually keeps its shape after being introduced to your washing machine.',
+      'No giant graphics. No motivational slogans. No "future vintage collectible" nonsense. Just a black tee that quietly judges the rest of your wardrobe.',
+      'The kind of tee you wear when you\'re running late, underprepared, and somehow still end up looking like you knew what you were doing all along.',
+      'Perfect for: Ignoring group chats. Making decisions with zero research. Looking expensive while carrying £3.27 in your bank account. Saying "leave it with me" before immediately panicking.',
+      'The Final Boss isn\'t trying to be the main character. That\'s exactly why it is.',
+      'Wear often. Wash occasionally. Blame someone else. Welcome to the top level.'
+    ]},
+  { shortName: 'After Hours', col: 'NAVY', swatchBg: '#1A2438', label: 'HOURS', bgClass: 'ess-dark-bg4',
+    campaignPhotoMobile: 'https://shop.bvxlondon.uk/wp-content/uploads/2026/06/afterhoursstorymobile.png',
+    campaignPhotoDesktop: 'https://shop.bvxlondon.uk/wp-content/uploads/2026/06/afterhoursdesktop.png',
+    img0: 'https://shop.bvxlondon.uk/wp-content/uploads/2026/06/afterhourslanding.png',
+    img1: 'https://shop.bvxlondon.uk/wp-content/uploads/2026/06/afterhoursmale.png',
+    img2: 'https://shop.bvxlondon.uk/wp-content/uploads/2026/06/afterhoursfemale.png',
+    img3: 'https://shop.bvxlondon.uk/wp-content/uploads/2026/06/afterhoursembroidery.png',
+    tileImgPosition: 'center 55%',
+    details: {
+      embroidery: { title: 'The Mark', desc: 'BVX on navy. Quiet against the dark. The kind of detail that rewards attention — for the people who are still paying it at this hour.' },
+      construction: { title: 'Collar Construction', desc: 'Ribbed and reinforced. Holds its shape on late nights, long commutes, and the walk home when the city goes quiet.' },
+      fabric: { title: '280gsm Cotton', desc: 'Heavy enough to feel like a second skin. Soft enough to forget you\'re wearing it. Garment-dyed to a deep, calm navy.' },
+      fit: { title: 'Made for Slow Evenings', desc: 'Oversized. Unhurried. Built for the hours when you finally stop performing and just exist.' }
+    },
+    story: [
+      'Most people are asleep by now.',
+      'The emails stopped. The group chat went quiet. The coffee machine lost the will to live somewhere around 8 PM.',
+      'This is the part of the day nobody posts about.',
+      'The train home. The empty platform. The walk through streets that suddenly feel twice as wide.',
+      'No deadlines left to chase. No meetings left to attend. No pretending to be productive.',
+      'Just you and whatever is still running through your head.',
+      'After Hours isn\'t about going out. It\'s about finally slowing down.',
+      'Heavyweight cotton. Oversized fit. Built for late trains, long walks, and the kind of nights where you accidentally solve problems you spent all day avoiding.',
+      'No giant graphics. No motivational speeches. No fake scarcity.',
+      'Just a tee that shows up when everything else clocks out.',
+      'The city never completely sleeps. Neither do good ideas.',
+      'Welcome to After Hours.'
+    ]},
+];
+
+function getEssIndex(id) {
+  const fallbacks = getFallbackEssentials();
+  const idx = essentialProducts.findIndex(p => p.id === id);
+  if (idx !== -1) return idx;
+  return fallbacks.findIndex(p => p.id === id);
+}
+
+function showEssentialDetail(id, name) {
+  // Remove existing detail page if present (rebuild fresh)
+  const existing = document.getElementById('page-ess-' + id);
+  if (existing) {
+    existing.remove();
+  }
+
+  const allProds = essentialProducts.length > 0 ? essentialProducts : getFallbackEssentials();
+  const p = allProds.find(prod => prod.id === id) || { id, name: name || 'Essential Tee', price: '28', images: [] };
+  const essIdx = getEssIndex(id);
+  const data = ESS_DATA[essIdx] || ESS_DATA[0];
+  const price = p.price || p.regular_price || '28';
+  const imgs = p.images || [];
+  const img0 = data.img0 || imgs[0]?.src || null;
+  const img1 = data.img1 || imgs[1]?.src || null;
+  const img2 = data.img2 || imgs[2]?.src || null;
+  const img3 = data.img3 || imgs[3]?.src || null;
+  const displayName = data.shortName;
+
+  // Swatches for all 4 essentials
+  const swatches = ESS_DATA.map((d, i) => {
+    const sp = allProds[i] || getFallbackEssentials()[i];
+    return `
+      <div class="colour-swatch-wrap" onclick="showEssentialDetail(${sp.id || i+1},'${sp.name}')">
+        <div class="colour-swatch ${sp.id === id ? 'active' : ''}" style="background:${d.swatchBg};border-color:${sp.id === id ? 'var(--sulphur)' : 'rgba(0,0,0,.2)'}"></div>
+        <span class="colour-swatch-label">${d.label}</span>
+      </div>`;
+  }).join('');
+
+  // Related essentials (other 3)
+  const related = allProds.filter(rp => rp.id !== id).slice(0,4);
+  const relBgs = ['ess-dark-bg','ess-dark-bg2','ess-dark-bg3','ess-dark-bg4'];
+  const relatedHTML = related.map((rp, ri) => {
+    const rIdx = allProds.findIndex(x => x.id === rp.id);
+    const rData = ESS_DATA[rIdx] || ESS_DATA[ri];
+    const rPrice = rp.price || rp.regular_price || '28';
+    const rImg = rData.img0 || (rp.images && rp.images[0] ? rp.images[0].src : null);
+    return `
+      <div class="ess-related-card" onclick="showEssentialDetail(${rp.id},'${rp.name}')">
+        <div class="ess-related-card-img">
+          <div class="ess-related-card-img-bg ${relBgs[rIdx] || relBgs[ri]}" style="width:100%;height:100%;position:absolute;inset:0">
+            ${rImg ? `<img src="${rImg}" alt="${rData.shortName}" style="width:100%;height:100%;object-fit:cover">` : ''}
+          </div>
+        </div>
+        <div class="ess-related-card-name">${rData.shortName}</div>
+        <div class="ess-related-card-price">£${parseFloat(rPrice).toFixed(0)}</div>
+      </div>`;
+  }).join('');
+
+  const detailPage = document.createElement('div');
+  detailPage.id = 'page-ess-' + id;
+  detailPage.className = 'page ess-detail-page';
+  detailPage.innerHTML = `
+    <div class="ess-detail-back" onclick="showPage('essentials')">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="15 18 9 12 15 6"/></svg>
+      Back to Essentials
+    </div>
+
+    <!-- PURCHASE SECTION -->
+    <div class="ess-detail-layout">
+
+      <!-- Thumbnails (desktop) -->
+      <div class="ess-detail-thumbs">
+        <div class="ess-detail-thumb active" onclick="essSwitch(this, '${img0||''}', 'ess-main-${id}')">
+          ${img0 ? `<img src="${img0}" alt="Front">` : `<div class="ess-detail-thumb-ph ${data.bgClass}">01</div>`}
+        </div>
+        <div class="ess-detail-thumb" onclick="essSwitch(this, '${img1||''}', 'ess-main-${id}')">
+          ${img1 ? `<img src="${img1}" alt="Detail">` : `<div class="ess-detail-thumb-ph ${data.bgClass}">02</div>`}
+        </div>
+        <div class="ess-detail-thumb" onclick="essSwitch(this, '${img2||''}', 'ess-main-${id}')">
+          ${img2 ? `<img src="${img2}" alt="Back">` : `<div class="ess-detail-thumb-ph ${data.bgClass}">03</div>`}
+        </div>
+        <div class="ess-detail-thumb" onclick="essSwitch(this, '${img3||''}', 'ess-main-${id}')">
+          ${img3 ? `<img src="${img3}" alt="Lifestyle">` : `<div class="ess-detail-thumb-ph ${data.bgClass}">04</div>`}
+        </div>
+      </div>
+
+      <!-- Main image -->
+      <div class="ess-detail-main-img" id="ess-main-${id}">
+        ${img0 ? `<img src="${img0}" alt="${displayName}">` : `<div class="ess-detail-img-ph">[ ${displayName.toUpperCase()} — PHOTO COMING SOON ]</div>`}
+      </div>
+      <div class="ess-detail-dots">
+        <div class="ess-dot active"></div>
+        <div class="ess-dot"></div>
+        <div class="ess-dot"></div>
+        <div class="ess-dot"></div>
+      </div>
+
+      <!-- Purchase info -->
+      <div class="ess-detail-info">
+        <div class="ess-detail-eyebrow">BVX Essentials — Always On</div>
+        <h1 class="ess-detail-title">${displayName}</h1>
+        <div class="ess-detail-price">£${parseFloat(price).toFixed(2)} <span style="font-size:.65rem;opacity:.4;letter-spacing:.1em">GBP · INCL. VAT</span></div>
+
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;opacity:.45;margin-bottom:10px">Colour</div>
+          <div class="ess-colour-swatches">${swatches}</div>
+        </div>
+
+        <div class="size-section">
+          <div class="size-label-row">
+            <span class="size-label">Size</span>
+            <span style="font-family:'JetBrains Mono',monospace;font-size:.55rem;opacity:.35;cursor:pointer;text-decoration:underline">Size Guide</span>
+          </div>
+          <div class="sizes-row" id="sizes-${id}">
+            <button class="size-btn" onclick="selectEssSize(this,'S','${id}')">S</button>
+            <button class="size-btn active" onclick="selectEssSize(this,'M','${id}')">M</button>
+            <button class="size-btn" onclick="selectEssSize(this,'L','${id}')">L</button>
+            <button class="size-btn" onclick="selectEssSize(this,'XL','${id}')">XL</button>
+            <button class="size-btn" onclick="selectEssSize(this,'2XL','${id}')">2XL</button>
+          </div>
+        </div>
+
+        <div class="qty-section">
+          <div class="qty-label">Quantity</div>
+          <div class="qty-controls">
+            <button class="qty-ctrl-btn" onclick="changeEssQty('ess-qty-${id}',-1)">−</button>
+            <div class="qty-ctrl-val" id="ess-qty-${id}">1</div>
+            <button class="qty-ctrl-btn" onclick="changeEssQty('ess-qty-${id}',1)">+</button>
+          </div>
+        </div>
+
+        <div class="ess-btns-row">
+          <button class="btn-add-cart" onclick="addEssToCart(${p.id},'${displayName}',${parseFloat(price)},'ess-qty-${id}')">
+            Add to Cart →
+          </button>
+          <button class="btn-buy-now" onclick="buyNow(${p.id})">
+            Buy Now ↗
+          </button>
+        </div>
+
+        <div class="ess-ship-row">
+          <div class="ess-ship-item">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+            Free UK Shipping
+          </div>
+          <div class="ess-ship-item">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
+            Fulfilled by Printful
+          </div>
+        </div>
+
+        <div class="ess-detail-accordion">
+          <div class="ess-accordion-item" id="acc1-${id}">
+            <div class="ess-accordion-head" onclick="toggleAccordion('acc1-${id}')">Product Details <span class="ess-accordion-icon">+</span></div>
+            <div class="ess-accordion-body"><p class="ess-accordion-content">Heavyweight 280gsm cotton. Garment-dyed. Hand-embroidered BVX mark on the chest. Oversized fit. Built to live in.</p></div>
+          </div>
+          <div class="ess-accordion-item" id="acc2-${id}">
+            <div class="ess-accordion-head" onclick="toggleAccordion('acc2-${id}')">Materials <span class="ess-accordion-icon">+</span></div>
+            <div class="ess-accordion-body"><p class="ess-accordion-content">100% Heavyweight Cotton — 280gsm. Garment dyed. Pre-shrunk. Ribbed crew neck. Embroidered BVX chest badge.</p></div>
+          </div>
+          <div class="ess-accordion-item" id="acc3-${id}">
+            <div class="ess-accordion-head" onclick="toggleAccordion('acc3-${id}')">Care Instructions <span class="ess-accordion-icon">+</span></div>
+            <div class="ess-accordion-body"><p class="ess-accordion-content">Machine wash cold. Tumble dry low. Do not bleach. Iron on low heat. Wash inside out to preserve colour.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STORY SECTION -->
+    <div class="ess-story-section">
+      <div class="ess-story-layout">
+        <div class="ess-campaign-photo">
+          ${data.campaignPhotoDesktop
+            ? `<img src="${data.campaignPhotoDesktop}" alt="${displayName} Campaign" class="desktop-photo">`
+            : ''
+          }
+          ${data.campaignPhotoMobile
+            ? `<img src="${data.campaignPhotoMobile}" alt="${displayName} Campaign" class="mobile-photo">`
+            : ''
+          }
+          ${!data.campaignPhotoDesktop && !data.campaignPhotoMobile
+            ? `<div class="ess-campaign-ph">[ ${displayName.toUpperCase()} — CAMPAIGN PHOTO COMING SOON ]</div>`
+            : ''
+          }
+          <div class="ess-campaign-photo-right-fade"></div>
+        </div>
+        <div class="ess-story-inner">
+          <div class="ess-story-label">[ 01 ] The Story</div>
+          <h2 class="ess-story-title">${displayName.toUpperCase()}</h2>
+          <div class="ess-story-underline"></div>
+          <div class="ess-story-body" id="ess-story-body-${id}">
+            ${data.story
+              ? data.story.map(p => `<p>${p}</p>`).join('')
+              : `<p style="opacity:.3;font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:.1em">[ STORY COMING SOON ]</p>`
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- EDITORIAL DETAILS SECTION -->
+    <div class="ess-details-section">
+      <div class="ess-details-label">[ 02 ] Details</div>
+
+      <!-- 01 EMBROIDERY — full width -->
+      <div class="ess-detail-panel-full">
+        <div class="ess-detail-photo">
+          ${data.img3 ? `<img src="${data.img3}" alt="${displayName} Embroidery">` : `<div class="ess-detail-photo-ph">[ 01 / EMBROIDERY — MACRO PHOTO COMING SOON ]</div>`}
+        </div>
+        <div class="ess-detail-caption">
+          <div>
+            <div class="ess-detail-num">01 / Embroidery</div>
+            <div class="ess-detail-title">${data.details ? data.details.embroidery.title : 'The Mark'}</div>
+            <div class="ess-detail-desc">${data.details ? data.details.embroidery.desc : 'Premium BVX embroidery on chest.'}</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 02 CONSTRUCTION + 03 FABRIC — two column -->
+      <div class="ess-detail-panel-row">
+        <div class="ess-detail-panel-half">
+          <div class="ess-detail-photo">
+            <div class="ess-detail-photo-ph">[ 02 / CONSTRUCTION — COLLAR PHOTO COMING SOON ]</div>
+          </div>
+          <div class="ess-detail-caption">
+            <div class="ess-detail-num">02 / Construction</div>
+            <div class="ess-detail-title">${data.details ? data.details.construction.title : 'Neck Construction'}</div>
+            <div class="ess-detail-desc">${data.details ? data.details.construction.desc : 'High neck for structure and durability.'}</div>
+          </div>
+        </div>
+        <div class="ess-detail-panel-half">
+          <div class="ess-detail-photo">
+            <div class="ess-detail-photo-ph">[ 03 / FABRIC — TEXTURE PHOTO COMING SOON ]</div>
+          </div>
+          <div class="ess-detail-caption">
+            <div class="ess-detail-num">03 / Fabric</div>
+            <div class="ess-detail-title">${data.details ? data.details.fabric.title : '280gsm Cotton'}</div>
+            <div class="ess-detail-desc">${data.details ? data.details.fabric.desc : '280 GSM heavyweight cotton.'}</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 04 FIT — full width -->
+      <div class="ess-detail-panel-full">
+        <div class="ess-detail-photo">
+          ${data.img1 ? `<img src="${data.img1}" alt="${displayName} Fit">` : `<div class="ess-detail-photo-ph">[ 04 / FIT — MODEL PHOTO COMING SOON ]</div>`}
+        </div>
+        <div class="ess-detail-caption">
+          <div>
+            <div class="ess-detail-num">04 / Fit</div>
+            <div class="ess-detail-title">${data.details ? data.details.fit.title : 'Oversized Fit'}</div>
+            <div class="ess-detail-desc">${data.details ? data.details.fit.desc : 'Relaxed silhouette for everyday wear.'}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RELATED ESSENTIALS -->
+    <div class="ess-related-section">
+      <div class="ess-related-head">
+        <div class="ess-related-label">[ 03 ] Related Essentials</div>
+        <div class="view-all-link" onclick="showPage('essentials')">View All →</div>
+      </div>
+      <div class="ess-related-grid">${relatedHTML}</div>
+    </div>
+  `;
+
+  document.body.appendChild(detailPage);
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  detailPage.classList.add('active','fade-in');
+  setTimeout(() => detailPage.classList.remove('fade-in'), 850);
+  window.scrollTo({top:0,behavior:'smooth'});
+  history.pushState({page:'ess-'+id}, '', '#ess-'+id);
+  document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+  document.getElementById('nav-essentials').classList.add('active');
+
+  // Mobile swipe for image gallery
+  const swipeImgs = [img0, img1, img2, img3].filter(Boolean);
+  if(swipeImgs.length > 1){
+    const mainEl = document.getElementById('ess-main-'+id);
+    const dots = detailPage.querySelectorAll('.ess-dot');
+    let currentIdx = 0;
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    function goToImg(idx){
+      if(!swipeImgs[idx]) return;
+      currentIdx = idx;
+      let imgEl = mainEl.querySelector('img');
+      if(!imgEl){
+        imgEl = document.createElement('img');
+        imgEl.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:opacity .35s ease';
+        mainEl.innerHTML = '';
+        mainEl.appendChild(imgEl);
+      }
+      imgEl.style.opacity = '0';
+      setTimeout(() => {
+        imgEl.src = swipeImgs[idx];
+        imgEl.onload = () => { imgEl.style.opacity = '1'; };
+        imgEl.style.opacity = '1';
+      }, 150);
+      dots.forEach((d,i) => d.classList.toggle('active', i === idx));
+    }
+
+    mainEl.addEventListener('touchstart', e => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, {passive: true});
+
+    mainEl.addEventListener('touchmove', e => {
+      const diff = Math.abs(e.changedTouches[0].screenX - touchStartX);
+      if(diff > 10) e.preventDefault();
+    }, {passive: false});
+
+    mainEl.addEventListener('touchend', e => {
+      touchEndX = e.changedTouches[0].screenX;
+      const diff = touchStartX - touchEndX;
+      if(Math.abs(diff) > 40){
+        if(diff > 0 && currentIdx < swipeImgs.length - 1) goToImg(currentIdx + 1);
+        else if(diff < 0 && currentIdx > 0) goToImg(currentIdx - 1);
+      }
+    }, {passive: true});
+
+    dots.forEach((d, i) => {
+      d.addEventListener('click', () => goToImg(i));
+    });
+  }
+}
+
+function selectEssSize(el, size, id) {
+  selectedSize = size;
+  const container = document.getElementById('sizes-' + id);
+  if (container) container.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function changeEssQty(elId, delta) {
+  const el = document.getElementById(elId);
+  if (!el) return;
+  let val = parseInt(el.textContent) || 1;
+  val = Math.max(1, Math.min(10, val + delta));
+  el.textContent = val;
+}
+
+function addEssToCart(productId, name, price, qtyElId) {
+  const safeName = String(name).replace(/'/g,"&#39;").replace(/"/g,"&quot;");
+  const qtyEl = document.getElementById(qtyElId);
+  const qty = qtyEl ? parseInt(qtyEl.textContent) || 1 : 1;
+  const ex = cart.find(i => i.id === productId);
+  if (ex) { ex.qty += qty; } else { cart.push({id: productId, name: safeName, price: Number(price), qty, size: selectedSize||'M'}); }
+  updateCart();
+  showToast('Added to bag');
+  openCart();
+}
+
+function essSwitch(thumb, src, mainId) {
+  if (!src) return;
+  const main = document.getElementById(mainId);
+  if (main) {
+    let img = main.querySelector('img');
+    if (!img) {
+      img = document.createElement('img');
+      img.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:opacity .35s ease';
+      main.innerHTML = '';
+      main.appendChild(img);
+    }
+    img.style.opacity = '0';
+    setTimeout(() => {
+      img.src = src;
+      img.alt = 'Product image';
+      img.style.opacity = '1';
+    }, 150);
+  }
+  const container = thumb.closest('.ess-detail-thumbs');
+  if (container) container.querySelectorAll('.ess-detail-thumb').forEach(t => t.classList.remove('active'));
+  thumb.classList.add('active');
+}
+
+// ─── BVX CLUB PRODUCT DETAIL ────────────────────────────────────────────────────
+// Reuses the same premium detail-page template (ess-detail-* classes) as
+// Essentials — this is one reusable structure loading collection-specific
+// data, not a copy of the Essentials product. Container ID, back link,
+// related products, story and images are all BVX Club–specific.
+function showClubDetail(id, name) {
+  const existing = document.getElementById('page-club-detail-' + id);
+  if (existing) existing.remove();
+
+  const allProds = clubProducts.length > 0 ? clubProducts : getFallbackClub();
+  const p = allProds.find(prod => prod.id === id) || { id, name: name || 'BVX Club', price: '45', images: [] };
+  const clubIdx = getClubIndex(id);
+  const data = CLUB_DATA[clubIdx] || CLUB_DATA[0];
+  const price = p.price || p.regular_price || data.price;
+  const imgs = p.images || [];
+  const img0 = data.img0 || imgs[0]?.src || null;
+  const img1 = data.img1 || imgs[1]?.src || null;
+  const img2 = data.img2 || imgs[2]?.src || null;
+  const img3 = data.img3 || imgs[3]?.src || null;
+  const displayName = data.shortName;
+  const details = data.details || [];
+  const story = data.story || { label: 'BVX Club', title: displayName, paragraphs: [] };
+
+  // Swatches across all 4 Club colourways
+  const swatches = CLUB_DATA.map((d, i) => {
+    const sp = allProds[i] || getFallbackClub()[i];
+    return `
+      <div class="colour-swatch-wrap" onclick="showClubDetail(${sp.id || d.id},'${sp.name || d.name}')">
+        <div class="colour-swatch ${sp.id === id ? 'active' : ''}" style="background:${d.swatchBg};border-color:${sp.id === id ? 'var(--sulphur)' : 'rgba(0,0,0,.2)'}"></div>
+        <span class="colour-swatch-label">${d.label}</span>
+      </div>`;
+  }).join('');
+
+  // Related BVX Club products (other 3, never Essentials)
+  const related = allProds.filter(rp => rp.id !== id).slice(0,4);
+  const relatedHTML = related.map((rp, ri) => {
+    const rIdx = allProds.findIndex(x => x.id === rp.id);
+    const rData = CLUB_DATA[rIdx] || CLUB_DATA[ri] || CLUB_DATA[0];
+    const rPrice = rp.price || rp.regular_price || rData.price;
+    const rImg = rData.img0 || (rp.images && rp.images[0] ? rp.images[0].src : null);
+    return `
+      <div class="ess-related-card" onclick="showClubDetail(${rp.id},'${rp.name}')">
+        <div class="ess-related-card-img">
+          <div class="ess-related-card-img-bg ${rData.cls}" style="width:100%;height:100%;position:absolute;inset:0">
+            ${rImg ? `<img src="${rImg}" alt="${rData.shortName}" style="width:100%;height:100%;object-fit:cover">` : ''}
+          </div>
+        </div>
+        <div class="ess-related-card-name">${rData.shortName}</div>
+        <div class="ess-related-card-price">£${parseFloat(rPrice).toFixed(0)}</div>
+      </div>`;
+  }).join('');
+
+  const detailPage = document.createElement('div');
+  detailPage.id = 'page-club-detail-' + id;
+  detailPage.className = 'page ess-detail-page';
+  detailPage.innerHTML = `
+    <div class="ess-detail-back" onclick="showPage('club')">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="15 18 9 12 15 6"/></svg>
+      Back to BVX Club
+    </div>
+
+    <!-- PURCHASE SECTION -->
+    <div class="ess-detail-layout">
+
+      <!-- Thumbnails (desktop) -->
+      <div class="ess-detail-thumbs">
+        <div class="ess-detail-thumb active" onclick="essSwitch(this, '${img0||''}', 'club-main-${id}')">
+          ${img0 ? `<img src="${img0}" alt="Front">` : `<div class="ess-detail-thumb-ph ${data.cls}">01</div>`}
+        </div>
+        <div class="ess-detail-thumb" onclick="essSwitch(this, '${img1||''}', 'club-main-${id}')">
+          ${img1 ? `<img src="${img1}" alt="Detail">` : `<div class="ess-detail-thumb-ph ${data.cls}">02</div>`}
+        </div>
+        <div class="ess-detail-thumb" onclick="essSwitch(this, '${img2||''}', 'club-main-${id}')">
+          ${img2 ? `<img src="${img2}" alt="Back">` : `<div class="ess-detail-thumb-ph ${data.cls}">03</div>`}
+        </div>
+        <div class="ess-detail-thumb" onclick="essSwitch(this, '${img3||''}', 'club-main-${id}')">
+          ${img3 ? `<img src="${img3}" alt="Lifestyle">` : `<div class="ess-detail-thumb-ph ${data.cls}">04</div>`}
+        </div>
+      </div>
+
+      <!-- Main image -->
+      <div class="ess-detail-main-img" id="club-main-${id}">
+        ${img0 ? `<img src="${img0}" alt="${displayName}">` : `<div class="ess-detail-img-ph">[ ${displayName.toUpperCase()} — PHOTO COMING SOON ]</div>`}
+      </div>
+      <div class="ess-detail-dots">
+        <div class="ess-dot active"></div>
+        <div class="ess-dot"></div>
+        <div class="ess-dot"></div>
+        <div class="ess-dot"></div>
+      </div>
+
+      <!-- Purchase info -->
+      <div class="ess-detail-info">
+        <div class="ess-detail-eyebrow">BVX Club</div>
+        <h1 class="ess-detail-title">${displayName}</h1>
+        <div class="ess-detail-price">£${parseFloat(price).toFixed(2)} <span style="font-size:.65rem;opacity:.4;letter-spacing:.1em">GBP · INCL. VAT</span></div>
+
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;opacity:.45;margin-bottom:10px">Colour</div>
+          <div class="ess-colour-swatches">${swatches}</div>
+        </div>
+
+        <div class="size-section">
+          <div class="size-label-row">
+            <span class="size-label">Size</span>
+            <span style="font-family:'JetBrains Mono',monospace;font-size:.55rem;opacity:.35;cursor:pointer;text-decoration:underline">Size Guide</span>
+          </div>
+          <div class="sizes-row" id="sizes-club-${id}">
+            <button class="size-btn" onclick="selectEssSize(this,'S','club-${id}')">S</button>
+            <button class="size-btn active" onclick="selectEssSize(this,'M','club-${id}')">M</button>
+            <button class="size-btn" onclick="selectEssSize(this,'L','club-${id}')">L</button>
+            <button class="size-btn" onclick="selectEssSize(this,'XL','club-${id}')">XL</button>
+            <button class="size-btn" onclick="selectEssSize(this,'2XL','club-${id}')">2XL</button>
+          </div>
+        </div>
+
+        <div class="qty-section">
+          <div class="qty-label">Quantity</div>
+          <div class="qty-controls">
+            <button class="qty-ctrl-btn" onclick="changeEssQty('club-qty-${id}',-1)">−</button>
+            <div class="qty-ctrl-val" id="club-qty-${id}">1</div>
+            <button class="qty-ctrl-btn" onclick="changeEssQty('club-qty-${id}',1)">+</button>
+          </div>
+        </div>
+
+        <div class="ess-btns-row">
+          <button class="btn-add-cart" onclick="addEssToCart(${p.id},'${displayName}',${parseFloat(price)},'club-qty-${id}')">
+            Add to Cart →
+          </button>
+          <button class="btn-buy-now" onclick="buyNow(${p.id})">
+            Buy Now ↗
+          </button>
+        </div>
+
+        <div class="ess-ship-row">
+          <div class="ess-ship-item">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+            Free UK Shipping
+          </div>
+          <div class="ess-ship-item">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
+            Fulfilled by Printful
+          </div>
+        </div>
+
+        <div class="ess-detail-accordion">
+          <div class="ess-accordion-item" id="club-acc1-${id}">
+            <div class="ess-accordion-head" onclick="toggleAccordion('club-acc1-${id}')">Product Details <span class="ess-accordion-icon">+</span></div>
+            <div class="ess-accordion-body"><p class="ess-accordion-content">Jersey-weight breathable cotton blend. Embroidered BVX Club crest. Ribbed collar. Permanent, always-on colourway.</p></div>
+          </div>
+          <div class="ess-accordion-item" id="club-acc2-${id}">
+            <div class="ess-accordion-head" onclick="toggleAccordion('club-acc2-${id}')">Materials <span class="ess-accordion-icon">+</span></div>
+            <div class="ess-accordion-body"><p class="ess-accordion-content">Lightweight mesh-weave cotton blend. Pre-shrunk. Ribbed v-neck collar. Embroidered club crest.</p></div>
+          </div>
+          <div class="ess-accordion-item" id="club-acc3-${id}">
+            <div class="ess-accordion-head" onclick="toggleAccordion('club-acc3-${id}')">Care Instructions <span class="ess-accordion-icon">+</span></div>
+            <div class="ess-accordion-body"><p class="ess-accordion-content">Machine wash cold. Tumble dry low. Do not bleach. Iron on low heat. Wash inside out to preserve colour.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STORY SECTION -->
+    <div class="ess-story-section">
+      <div class="ess-story-layout">
+        <div class="ess-campaign-photo">
+          ${data.campaignPhotoDesktop
+            ? `<img src="${data.campaignPhotoDesktop}" alt="${displayName} Campaign" class="desktop-photo">`
+            : ''
+          }
+          ${data.campaignPhotoMobile
+            ? `<img src="${data.campaignPhotoMobile}" alt="${displayName} Campaign" class="mobile-photo">`
+            : ''
+          }
+          ${!data.campaignPhotoDesktop && !data.campaignPhotoMobile
+            ? `<div class="ess-campaign-ph">[ ${displayName.toUpperCase()} — CAMPAIGN PHOTO COMING SOON ]</div>`
+            : ''
+          }
+          <div class="ess-campaign-photo-right-fade"></div>
+        </div>
+        <div class="ess-story-inner">
+          <div class="ess-story-label">${story.label}</div>
+          <h2 class="ess-story-title">${story.title.toUpperCase()}</h2>
+          <div class="ess-story-underline"></div>
+          <div class="ess-story-body" id="club-story-body-${id}">
+            ${story.paragraphs && story.paragraphs.length
+              ? story.paragraphs.map(par => `<p>${par}</p>`).join('')
+              : `<p style="opacity:.3;font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:.1em">[ STORY COMING SOON ]</p>`
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- EDITORIAL DETAILS SECTION -->
+    <div class="ess-details-section">
+      <div class="ess-details-label">[ 02 ] Details</div>
+
+      <!-- 01 BRANDING — full width -->
+      <div class="ess-detail-panel-full">
+        <div class="ess-detail-photo">
+          ${details[0] && details[0].image ? `<img src="${details[0].image}" alt="${displayName} ${details[0].title}">` : `<div class="ess-detail-photo-ph">[ 01 / BRANDING — MACRO PHOTO COMING SOON ]</div>`}
+        </div>
+        <div class="ess-detail-caption">
+          <div>
+            <div class="ess-detail-num">${details[0] ? details[0].number : '01'} / ${details[0] ? details[0].title : 'Branding'}</div>
+            <div class="ess-detail-title">${details[0] ? details[0].title : 'Branding'}</div>
+            <div class="ess-detail-desc">${details[0] ? details[0].description : 'Embroidered BVX Club crest.'}</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 02 CONSTRUCTION + 03 FABRIC — two column -->
+      <div class="ess-detail-panel-row">
+        <div class="ess-detail-panel-half">
+          <div class="ess-detail-photo">
+            ${details[1] && details[1].image ? `<img src="${details[1].image}" alt="${displayName} ${details[1].title}">` : `<div class="ess-detail-photo-ph">[ 02 / CONSTRUCTION — PHOTO COMING SOON ]</div>`}
+          </div>
+          <div class="ess-detail-caption">
+            <div class="ess-detail-num">${details[1] ? details[1].number : '02'} / ${details[1] ? details[1].title : 'Construction'}</div>
+            <div class="ess-detail-title">${details[1] ? details[1].title : 'Construction'}</div>
+            <div class="ess-detail-desc">${details[1] ? details[1].description : 'Reinforced seams built to last.'}</div>
+          </div>
+        </div>
+        <div class="ess-detail-panel-half">
+          <div class="ess-detail-photo">
+            ${details[2] && details[2].image ? `<img src="${details[2].image}" alt="${displayName} ${details[2].title}">` : `<div class="ess-detail-photo-ph">[ 03 / FABRIC — TEXTURE PHOTO COMING SOON ]</div>`}
+          </div>
+          <div class="ess-detail-caption">
+            <div class="ess-detail-num">${details[2] ? details[2].number : '03'} / ${details[2] ? details[2].title : 'Fabric'}</div>
+            <div class="ess-detail-title">${details[2] ? details[2].title : 'Fabric'}</div>
+            <div class="ess-detail-desc">${details[2] ? details[2].description : 'Lightweight breathable cotton blend.'}</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 04 FIT — full width -->
+      <div class="ess-detail-panel-full">
+        <div class="ess-detail-photo">
+          ${details[3] && details[3].image ? `<img src="${details[3].image}" alt="${displayName} ${details[3].title}">` : `<div class="ess-detail-photo-ph">[ 04 / FIT — MODEL PHOTO COMING SOON ]</div>`}
+        </div>
+        <div class="ess-detail-caption">
+          <div>
+            <div class="ess-detail-num">${details[3] ? details[3].number : '04'} / ${details[3] ? details[3].title : 'Fit'}</div>
+            <div class="ess-detail-title">${details[3] ? details[3].title : 'Fit'}</div>
+            <div class="ess-detail-desc">${details[3] ? details[3].description : 'True to size, athletic cut.'}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RELATED BVX CLUB -->
+    <div class="ess-related-section">
+      <div class="ess-related-head">
+        <div class="ess-related-label">[ 03 ] Related BVX Club</div>
+        <div class="view-all-link" onclick="showPage('club')">View All →</div>
+      </div>
+      <div class="ess-related-grid">${relatedHTML}</div>
+    </div>
+  `;
+
+  document.body.appendChild(detailPage);
+  document.querySelectorAll('.page').forEach(pg => pg.classList.remove('active'));
+  detailPage.classList.add('active','fade-in');
+  setTimeout(() => detailPage.classList.remove('fade-in'), 850);
+  window.scrollTo({top:0,behavior:'smooth'});
+  history.pushState({page:'club-'+id}, '', '#club-'+id);
+  document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+  document.getElementById('nav-club').classList.add('active');
+
+  // Mobile swipe for image gallery
+  const swipeImgs = [img0, img1, img2, img3].filter(Boolean);
+  if(swipeImgs.length > 1){
+    const mainEl = document.getElementById('club-main-'+id);
+    const dots = detailPage.querySelectorAll('.ess-dot');
+    let currentIdx = 0;
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    function goToImg(idx){
+      if(!swipeImgs[idx]) return;
+      currentIdx = idx;
+      let imgEl = mainEl.querySelector('img');
+      if(!imgEl){
+        imgEl = document.createElement('img');
+        imgEl.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:opacity .35s ease';
+        mainEl.innerHTML = '';
+        mainEl.appendChild(imgEl);
+      }
+      imgEl.style.opacity = '0';
+      setTimeout(() => {
+        imgEl.src = swipeImgs[idx];
+        imgEl.onload = () => { imgEl.style.opacity = '1'; };
+        imgEl.style.opacity = '1';
+      }, 150);
+      dots.forEach((d,i) => d.classList.toggle('active', i === idx));
+    }
+
+    mainEl.addEventListener('touchstart', e => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, {passive: true});
+
+    mainEl.addEventListener('touchmove', e => {
+      const diff = Math.abs(e.changedTouches[0].screenX - touchStartX);
+      if(diff > 10) e.preventDefault();
+    }, {passive: false});
+
+    mainEl.addEventListener('touchend', e => {
+      touchEndX = e.changedTouches[0].screenX;
+      const diff = touchStartX - touchEndX;
+      if(Math.abs(diff) > 40){
+        if(diff > 0 && currentIdx < swipeImgs.length - 1) goToImg(currentIdx + 1);
+        else if(diff < 0 && currentIdx > 0) goToImg(currentIdx - 1);
+      }
+    }, {passive: true});
+
+    dots.forEach((d, i) => {
+      d.addEventListener('click', () => goToImg(i));
+    });
+  }
+}
+
+// ─── FALLBACKS ────────────────────────────────────────────────────────────────
+function getFallbackEssentials() {
+  return [
+    { id: 1, name: 'BVX Essential Tee — First Light', price: '28', images: [] },
+    { id: 2, name: 'BVX Essential Tee — Playground Dust', price: '28', images: [] },
+    { id: 3, name: 'BVX Essential Tee — The Final Boss', price: '28', images: [] },
+    { id: 4, name: 'BVX Essential Tee — After Hours', price: '28', images: [] },
+  ];
+}
+
+function renderFallback() {
+  const dropEl = document.getElementById('homeDropSection');
+  if (dropEl) dropEl.innerHTML = renderFallbackDrop();
+  const clubEl = document.getElementById('homeClubGrid');
+  if (clubEl) {
+    clubProducts = getFallbackClub();
+    renderHomeClub();
+  }
+  const clubPage = document.getElementById('clubPageGrid');
+  if (clubPage) {
+    clubProducts = getFallbackClub();
+    renderClubPage();
+  }
+  const essEl = document.getElementById('homeEssentialsGrid');
+  if (essEl) {
+    essentialProducts = getFallbackEssentials();
+    renderHomeEssentials();
+  }
+  const essPage = document.getElementById('essentialsPageGrid');
+  if (essPage) {
+    essentialProducts = getFallbackEssentials();
+    renderEssentialsPage();
+  }
+  const dropPage = document.getElementById('dropPageContent');
+  if (dropPage) { dropPage.innerHTML = renderFallbackDropPage(); initDropMainSwipe(); renderDropStoryDetails(); renderDropPostNewsletter(); }
+}
+
+function renderFallbackDrop() {
+  return `
+    <div class="drop-img-wrap reveal"><img src="https://shop.bvxlondon.uk/wp-content/uploads/2026/07/tilefresh-2-scaled.jpeg" alt="Captain Croak"></div>
+    <div class="drop-info reveal">
+      <div class="section-eyebrow">[ 01 ] The Current Drop</div>
+      <h2 class="drop-title-home">CAPTAIN CROAK - DROP 001</h2>
+      <div class="drop-price-home">£58.00 <small>GBP · INCL. VAT</small></div>
+      <div class="stock-wrap">
+        <div class="stock-labels"><span>Stock Remaining</span><span>34 / 120</span></div>
+        <div class="stock-track"><div class="stock-fill" id="homeStockFill" style="width:28%"></div></div>
+      </div>
+      <div class="drop-story-home">Cut from 280gsm heavyweight cotton, garment-dyed in a Leytonstone wash-house. Hand-embroidered Cheeky Monkey on the chest. Limited to 120 pieces.</div>
+      <div class="drop-btns">
+        <div class="btn-secondary" onclick="showPage('drop')" style="flex:1;justify-content:center">View The Drop →</div>
+        <div class="btn-primary" onclick="showPage('drop')" style="flex:1;justify-content:center">Shop Now ↗</div>
+      </div>
+    </div>
+  `;
+}
+
+function renderFallbackDropPage() {
+  return `
+    <div class="ess-detail-thumbs">${dropThumbsHTML()}</div>
+    <div class="ess-detail-main-img">
+      <img src="${dropGallerySrc(dropGalleryIdx)}" alt="Captain Croak" id="dropMainImg">
+      <button class="drop-gallery-arrow drop-gallery-arrow-left" onclick="dropGalleryPrev()" aria-label="Previous image">‹</button>
+      <button class="drop-gallery-arrow drop-gallery-arrow-right" onclick="dropGalleryNext()" aria-label="Next image">›</button>
+    </div>
+    <div class="ess-detail-info">
+      <div class="drop-series">Captain Croak Series</div>
+      <h1 class="drop-title-big">CAPTAIN CROAK - DROP 001</h1>
+      <div class="drop-price-row"><span class="drop-price-big">£58.00</span><span class="drop-price-note">GBP · INCL. VAT</span></div>
+      <div class="stock-section">
+        <div class="stock-row"><span>Stock Remaining</span><span>34 / 120</span></div>
+        <div class="stock-track"><div class="stock-fill" id="dropStockFill" style="width:28%"></div></div>
+      </div>
+      <div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;opacity:.45;margin-bottom:10px">Colour</div>
+        <div class="ess-colour-swatches">${dropColourSwatchesHTML(selectedDropColourIdx)}</div>
+      </div>
+      <div class="size-section">
+        <div class="size-label-row"><span class="size-label">Size</span></div>
+        <div class="sizes-row">
+          <button class="size-btn" onclick="selectSize(this,'S')">S</button>
+          <button class="size-btn active" onclick="selectSize(this,'M')">M</button>
+          <button class="size-btn" onclick="selectSize(this,'L')">L</button>
+          <button class="size-btn" onclick="selectSize(this,'XL')">XL</button>
+        </div>
+      </div>
+      <div class="btn-secondary" style="justify-content:center" onclick="goCheckout()">Add to Cart →</div>
+      <div class="btn-primary" style="justify-content:center" onclick="goCheckout()">Buy Now ↗</div>
+    </div>
+  `;
+}
+
+// ─── CURSOR ───────────────────────────────────────────────────────────────────
+const cur = document.getElementById('cursor'), ring = document.getElementById('cursorRing');
+let mx=0,my=0,rx=0,ry=0;
+if(window.innerWidth>768){
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'});
+  (function animRing(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animRing)})();
+  document.querySelectorAll('a,button,[onclick]').forEach(el=>{
+    el.addEventListener('mouseenter',()=>{cur.style.width='18px';cur.style.height='18px'});
+    el.addEventListener('mouseleave',()=>{cur.style.width='10px';cur.style.height='10px'});
+  });
+}
+
+// ─── NAVBAR ───────────────────────────────────────────────────────────────────
+window.addEventListener('scroll',()=>{
+  document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>20);
+});
+
+// ─── PAGE NAVIGATION ──────────────────────────────────────────────────────────
+let pageTransitioning = false;
+
+function showPage(page, addHistory=true) {
+  const current = document.querySelector('.page.active');
+  const next = document.getElementById('page-'+page);
+  if (!next || current === next) return;
+  if (pageTransitioning) return;
+
+  const reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const enterNext = () => {
+    next.classList.add('active', reducedMotion ? 'fade-in' : 'page-enter');
+
+    // Re-evaluate reveal elements belonging to the entering page so their
+    // animations replay naturally, without touching product-card hovers.
+    next.querySelectorAll('.reveal.visible').forEach(el => el.classList.remove('visible'));
+
+    document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+    const navEl = document.getElementById('nav-'+page);
+    if (navEl) navEl.classList.add('active');
+
+    window.scrollTo({top:0, behavior: reducedMotion ? 'auto' : 'smooth'});
+    setTimeout(() => observeReveal(), 80);
+
+    if (addHistory) history.pushState({page}, '', '#'+page);
+    if (page==='home') setTimeout(() => { const f=document.getElementById('homeStockFill'); if(f) f.style.width='28%'; }, 500);
+    if (page==='drop') setTimeout(() => { const f=document.getElementById('dropStockFill'); if(f) f.style.width='28%'; }, 500);
+
+    const enterDuration = reducedMotion ? 0 : 850;
+    setTimeout(() => {
+      next.classList.remove('page-enter', 'fade-in');
+      pageTransitioning = false;
+    }, enterDuration);
+  };
+
+  pageTransitioning = true;
+
+  if (!current || reducedMotion) {
+    if (current) current.classList.remove('active', 'page-exit');
+    enterNext();
+    return;
+  }
+
+  current.classList.add('page-exit');
+  setTimeout(() => {
+    current.classList.remove('active', 'page-exit');
+    enterNext();
+  }, 320);
+}
+
+window.addEventListener('popstate', e=>{
+  if(e.state?.page){
+    if(e.state.page.startsWith('ess-')){
+      const id = parseInt(e.state.page.replace('ess-',''));
+      showEssentialDetail(id);
+    } else if(e.state.page.startsWith('club-')){
+      const id = parseInt(e.state.page.replace('club-',''));
+      showClubDetail(id);
+    } else {
+      showPage(e.state.page, false);
+    }
+  } else {
+    showPage('home', false);
+  }
+});
+
+window.addEventListener('load',()=>{
+  const initialHash = window.location.hash.replace('#','');
+  if(!initialHash || initialHash === 'home'){
+    history.replaceState({page:'home'},'','#home');
+  }
+});
+
+
+// ─── MOBILE MENU ──────────────────────────────────────────────────────────────
+let menuOpen = false;
+function toggleMenu(){
+  menuOpen=!menuOpen;
+  document.getElementById('mobileMenu').classList.toggle('open',menuOpen);
+  const b1=document.getElementById('mb1'),b2=document.getElementById('mb2');
+  if(menuOpen){b1.style.transform='translateY(7px) rotate(45deg)';b2.style.transform='translateY(-7px) rotate(-45deg)'}
+  else{b1.style.transform='';b2.style.transform=''}
+}
+function closeMenu(){
+  menuOpen=false;
+  const btn = document.querySelector('.mobile-menu-close');
+  if(btn){ btn.classList.add('spinning'); setTimeout(()=>btn.classList.remove('spinning'),300); }
+  document.getElementById('mobileMenu').classList.remove('open');
+  document.getElementById('mb1').style.transform='';
+  document.getElementById('mb2').style.transform='';
+}
+
+// ─── CART ─────────────────────────────────────────────────────────────────────
+let cart = [];
+function addDropToCart(el) {
+  let productId = parseInt(el.dataset.id);
+  if(isNaN(productId)) productId = dropProduct ? dropProduct.id : 999;
+  const price = parseFloat(el.dataset.price) || 58;
+  const name = 'Captain Croak Tee';
+  const colour = (DROP_COLOURS[selectedDropColourIdx] || DROP_COLOURS[0]).label;
+  const ex = cart.find(i => i.id === productId);
+  if(ex){ex.qty++}else{cart.push({id:productId, name, price, qty:1, size:selectedSize||'M', colour})}
+  updateCart();
+  showToast('Added to bag');
+  openCart();
+}
+
+function addToCartWoo(productId, name, price) {
+  const safeName = String(name).replace(/'/g,"&#39;").replace(/"/g,"&quot;");
+  const ex = cart.find(i=>i.id===productId);
+  if(ex){ex.qty++}else{cart.push({id:productId,name:safeName,price:Number(price),qty:1,size:selectedSize||'M'})}
+  updateCart();
+  showToast('Added to bag');
+  openCart();
+}
+function updateCart(){
+  const count=cart.reduce((s,i)=>s+i.qty,0);
+  const total=cart.reduce((s,i)=>s+(Number(i.price)*i.qty),0);
+  document.getElementById('cartCount').textContent=count;
+  document.getElementById('navBadge').textContent=count;
+  document.getElementById('cartTotalVal').textContent=`£${total.toFixed(2)}`;
+  const body=document.getElementById('cartBody');
+  if(!cart.length){body.innerHTML='<div class="cart-empty-msg"><span>🛍</span><span>Your bag is empty</span></div>';return}
+  body.innerHTML=cart.map((item,idx)=>`
+    <div class="cart-item">
+      <div class="cart-item-img">TEE</div>
+      <div class="cart-item-info">
+        <div class="cart-item-name">${item.name}</div>
+        <div class="cart-item-meta">Size ${item.size||'M'}${item.colour ? ' · '+item.colour : ''} · BVX London</div>
+        <div class="cart-qty-row">
+          <button class="qty-btn" onclick="changeQty(${idx},-1)">−</button>
+          <span class="qty-val">${item.qty}</span>
+          <button class="qty-btn" onclick="changeQty(${idx},1)">+</button>
+        </div>
+      </div>
+      <div class="cart-item-price">£${(Number(item.price)*item.qty).toFixed(2)}</div>
+    </div>
+  `).join('');
+}
+function changeQty(idx,d){
+  if(!cart[idx])return;
+  cart[idx].qty+=d;
+  if(cart[idx].qty<=0)cart.splice(idx,1);
+  updateCart();
+}
+function openCart(){document.getElementById('cartDrawer').classList.add('open');document.getElementById('cartOverlay').classList.add('open')}
+function closeCart(){document.getElementById('cartDrawer').classList.remove('open');document.getElementById('cartOverlay').classList.remove('open')}
+function goCheckout(){
+  if(cart.length===0){showToast('Your bag is empty!');return}
+  window.open(CHECKOUT_URL,'_blank');
+}
+function buyNow(productId){
+  window.open(`${WOO.url}/checkout/?add-to-cart=${productId}`,'_blank');
+}
+
+// ─── SIZE ─────────────────────────────────────────────────────────────────────
+function selectSize(el,size){
+  selectedSize=size;
+  const row=el.closest('.sizes-row');
+  if(row){row.querySelectorAll('.size-btn').forEach(b=>b.classList.remove('active'));}
+  el.classList.add('active');
+}
+
+// ─── IMAGE SWITCH (Shop Drop) ───────────────────────────────────────────────
+// Shared fade transition — used by thumbnail clicks, colour-swatch clicks,
+// and swipe, so any main-image change on this page feels identical: a soft
+// cross-fade only, no horizontal movement.
+function animateDropMainImage(newSrc){
+  const main = document.getElementById('dropMainImg');
+  if(!main || !newSrc || main.getAttribute('src') === newSrc) return;
+
+  const reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(reducedMotion){
+    main.src = newSrc;
+    return;
+  }
+
+  main.style.transition = 'opacity .28s ease';
+  main.style.opacity = '0';
+
+  setTimeout(() => {
+    main.src = newSrc;
+    main.style.opacity = '1';
+  }, 280);
+}
+
+function switchImg(idx){
+  goToDropGalleryIndex(idx);
+}
+
+// Swipe support on the main image — steps through the same 6-image global
+// loop as thumbnails/arrows/colour swatches, wrapping infinitely both ways.
+function initDropMainSwipe(){
+  const mainBox = document.querySelector('.ess-detail-main-img');
+  if(!mainBox) return;
+  let touchStartX = 0;
+  mainBox.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].screenX; }, {passive:true});
+  mainBox.addEventListener('touchend', e => {
+    const diff = touchStartX - e.changedTouches[0].screenX;
+    if(Math.abs(diff) < 40) return;
+    if(diff > 0) dropGalleryNext(); else dropGalleryPrev();
+  }, {passive:true});
+}
+
+// ─── ACCORDION ────────────────────────────────────────────────────────────────
+function toggleAccordion(id){
+  const item=document.getElementById(id);
+  if(item)item.classList.toggle('open');
+}
+
+// ─── TOAST ────────────────────────────────────────────────────────────────────
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2600);
+}
+
+// ─── NEWSLETTER ───────────────────────────────────────────────────────────────
+function subscribeEmail(inputId){
+  const v=document.getElementById(inputId)?.value;
+  if(v&&v.includes('@')){showToast("You're on the list — welcome to BVX!");document.getElementById(inputId).value=''}
+  else showToast('Please enter a valid email');
+}
+
+// ─── REVEAL ───────────────────────────────────────────────────────────────────
+function observeReveal(){
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach((e,i)=>{if(e.isIntersecting)setTimeout(()=>e.target.classList.add('visible'),i*80)});
+  },{threshold:.08});
+  document.querySelectorAll('.reveal:not(.visible)').forEach(el=>obs.observe(el));
+}
+
+// ─── EDITORIAL COLLECTION HERO (Club / Essentials) ─────────────────────────────
+// Slide data lives in one place per collection so the homepage hero and the
+// dedicated collection-page hero render identically. Replace `image` with a
+// real campaign photo URL whenever one becomes available — everything else
+// (placeholder, layout, slideshow) keeps working unchanged.
+const CLUB_HERO_SLIDES = [
+  { image: 'https://shop.bvxlondon.uk/wp-content/uploads/2026/07/9C864B15-916C-4239-B007-9626E73F543D.jpeg',
+    tabletImage: 'https://shop.bvxlondon.uk/wp-content/uploads/2026/07/5E2F0AB5-4383-4813-8FA1-E6C592A8F5A9.jpeg',
+    mobileImage: 'https://shop.bvxlondon.uk/wp-content/uploads/2026/07/5E523B53-7695-416F-B6C3-530769E15EE8.jpeg' },
+  { image: 'https://shop.bvxlondon.uk/wp-content/uploads/2026/07/0E195116-E4C9-448E-9E8D-DA9B7A3ACB58.jpeg',
+    tabletImage: 'https://shop.bvxlondon.uk/wp-content/uploads/2026/07/C8B2CB12-87EA-474E-B75F-DFA7648DE9EA.jpeg',
+    mobileImage: 'https://shop.bvxlondon.uk/wp-content/uploads/2026/07/3EAF7101-E7BE-434E-9F10-61B932D2FFED.jpeg' },
+  { image: 'https://shop.bvxlondon.uk/wp-content/uploads/2026/07/D312CEA1-335A-40C3-935C-30A306CC269A.jpeg',
+    tabletImage: 'https://shop.bvxlondon.uk/wp-content/uploads/2026/07/1C6DDAAD-1E15-49E6-8DFE-D632BEE57A79.jpeg',
+    mobileImage: 'https://shop.bvxlondon.uk/wp-content/uploads/2026/07/9F6D87A3-5FEF-4EAE-9EDA-C685156F7181.jpeg' },
+  { image: 'https://shop.bvxlondon.uk/wp-content/uploads/2026/07/ADF7E697-BB1C-414C-A90A-66341FD732D6.jpeg',
+    tabletImage: 'https://shop.bvxlondon.uk/wp-content/uploads/2026/07/FB213589-C6AA-4294-9AD7-E8DF3586DABC.jpeg',
+    mobileImage: 'https://shop.bvxlondon.uk/wp-content/uploads/2026/07/41316866-92A4-4352-A110-4A788FF5DB3F.jpeg' },
+  { image: 'https://shop.bvxlondon.uk/wp-content/uploads/2026/07/3038ACD0-AA40-4D72-BDEB-986BD6C8567C.jpeg',
+    tabletImage: 'https://shop.bvxlondon.uk/wp-content/uploads/2026/07/E66CDB33-5858-4173-AEB1-AB56DD5671F4.jpeg',
+    mobileImage: 'https://shop.bvxlondon.uk/wp-content/uploads/2026/07/BA0698BD-A4B3-4E1B-ABCC-6A7222B9D2BC.jpeg' },
+];
+const ESS_HERO_SLIDES = [
+  { label: '[ FIRST LIGHT — CAMPAIGN PHOTO COMING SOON ]', image: '', phStyle: 'background:linear-gradient(145deg,#E8E4DC 0%,#D4CEC4 100%);color:rgba(0,0,0,.35)' },
+  { label: '[ PLAYGROUND DUST — CAMPAIGN PHOTO COMING SOON ]', image: '', phStyle: 'background:linear-gradient(145deg,#C8BBA8 0%,#A89880 100%);color:rgba(0,0,0,.35)' },
+  { image: 'https://shop.bvxlondon.uk/wp-content/uploads/2026/05/finalbossstorydesktop.png' },
+  { image: 'https://shop.bvxlondon.uk/wp-content/uploads/2026/06/afterhoursdesktop.png' },
+];
+
+const CLUB_HERO_COPY = {
+  eyebrow: '[ 02 ] Jersey Division',
+  title: 'BVX Club.',
+  subParas: ['Built like a uniform.', 'Worn like a warning.', 'Always part of the club.'],
+  targetPage: 'club',
+};
+const ESS_HERO_COPY = {
+  eyebrow: '[ 03 ] Always On / Foundation',
+  title: 'BVX Essentials.',
+  subParas: ['Not limited.', 'Not seasonal.', 'Not going anywhere.'],
+  targetPage: 'essentials',
+};
+
+// Renders one hero instance into a container. Called once per container so
+// the homepage hero and the collection-page hero are built from the exact
+// same markup/data and stay visually identical.
+function renderCollectionHero(containerId, prefix, copy, slides, countId, showButton=true){
+  const el = document.getElementById(containerId);
+  if (!el) return;
+
+  const slidesHTML = slides.map((s,i)=>{
+    if (s.image){
+      const mobileImg = s.mobileImage || s.image;
+      const tabletLayer = s.tabletImage
+        ? `<div class="${prefix}-hero-slide-bg ${prefix}-hero-slide-bg-tablet" style="background-image:url('${s.tabletImage}')"></div>`
+        : '';
+      return `<div class="${prefix}-hero-slide${i===0?' active':''}" data-slide="${i}">
+        <div class="${prefix}-hero-slide-bg ${prefix}-hero-slide-bg-desktop" style="background-image:url('${s.image}')"></div>
+        ${tabletLayer}
+        <div class="${prefix}-hero-slide-bg ${prefix}-hero-slide-bg-mobile" style="background-image:url('${mobileImg}')"></div>
+      </div>`;
+    }
+    return `<div class="${prefix}-hero-slide${i===0?' active':''}" data-slide="${i}"><div class="${prefix}-hero-slide-ph${s.bgClass?' '+s.bgClass:''}"${s.phStyle?` style="${s.phStyle}"`:''}>${s.label||''}</div></div>`;
+  }).join('');
+
+  const barsHTML = slides.map((_,i)=>`<div class="${prefix}-hero-bar${i===0?' active':''}"><div class="${prefix}-hero-bar-fill"></div></div>`).join('');
+
+  el.innerHTML = `
+    <div class="${prefix}-hero-slides">${slidesHTML}</div>
+    <div class="${prefix}-hero-overlay"></div>
+    <div class="${prefix}-hero-content">
+      <div class="${prefix}-hero-top">
+        <div class="${prefix}-hero-eyebrow">${copy.eyebrow}</div>
+        <h2 class="${prefix}-hero-title">${copy.title}</h2>
+      </div>
+      <div class="${prefix}-hero-bottom">
+        <div class="${prefix}-hero-sub">${copy.subParas.map(p=>`<p>${p}</p>`).join('')}</div>
+        ${showButton ? `<div class="btn-primary" onclick="showPage('${copy.targetPage}')" style="width:fit-content">View All ↗</div>` : ''}
+        <div class="${prefix}-hero-indicator">
+          <div class="${prefix}-hero-count"><span id="${countId}">01</span> / ${String(slides.length).padStart(2,'0')}</div>
+          <div class="${prefix}-hero-bars">${barsHTML}</div>
+        </div>
+      </div>
+    </div>
+    <button class="${prefix}-hero-arrow ${prefix}-hero-arrow-left" onclick="${prefix}HeroNav(-1,'${containerId}')" aria-label="Previous slide">‹</button>
+    <button class="${prefix}-hero-arrow ${prefix}-hero-arrow-right" onclick="${prefix}HeroNav(1,'${containerId}')" aria-label="Next slide">›</button>
+  `;
+}
+
+// One reusable cross-fade + autoplay + swipe + hover-pause engine. Each
+// container gets its own controller so timers/state never collide between
+// the homepage hero and the collection-page hero.
+const heroControllers = {};
+
+function initEditorialHero(prefix, heroElId, countElId){
+  const hero = document.getElementById(heroElId);
+  if (!hero) return null;
+  const slides = Array.from(hero.querySelectorAll(`.${prefix}-hero-slide`));
+  const bars = Array.from(hero.querySelectorAll(`.${prefix}-hero-bar`));
+  const countEl = document.getElementById(countElId);
+  const total = slides.length;
+  if (!total) return null;
+
+  const reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let current = 0;
+  let timer = null;
+  const intervalMs = 5000;
+
+  function render(){
+    slides.forEach((s,i)=> s.classList.toggle('active', i===current));
+    bars.forEach((b,i)=>{
+      b.classList.toggle('active', i===current);
+      b.classList.toggle('done', i<current);
+      b.classList.remove('paused');
+    });
+    if (countEl) countEl.textContent = String(current+1).padStart(2,'0');
+  }
+
+  function goTo(idx){
+    current = ((idx % total) + total) % total;
+    render();
+  }
+
+  function next(){ goTo(current+1); }
+  function prev(){ goTo(current-1); }
+
+  function restart(){
+    if (timer) clearInterval(timer);
+    if (reducedMotion) return;
+    timer = setInterval(next, intervalMs);
+  }
+
+  function manualNav(dir){
+    if (dir > 0) next(); else prev();
+    restart();
+  }
+
+  function pause(){
+    if (timer) { clearInterval(timer); timer = null; }
+    if (bars[current]) bars[current].classList.add('paused');
+  }
+
+  function resume(){
+    if (bars[current]) bars[current].classList.remove('paused');
+    restart();
+  }
+
+  // Pause on hover (desktop only) — gated to real hover-capable pointers.
+  // Touch devices can fire a synthetic "mouseenter" on tap with no matching
+  // "mouseleave", which would pause the timer forever and look like the
+  // slideshow "stopped" after the first interval. Scoping this to devices
+  // that actually support hover avoids that entirely.
+  const supportsHover = window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  if (supportsHover){
+    hero.addEventListener('mouseenter', pause);
+    hero.addEventListener('mouseleave', resume);
+  }
+
+  // Swipe support (mobile) — manual swipe, autoplay resumes automatically
+  let touchStartX = 0;
+  hero.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].screenX; }, {passive:true});
+  hero.addEventListener('touchend', e => {
+    const diff = touchStartX - e.changedTouches[0].screenX;
+    if (Math.abs(diff) > 40) manualNav(diff > 0 ? 1 : -1);
+  }, {passive:true});
+
+  render();
+  restart();
+  const ctrl = { next: () => manualNav(1), prev: () => manualNav(-1) };
+  heroControllers[heroElId] = ctrl;
+  return ctrl;
+}
+
+function clubHeroNav(dir, heroElId){
+  const ctrl = heroControllers[heroElId || 'clubHero'];
+  if (ctrl) dir > 0 ? ctrl.next() : ctrl.prev();
+}
+function essHeroNav(dir, heroElId){
+  const ctrl = heroControllers[heroElId || 'essHero'];
+  if (ctrl) dir > 0 ? ctrl.next() : ctrl.prev();
+}
+
+function initAllCollectionHeroes(){
+  renderCollectionHero('clubHero', 'club', CLUB_HERO_COPY, CLUB_HERO_SLIDES, 'clubHeroCount', true);
+  renderCollectionHero('clubHeroPage', 'club', CLUB_HERO_COPY, CLUB_HERO_SLIDES, 'clubHeroPageCount', false);
+  renderCollectionHero('essHero', 'ess', ESS_HERO_COPY, ESS_HERO_SLIDES, 'essHeroCount', true);
+  renderCollectionHero('essHeroPage', 'ess', ESS_HERO_COPY, ESS_HERO_SLIDES, 'essHeroPageCount', false);
+
+  initEditorialHero('club', 'clubHero', 'clubHeroCount');
+  initEditorialHero('club', 'clubHeroPage', 'clubHeroPageCount');
+  initEditorialHero('ess', 'essHero', 'essHeroCount');
+  initEditorialHero('ess', 'essHeroPage', 'essHeroPageCount');
+}
+
+// ─── UTILS ────────────────────────────────────────────────────────────────────
+function stripHtml(html){
+  const div=document.createElement('div');
+  div.innerHTML=html;
+  return div.textContent||div.innerText||'';
+}
+
+// ─── INIT ─────────────────────────────────────────────────────────────────────
+window.addEventListener('load',async()=>{
+  setTimeout(()=>{
+    document.getElementById('loadingScreen').classList.add('hidden');
+  },1500);
+  
+  await loadProducts();
+  observeReveal();
+  initAllCollectionHeroes();
+
+  // Deep link routing — after products loaded
+  const hash = window.location.hash.replace('#','');
+  if(hash && hash !== 'home'){
+    if(hash.startsWith('ess-')){
+      const id = parseInt(hash.replace('ess-',''));
+      if(!isNaN(id)){
+        // Find product across all loaded products
+        const allProds = essentialProducts.length > 0 ? essentialProducts : getFallbackEssentials();
+        const p = allProds.find(p => p.id === id) || allProds[parseInt(hash.replace('ess-','')) - 1];
+        if(p) showEssentialDetail(p.id, p.name);
+        else showEssentialDetail(id);
+      }
+    } else if(hash.startsWith('club-')){
+      const id = parseInt(hash.replace('club-',''));
+      if(!isNaN(id)){
+        const allProds = clubProducts.length > 0 ? clubProducts : getFallbackClub();
+        const p = allProds.find(p => p.id === id) || allProds[parseInt(hash.replace('club-','')) - 1];
+        if(p) showClubDetail(p.id, p.name);
+        else showClubDetail(id);
+      }
+    } else if(['drop','club','essentials','about'].includes(hash)){
+      showPage(hash, false);
+    }
+  }
+});
+</script>
+</body>
+</html>
