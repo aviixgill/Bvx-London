@@ -7,10 +7,17 @@
 //   WOO_CONSUMER_SECRET
 //   WOO_STORE_URL
 //
-// The frontend calls this same-origin endpoint (e.g. GET /api/products?
-// per_page=20&status=publish) instead of calling shop.bvxlondon.uk directly.
-// Query params are forwarded as-is so existing product-loading behaviour
-// (per_page, status, etc.) is unchanged.
+// The frontend calls this same-origin endpoint instead of calling
+// shop.wearbvx.com directly. Two modes:
+//
+//   GET /api/products?per_page=20&status=publish
+//     -> proxies GET /wc/v3/products (product list, unchanged behaviour)
+//
+//   GET /api/products?variations_of=123
+//     -> proxies GET /wc/v3/products/123/variations (that product's real
+//        WooCommerce variations — id, attributes, stock status, etc.)
+//        Fetched on-demand only when a customer opens a variable product's
+//        detail page, never bundled into the main list call.
 
 export default async function handler(req, res) {
   if (req.method !== 'GET') {
@@ -26,25 +33,35 @@ export default async function handler(req, res) {
   }
 
   try {
-    // Forward the same query params the frontend previously sent directly to
-    // WooCommerce, defaulting to match existing behaviour if omitted.
-    const params = new URLSearchParams(req.query);
-    if (!params.has('per_page')) params.set('per_page', '20');
-    if (!params.has('status')) params.set('status', 'publish');
-
     const credentials = Buffer
       .from(`${WOO_CONSUMER_KEY}:${WOO_CONSUMER_SECRET}`)
       .toString('base64');
 
-    const wooRes = await fetch(
-      `${WOO_STORE_URL}/wp-json/wc/v3/products?${params.toString()}`,
-      {
-        headers: {
-          'Authorization': `Basic ${credentials}`,
-          'Content-Type': 'application/json',
-        },
+    let wooUrl;
+
+    if (req.query.variations_of) {
+      const productId = parseInt(req.query.variations_of, 10);
+      if (!productId || productId <= 0) {
+        return res.status(400).json({ error: 'Invalid variations_of product id.' });
       }
-    );
+      const params = new URLSearchParams();
+      params.set('per_page', '100'); // WooCommerce's max — comfortably covers any real variation count
+      wooUrl = `${WOO_STORE_URL}/wp-json/wc/v3/products/${productId}/variations?${params.toString()}`;
+    } else {
+      // Forward the same query params the frontend previously sent directly
+      // to WooCommerce, defaulting to match existing behaviour if omitted.
+      const params = new URLSearchParams(req.query);
+      if (!params.has('per_page')) params.set('per_page', '20');
+      if (!params.has('status')) params.set('status', 'publish');
+      wooUrl = `${WOO_STORE_URL}/wp-json/wc/v3/products?${params.toString()}`;
+    }
+
+    const wooRes = await fetch(wooUrl, {
+      headers: {
+        'Authorization': `Basic ${credentials}`,
+        'Content-Type': 'application/json',
+      },
+    });
 
     if (!wooRes.ok) {
       console.error(`WooCommerce API responded with ${wooRes.status}`);
