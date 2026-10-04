@@ -2462,7 +2462,47 @@ function resolveVariationForCheckout(productId){
 // ever sent.
 const BVX_REBUILD_CART_URL = 'https://shop.wearbvx.com/wp-admin/admin-post.php';
 
+// Reverse sync (Woo -> frontend) support. bvx_cart_token is one per
+// browser, minted once with crypto.randomUUID() and reused for every
+// handoff. bvx_cart_pending_sync tracks the MOST RECENT attempted
+// handoff ({sync_id, items}) until the backend confirms that exact
+// sync_id came back from the new read-only endpoint — bvx_cart_last_synced
+// is only ever written from a CONFIRMED backend read, never optimistically
+// at submit time, since this form POST opens in a new tab with no success
+// response back to this page: a failed rebuild must never be mistaken for
+// a successful one just because we attempted it.
+const BVX_CART_TOKEN_STORAGE_KEY = 'bvx_cart_token';
+const BVX_CART_LAST_SYNCED_KEY = 'bvx_cart_last_synced';
+const BVX_CART_PENDING_SYNC_KEY = 'bvx_cart_pending_sync';
+
+function getOrCreateCartToken(){
+  try {
+    let token = localStorage.getItem(BVX_CART_TOKEN_STORAGE_KEY);
+    if (!token) {
+      token = crypto.randomUUID();
+      localStorage.setItem(BVX_CART_TOKEN_STORAGE_KEY, token);
+    }
+    return token;
+  } catch (err) {
+    console.error('Failed to read/create bvx_cart_token:', err);
+    return null;
+  }
+}
+
 function submitCartRebuild(items){
+  const cartToken = getOrCreateCartToken();
+  const syncId = crypto.randomUUID();
+
+  // Record this as the latest ATTEMPTED handoff — not yet confirmed.
+  // bvx_cart_last_synced is deliberately left untouched here; it only
+  // ever advances once reconcileCartWithBackend() sees this exact
+  // sync_id come back from the backend as actually applied.
+  try {
+    localStorage.setItem(BVX_CART_PENDING_SYNC_KEY, JSON.stringify({ sync_id: syncId, items }));
+  } catch (err) {
+    console.error('Failed to record bvx_cart_pending_sync:', err);
+  }
+
   const form = document.createElement('form');
   form.method = 'POST';
   form.action = BVX_REBUILD_CART_URL;
@@ -2481,9 +2521,140 @@ function submitCartRebuild(items){
   itemsInput.value = JSON.stringify(items);
   form.appendChild(itemsInput);
 
+  if (cartToken) {
+    const tokenInput = document.createElement('input');
+    tokenInput.type = 'hidden';
+    tokenInput.name = 'cart_token';
+    tokenInput.value = cartToken;
+    form.appendChild(tokenInput);
+  }
+
+  const syncIdInput = document.createElement('input');
+  syncIdInput.type = 'hidden';
+  syncIdInput.name = 'sync_id';
+  syncIdInput.value = syncId;
+  form.appendChild(syncIdInput);
+
   document.body.appendChild(form);
   form.submit();
   document.body.removeChild(form);
+}
+
+// ─── WOOCOMMERCE CART REBUILD — reverse sync (Woo -> frontend) ─────────────
+// Polls the new read-only bvx_cart_state endpoint and reconciles bvx_cart
+// against whatever WooCommerce confirms it actually has, item by item —
+// never a blind overwrite. Backend removal/qty-change is applied; anything
+// added to bvx_cart locally since the last confirmed handoff (never yet
+// known to Woo) is left completely alone regardless of what the backend
+// says.
+const BVX_CART_STATE_URL = 'https://shop.wearbvx.com/wp-admin/admin-post.php';
+
+function cartLineKey(id, variationId){
+  return id + ':' + (variationId || 0);
+}
+
+async function reconcileCartWithBackend(){
+  const token = (() => {
+    try { return localStorage.getItem(BVX_CART_TOKEN_STORAGE_KEY); }
+    catch (err) { return null; }
+  })();
+  if (!token) return; // nothing ever handed off yet — nothing to reconcile
+
+  let data;
+  try {
+    const res = await fetch(BVX_CART_STATE_URL, {
+      method: 'POST',
+      body: new URLSearchParams({ action: 'bvx_cart_state', cart_token: token }),
+    });
+    if (!res.ok) { console.warn('bvx cart-state endpoint returned', res.status); return; }
+    data = await res.json();
+  } catch (err) {
+    console.warn('bvx cart-state reconciliation unavailable, leaving cart unchanged:', err);
+    return;
+  }
+
+  // found:false (unknown/expired/malformed token, or the endpoint being
+  // unavailable in some other way) must NEVER be treated as "cart is
+  // empty" — make no changes at all, retry on the next load/focus.
+  if (!data || data.found !== true || !Array.isArray(data.items)) return;
+
+  // Baseline/delta reconciliation against the last CONFIRMED backend
+  // state — always runs on any found:true response, independent of the
+  // pending-handoff bookkeeping below.
+  let lastSynced = [];
+  try { lastSynced = JSON.parse(localStorage.getItem(BVX_CART_LAST_SYNCED_KEY) || '[]'); }
+  catch (err) { lastSynced = []; }
+
+  // Effective baseline selection: on the FIRST confirmed read after a
+  // handoff, bvx_cart_last_synced may still be empty, even though the
+  // backend's response reflects everything that happened to that same
+  // sync_id since it was submitted (including a Woo-side removal that
+  // landed before this very first reconciliation). Diffing against an
+  // empty lastSynced in that case would miss the removal entirely, since
+  // there's nothing in lastSynced to notice is now gone. When the pending
+  // handoff's sync_id matches what the backend just confirmed, the
+  // pending items (what we actually submitted) are the correct baseline
+  // to diff against — not the (possibly still-empty) last-synced record.
+  let effectiveBaseline = lastSynced;
+  try {
+    const pendingRaw = localStorage.getItem(BVX_CART_PENDING_SYNC_KEY);
+    if (pendingRaw) {
+      const pending = JSON.parse(pendingRaw);
+      if (pending && pending.sync_id === data.sync_id && Array.isArray(pending.items)) {
+        // pending.items is recorded by submitCartRebuild() in the form
+        // payload's own shape ({ id, variation_id, qty }), not the
+        // backend snapshot shape ({ product_id, variation_id, qty }) that
+        // the diff below (and bvx_cart_last_synced) otherwise use —
+        // normalize so cartLineKey()/backendByKey lookups line up.
+        effectiveBaseline = pending.items.map(i => ({
+          product_id: i.product_id !== undefined ? i.product_id : i.id,
+          variation_id: i.variation_id || 0,
+          qty: i.qty,
+        }));
+      }
+    }
+  } catch (err) {
+    // fall through — keep effectiveBaseline = lastSynced
+  }
+
+  const backendByKey = new Map(data.items.map(i => [cartLineKey(i.product_id, i.variation_id), i.qty]));
+
+  for (const baseLine of effectiveBaseline) {
+    const key = cartLineKey(baseLine.product_id, baseLine.variation_id);
+    const idx = cart.findIndex(i => cartLineKey(i.id, i.variation && i.variation.variation_id) === key);
+    if (idx === -1) continue; // already gone locally too, nothing to do
+
+    if (!backendByKey.has(key)) {
+      // Backend no longer has this line (removed on /cart/ or /checkout/)
+      cart.splice(idx, 1);
+    } else {
+      const backendQty = backendByKey.get(key);
+      if (cart[idx].qty !== backendQty) {
+        cart[idx].qty = backendQty;
+      }
+    }
+  }
+
+  updateCart();
+
+  try { localStorage.setItem(BVX_CART_LAST_SYNCED_KEY, JSON.stringify(data.items)); }
+  catch (err) { console.error('Failed to update bvx_cart_last_synced:', err); }
+
+  // Pending-handoff bookkeeping: only clear it once THIS exact attempt is
+  // confirmed applied. A mismatched sync_id means our latest attempt
+  // hasn't landed yet (or failed outright) — leave it exactly as-is,
+  // never promote it, never discard it.
+  try {
+    const pendingRaw = localStorage.getItem(BVX_CART_PENDING_SYNC_KEY);
+    if (pendingRaw) {
+      const pending = JSON.parse(pendingRaw);
+      if (pending && pending.sync_id === data.sync_id) {
+        localStorage.removeItem(BVX_CART_PENDING_SYNC_KEY);
+      }
+    }
+  } catch (err) {
+    console.error('Failed to evaluate bvx_cart_pending_sync:', err);
+  }
 }
 
 function addEssToCart(productId, name, price, qtyElId) {
@@ -3785,6 +3956,14 @@ window.addEventListener('load',async()=>{
   // default until the shopper's first interaction.
   updateCart();
 
+  // Reverse sync: reconcile against WooCommerce's confirmed cart state
+  // on load, and again whenever the shopper returns to this tab (e.g.
+  // after editing quantities or removing an item on the Cart/Checkout
+  // tab opened by submitCartRebuild). Fire-and-forget — never blocks
+  // page render, and failures leave the local cart untouched (see
+  // reconcileCartWithBackend()).
+  reconcileCartWithBackend();
+
   setTimeout(()=>{
     document.getElementById('loadingScreen').classList.add('hidden');
   },1500);
@@ -3824,6 +4003,15 @@ window.addEventListener('load',async()=>{
     } else if(['drop','club','essentials','volume','about'].includes(hash)){
       showPage(hash, false);
     }
+  }
+});
+
+// Reverse sync: also reconcile whenever the shopper returns to this tab
+// (the Checkout/Cart handoff opens in a NEW tab via target="_blank", so
+// coming back here is exactly when Woo-side changes need picking up).
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible') {
+    reconcileCartWithBackend();
   }
 });
 </script>
