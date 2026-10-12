@@ -1,0 +1,14 @@
+/*
+ * Global stylesheet entry point — placeholder only.
+ *
+ * The real BVX London CSS (currently one large <style> block inside the
+ * root index.html) is NOT migrated here yet. It will move over verbatim
+ * in a later, dedicated PR, preserving exact spacing, typography and
+ * breakpoints per the migration rules in this project's README.
+ */
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
